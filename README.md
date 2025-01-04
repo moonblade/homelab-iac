@@ -30,12 +30,21 @@ In proxmox UI
 - Provide name, cpu, memory etc. Don't auto-start
 - Open the new VM -> click on more -> convert to template
 
+To test on ui
+
+- click on base image -> more -> clone
+- Once cloned, provide cloud-init parameters as needed
+- Adjust hard-disk size as needed in hardware > disk actions > resize.
+- start and test
+
 ### Log
 
 - Jan 4, 2025
 
 Installed nix on my mac, and hoping to get a template setup for nixos for any future uses.
 Couldn't get build to work on mac, so building it on proxmox instead.
+Got build working on proxmox, and saved it as dump, used it to restore to a vm and converted it to template. Tested it in ui.
+Need to try making it work with code now.
 
 - Jan 1, 2025
 
