@@ -2,6 +2,14 @@
 
 Homelab server infrastructure
 
+## NixOS Template
+
+This image is the template for any future nixos installations. Bummed off of [jd's configuration](https://github.com/kmjayadeep/homelab-iac/blob/main/nixos-images/nixos-base-image/README.md).
+
+#### Instructions
+
+- Create nixos image with `make build-nixos-template`
+
 ### Log
 
 - Jan 4, 2025
