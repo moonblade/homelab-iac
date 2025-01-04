@@ -2,19 +2,31 @@
 
 Homelab server infrastructure
 
+## Proxmox
+
 ## NixOS Template
 
 This image is the template for any future nixos installations. Bummed off of [jd's configuration](https://github.com/kmjayadeep/homelab-iac/blob/main/nixos-images/nixos-base-image/README.md).
 
-#### Instructions
+#### Steps
 
-- Create nixos image with `make build-nixos-template`
+- Can't build linux image of arm mac, so download the repo in proxmox and build it there.
+- Clone the repo in proxmox
+- Create nixos image with 
+
+```bash
+git clone https://github.com/moonblade/homelab-iac.git
+cd homelab-iac
+make build-nixos-template
+make copy
+```
 
 ### Log
 
 - Jan 4, 2025
 
 Installed nix on my mac, and hoping to get a template setup for nixos for any future uses.
+Couldn't get build to work on mac, so building it on proxmox instead.
 
 - Jan 1, 2025
 
