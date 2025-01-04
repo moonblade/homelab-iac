@@ -4,6 +4,8 @@ Homelab server infrastructure
 
 ## Proxmox
 
+
+
 ## NixOS Template
 
 This image is the template for any future nixos installations. Bummed off of [jd's configuration](https://github.com/kmjayadeep/homelab-iac/blob/main/nixos-images/nixos-base-image/README.md).
@@ -20,6 +22,13 @@ cd homelab-iac
 make build-nixos-template
 make copy
 ```
+
+In proxmox UI
+
+- Go to datacenter->[node]->[storage]->backups
+- Restore the image which was uploaded now
+- Provide name, cpu, memory etc. Don't auto-start
+- Open the new VM -> click on more -> convert to template
 
 ### Log
 
