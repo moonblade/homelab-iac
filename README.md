@@ -4,6 +4,10 @@ Homelab server infrastructure
 
 ### Log
 
+- Jan 4, 2025
+
+Installed nix on my mac, and hoping to get a template setup for nixos for any future uses.
+
 - Jan 1, 2025
 
 Bought a lenovo thinkcenter to use as a homelab server recently.
