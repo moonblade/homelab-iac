@@ -2,9 +2,10 @@
 
 Homelab server infrastructure
 
-## Log
+### Log
 
-### Jan 1, 2025
+- Jan 1, 2025
+
 Bought a lenovo thinkcenter to use as a homelab server recently.
 Messing around by installing proxmox on it and getting some vms and k3s on it.
 
