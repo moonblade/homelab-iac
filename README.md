@@ -2,15 +2,16 @@
 
 Homelab server infrastructure
 
-## Proxmox
+### Athena
 
+First server setup on the homelab. proxmox base.
+k3s cluster on nixos vm.
 
-
-## NixOS Template
+##### NixOS Template
 
 This image is the template for any future nixos installations. Bummed off of [jd's configuration](https://github.com/kmjayadeep/homelab-iac/blob/main/nixos-images/nixos-base-image/README.md).
 
-#### Steps
+##### Steps
 
 - Can't build linux image of arm mac, so download the repo in proxmox and build it there.
 - Clone the repo in proxmox
@@ -37,7 +38,21 @@ To test on ui
 - Adjust hard-disk size as needed in hardware > disk actions > resize.
 - start and test
 
+#### Terraform
+
+K3s vm is setup with terraform by cloning nixos-base image, and modifying values for cloud-init.
+Works with terraform.
+
+VM using nixos base image is saved as a module for reuse.
+
+Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/terraform`.
+
 ### Log
+
+- Jan 5, 2025
+
+Nixos template is used to setup a new vm with cloud-init for k3s.
+Infra is saved as terraform file in athena/terraform
 
 - Jan 4, 2025
 
