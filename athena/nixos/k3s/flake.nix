@@ -4,7 +4,7 @@
   };
   outputs = { nixpkgs, ... }:
     {
-      nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.sirius = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./configuration.nix
