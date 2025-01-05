@@ -6,3 +6,10 @@ plan-athena:
 
 apply-athena:
 	make -C athena/terraform apply
+
+destroy-athena:
+	make -C athena/terraform destroy
+
+rebuild-sirius:
+	make -C athena/nixos/k3s rebuild
+

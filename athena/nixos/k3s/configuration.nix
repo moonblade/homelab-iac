@@ -35,6 +35,11 @@
       fsType = "ext4";
     };
 
+    # fileSystems."/mnt/external" = {
+    #   device = "/dev/external/external";
+    #   fsType = "ext4";
+    # };
+
     time.timeZone = "Asia/Kolkata";
 
     nix = {
