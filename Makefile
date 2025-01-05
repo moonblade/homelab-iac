@@ -1,2 +1,2 @@
 build-nixos-template:
-	make -C nixos/nixos-template build
+	make -C athena/nixos/nixos-template build
