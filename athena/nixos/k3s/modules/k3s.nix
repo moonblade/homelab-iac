@@ -17,7 +17,7 @@
       "--node-ip=192.168.1.151,fe80::ccc"
       "--disable local-storage"
       "--disable-helm-controller"
-      "--write-kubeconfig /home/operator/.kube/config"
+      "--write-kubeconfig /root/.kube/config"
       "--flannel-backend=host-gw"
       "--write-kubeconfig-mode 644"
     ];
