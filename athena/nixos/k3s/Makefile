@@ -1,2 +1,2 @@
-build:
-	nix build .#packages.x86_64-linux.proxmox --system x86_64-linux
+rebuild:
+	nixos-rebuild switch --flake .#sirius --target-host root@192.168.1.150 --verbose
