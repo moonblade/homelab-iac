@@ -1,0 +1,2 @@
+secrets/** filter=git-crypt diff=git-crypt
+athena/terraform/provider.tf filter=git-crypt diff=git-crypt
