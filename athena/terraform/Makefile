@@ -6,3 +6,6 @@ plan:
 
 apply:
 	terraform apply athena.tfplan
+
+destroy:
+	terraform destroy
