@@ -5,6 +5,7 @@ resource "proxmox_vm_qemu" "this" {
   bios                   = "seabios"
   clone                  = var.clone
   ciupgrade              = false
+  cipassword             = var.password
   cores                  = var.cores
   define_connection_info = false
   desc                   = var.desc
@@ -39,6 +40,16 @@ resource "proxmox_vm_qemu" "this" {
           format  = "raw"
           size    = var.disk_size
           storage = "local-lvm"
+        }
+      }
+      dynamic "virtio1" {
+        for_each = var.additional_disk_size != null ? [1] : []
+        content {
+          disk {
+            format  = "raw"
+            size    = var.additional_disk_size
+            storage = var.additional_disk_storage
+          }
         }
       }
     }
