@@ -19,6 +19,11 @@ variable "cores" {
   default = 2
 }
 
+variable "password" {
+  type = string
+  default = "password"
+}
+
 variable "memory" {
   type    = number
   default = 2048
@@ -54,6 +59,18 @@ variable "disk_size" {
   type        = string
   description = "Disk size. Eg: 30G"
   default     = "50G"
+}
+
+variable "additional_disk_size" {
+  description = "Size of the additional disk (e.g., 20G)"
+  type        = string
+  default     = null
+}
+
+variable "additional_disk_storage" {
+  description = "Proxmox storage pool for the additional disk"
+  type        = string
+  default     = null
 }
 
 variable "tags" {

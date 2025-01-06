@@ -2,7 +2,7 @@
 
   users.extraUsers.operator = {
     isNormalUser = true;
-    home = "/home/operator";
+    home = "/root";
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"

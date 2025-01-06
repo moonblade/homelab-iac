@@ -53,6 +53,10 @@ Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/t
 
 Nixos template is used to setup a new vm with cloud-init for k3s.
 Infra is saved as terraform file in athena/terraform
+I tried to attach the external hard disk to it, it ended up freezing and not responding whatsoever.
+Had to reset the entire proxmox server and recreate sirius from scratch.
+Then realized that I had setup the lvm wrong, so recreated the lvm. Had to do that a few times to figure out why it was fully used up, instead of thin provisioning was just provisioning the whole thing, so it couldn't be used.
+Ended up with just provisioning a tiny bit and the rest is available for others now. Though this method doesn't allow cross sharing. Will see about that.
 
 - Jan 4, 2025
 
