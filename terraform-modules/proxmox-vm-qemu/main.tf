@@ -58,4 +58,11 @@ resource "proxmox_vm_qemu" "this" {
     bridge = "vmbr0"
     model  = "virtio"
   }
+  lifecycle {
+    ignore_changes = [
+      default_ipv4_address,
+      ssh_host,
+      ssh_port
+    ]
+  }
 }
