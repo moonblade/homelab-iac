@@ -49,6 +49,12 @@ Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/t
 
 ### Log
 
+- Jan 6, 2025
+
+Tried setting up ubuntu directly via iso, which worked. Then tried to do that with terraform, ran into issues during setup.
+So used the iso to create a template and then use that. but still got crappy issues cropping up. so instead dropped all of it and set it up manually.
+If i end up needing to setup it more and more will do it then or try nixos instead.
+
 - Jan 5, 2025
 
 Nixos template is used to setup a new vm with cloud-init for k3s.
