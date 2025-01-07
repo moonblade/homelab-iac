@@ -55,6 +55,9 @@ Tried setting up ubuntu directly via iso, which worked. Then tried to do that wi
 So used the iso to create a template and then use that. but still got crappy issues cropping up. so instead dropped all of it and set it up manually.
 If i end up needing to setup it more and more will do it then or try nixos instead.
 
+Going to setup fluxcd with github bootstrapping. Ip was wrong on nixos config, so fixed that and restarted.
+Got a basic [fluxcd bootstrap running](https://github.com/moonblade/homelab-k8s/tree/main).
+
 - Jan 5, 2025
 
 Nixos template is used to setup a new vm with cloud-init for k3s.
