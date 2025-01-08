@@ -10,7 +10,7 @@
     networking.hostName = lib.mkDefault "base";
 
     # Enable QEMU Guest for Proxmox
-    services.qemuGuest.enable = lib.mkDefault true;
+    jervices.qemuGuest.enable = lib.mkDefault true;
 
     # Use the boot drive for grub
     boot.loader.grub.enable = lib.mkDefault true;
@@ -32,11 +32,7 @@
     security.sudo.wheelNeedsPassword = false;
 
     # Enable ssh
-    services.openssh = lib.mkDefault {
-      enable = true;
-      settings.PasswordAuthentication = false;
-      settings.KbdInteractiveAuthentication = false;
-    };
+    services.openssh.enable = true
     programs.ssh.startAgent = true;
 
     # Default filesystem

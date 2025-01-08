@@ -21,10 +21,12 @@
     security.sudo.wheelNeedsPassword = false;
 
     # Enable ssh
-    services.openssh = {
+    services.openssh = lib.mkOverride 10 {
       enable = true;
-      settings.PasswordAuthentication = false;
-      settings.KbdInteractiveAuthentication = false;
+      settings = lib.mkOverride 10 {
+        PasswordAuthentication = true;
+        KbdInteractiveAuthentication = false;
+      };
     };
     programs.ssh.startAgent = true;
 
