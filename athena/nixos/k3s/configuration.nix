@@ -19,15 +19,6 @@
 
     # Don't ask for passwords
     security.sudo.wheelNeedsPassword = false;
-
-    # Enable ssh
-    services.openssh = lib.mkOverride 10 {
-      enable = true;
-      settings = lib.mkOverride 10 {
-        PasswordAuthentication = true;
-        KbdInteractiveAuthentication = false;
-      };
-    };
     programs.ssh.startAgent = true;
 
     # Default filesystem
@@ -70,7 +61,6 @@
       enable = true;
       settings = {
         PasswordAuthentication = true;
-        KbdInteractiveAuthentication = false;
       };
     };
 

@@ -61,8 +61,11 @@ make destroy-athena
 make plan-athena
 make apply-athena
 make ssh-remove
+sleep 5
 make rebuild-sirius
 ```
+
+Ask me how I know the above. Its not my configuration thats the issue. its something in either proxmox or the vm thats the issue. No clue what it could be. This will be an issue. for now ignoring it.
 
 - Jan 6, 2025
 
