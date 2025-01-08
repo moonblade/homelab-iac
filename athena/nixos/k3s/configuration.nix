@@ -63,6 +63,14 @@
     users.users.root.openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"
     ];
+    users.users.root.initialPassword = "password";
+    services.openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = true;
+        KbdInteractiveAuthentication = false;
+      };
+    };
 
     networking = {
       nameservers = [ "8.8.8.8" ];

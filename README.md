@@ -49,6 +49,21 @@ Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/t
 
 ### Log
 
+- Jan 8, 2025
+
+Wanted tailcale to be setup automatically (the key dies in 90 days, oh well, its still better than nothing I guess). Aaaaaand sirius is unresponsive. well terraform destroy and recreate.
+:shrug:. I definitely need to add some failsafe to connect to it if network crap goes down.
+
+To reset can run the following, sigh I need to be better at debugging
+
+```bash
+make destroy-athena
+make plan-athena
+make apply-athena
+make ssh-remove
+make rebuild-sirius
+```
+
 - Jan 6, 2025
 
 Tried setting up ubuntu directly via iso, which worked. Then tried to do that with terraform, ran into issues during setup.
