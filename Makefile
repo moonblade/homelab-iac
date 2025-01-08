@@ -1,5 +1,6 @@
 build-nixos-template:
 	make -C athena/nixos/nixos-template build
+	make -C athena/nixos/nixos-template copy
 
 init-athena:
 	make -C athena/terraform init
