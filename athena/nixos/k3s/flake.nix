@@ -10,6 +10,7 @@
           ./configuration.nix
           ./modules/k3s.nix
           ./modules/user.nix
+          ./modules/tailscale.nix
         ];
       };
     };
