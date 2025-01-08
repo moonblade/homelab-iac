@@ -10,7 +10,7 @@
     networking.hostName = lib.mkDefault "base";
 
     # Enable QEMU Guest for Proxmox
-    jervices.qemuGuest.enable = lib.mkDefault true;
+    services.qemuGuest.enable = lib.mkDefault true;
 
     # Use the boot drive for grub
     boot.loader.grub.enable = lib.mkDefault true;
