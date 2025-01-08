@@ -32,7 +32,7 @@
     security.sudo.wheelNeedsPassword = false;
 
     # Enable ssh
-    services.openssh.enable = true
+    services.openssh.enable = true;
     programs.ssh.startAgent = true;
 
     # Default filesystem
