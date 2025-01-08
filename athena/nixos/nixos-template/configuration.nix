@@ -32,7 +32,7 @@
     security.sudo.wheelNeedsPassword = false;
 
     # Enable ssh
-    services.openssh = {
+    services.openssh = lib.mkDefault {
       enable = true;
       settings.PasswordAuthentication = false;
       settings.KbdInteractiveAuthentication = false;
