@@ -66,6 +66,7 @@ make rebuild-sirius
 ```
 
 Ask me how I know the above. Its not my configuration thats the issue. its something in either proxmox or the vm thats the issue. No clue what it could be. This will be an issue. for now ignoring it.
+I'm giving up on it, I just used passwd to create a passwd and next time this happens I hope I'll be able to use ui to login and reset it.
 
 - Jan 6, 2025
 
