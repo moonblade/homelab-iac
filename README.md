@@ -54,6 +54,9 @@ Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/t
 Had gotten more issues with dns not resolving within the cluster, so I'm gonna assume its to do with the machine, so trying to get resolved setup properly. After editing config I also linked the resolved file to it. Will see what happens.
 `sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf`
 
+Realized why sometimes reboot causes issues, for some reasons even with cloudinit providing ip, ip isn't static, so ip was being changed. So made static ip in configuration.nix as well. hopefully that particular issue is solved.
+Figured it out by setting up a password when I had access and then logging in via proxmox ui and checking ip, then had the oh shit moment since I hadn't even thought that with cloud init given ip could change at all. Oh well.
+
 - Jan 8, 2025
 
 Wanted tailcale to be setup automatically (the key dies in 90 days, oh well, its still better than nothing I guess). Aaaaaand sirius is unresponsive. well terraform destroy and recreate.
