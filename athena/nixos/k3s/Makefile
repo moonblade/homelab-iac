@@ -10,4 +10,5 @@ rebuild:
 
 tailscale:
 	ssh athena 'sudo tailscale up --advertise-routes=192.168.1.0/24'
+	echo "Go approve it in tailscale web interface > athena > subnets"
 	# ssh root@${K3S_IP} 'sudo tailscale up --accept-dns=false --advertise-routes=192.168.1.0/24'
