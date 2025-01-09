@@ -1,3 +1,4 @@
+# K3S_IP:=sirius
 K3S_IP:=192.168.1.150
 
 rebuild:

@@ -43,8 +43,8 @@
       fi
 
       # otherwise authenticate with tailscale
-      authkey=$(cat /etc/nixos/k3s/secrets/tailscaleauth)
-      ${tailscale}/bin/tailscale up -authkey $authkey
+      # authkey=$(cat /etc/nixos/k3s/secrets/tailscaleauth)
+      # ${tailscale}/bin/tailscale up -authkey $authkey
     '';
   };
 }
