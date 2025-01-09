@@ -65,11 +65,23 @@
     };
 
     networking = {
-      # nameservers = [ "8.8.8.8" ];
+      nameservers = [ "8.8.8.8" ];
       useNetworkd = true;
       useHostResolvConf = false;
       dhcpcd.IPv6rs = true; # Enable getting public IPv6 from router
       firewall.enable = false;
+      interfaces.ens18 = {
+        ipv4.addresses = [
+          {
+            address = "192.168.1.150";  # Static IP
+            prefixLength = 24;          # Subnet mask
+          }
+        ];
+      };
+      defaultGateway = {
+        address = "192.168.1.1";       # Default gateway IP address
+        interface = "ens18";           # Interface associated with the default gateway
+      };
     };
 
     services.resolved = {
@@ -101,6 +113,12 @@
       "vm.dirty_ratio" = 10;
       "vm.dirty_background_ratio" = 5;
     };
+    boot.kernelModules = [
+      "ip6_tables"
+      "ip6table_mangle"
+      "ip6table_raw"
+      "ip6table_filter"
+    ];
 
     services.openiscsi = {
       enable = true;
