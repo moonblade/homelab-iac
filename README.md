@@ -49,6 +49,11 @@ Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/t
 
 ### Log
 
+- Jan 9, 2025
+
+Had gotten more issues with dns not resolving within the cluster, so I'm gonna assume its to do with the machine, so trying to get resolved setup properly. After editing config I also linked the resolved file to it. Will see what happens.
+`sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf`
+
 - Jan 8, 2025
 
 Wanted tailcale to be setup automatically (the key dies in 90 days, oh well, its still better than nothing I guess). Aaaaaand sirius is unresponsive. well terraform destroy and recreate.

@@ -65,10 +65,16 @@
     };
 
     networking = {
-      nameservers = [ "8.8.8.8" ];
+      # nameservers = [ "8.8.8.8" ];
       useNetworkd = true;
+      useHostResolvConf = false;
       dhcpcd.IPv6rs = true; # Enable getting public IPv6 from router
       firewall.enable = false;
+    };
+
+    services.resolved = {
+      enable = true;
+      fallbackDns = [ "8.8.8.8" ];
     };
 
     environment.systemPackages = with pkgs; [
