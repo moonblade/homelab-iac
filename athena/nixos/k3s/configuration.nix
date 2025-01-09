@@ -65,7 +65,10 @@
     };
 
     networking = {
-      nameservers = [ "8.8.8.8" ];
+      nameservers = [ 
+       "8.8.8.8"
+       "2001:4860:4860::8888"
+      ];
       useNetworkd = true;
       useHostResolvConf = false;
       dhcpcd.IPv6rs = true; # Enable getting public IPv6 from router
@@ -87,6 +90,16 @@
     services.resolved = {
       enable = true;
       fallbackDns = [ "8.8.8.8" ];
+    };
+    systemd.services.resolved.serviceConfig = {
+      DNS = [
+        "8.8.8.8"
+        "2001:4860:4860::8888" # Google Public DNS (IPv6)
+      ];
+      FallbackDNS = [
+        "8.8.4.4"
+        "2606:4700:4700::1111" # Cloudflare DNS (IPv6)
+      ];
     };
 
     environment.systemPackages = with pkgs; [
