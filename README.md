@@ -49,6 +49,15 @@ Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/t
 
 ### Log
 
+- Jan 10, 2025
+
+Was trying to get shared access to drives via nfs, so original plan was the mount the same drive in nixos, crashed and burned hard. Got my nixos vm fucked up enough that I couldn't do any proxmox operations like shutdown or see console on it.
+Whelp another reset of the entire infra later, I'm more convinced than ever that I can't give it independant storage that will just evaporate when I do the next terraform destroy and that clock is definitely ticking.
+So need to setup data on proxmox and share it with the cluster. So option two, nfs. Setup an nfs drive on proxmox that accesses the external lvm group drive and then shared that on the network.
+tried it out on the ubuntu vm for starters and it worked. confident tried it manually on nixos and that worked. So updated config and rebooted nixos. And damn it worked. Nice.
+
+Now I can either use hostpath or setup nfs drives within the cluster to get access to the same thing.
+
 - Jan 9, 2025
 
 Had gotten more issues with dns not resolving within the cluster, so I'm gonna assume its to do with the machine, so trying to get resolved setup properly. After editing config I also linked the resolved file to it. Will see what happens.

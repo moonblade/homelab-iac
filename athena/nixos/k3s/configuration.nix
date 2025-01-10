@@ -138,7 +138,13 @@
       name = "${config.networking.hostName}-initiatorhost";
     };
 
-    boot.supportedFilesystems = [ "nfs" ];
+    boot.supportedFilesystems = [ "nfs" "ext4" ];
+    fileSystems."/mnt/external" = {
+      device = "192.168.1.128:/mnt/external";
+      fsType = "nfs";
+      options = [ "rw" "sync" "hard" "noatime" ];
+    };
+
     services.rpcbind.enable = true;
 
     system.stateVersion = lib.mkDefault "24.05";
