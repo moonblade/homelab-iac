@@ -12,8 +12,8 @@ module "k3svm" {
   ipv4_addr   = "192.168.1.150/24"
   ipv4_gw     = "192.168.1.1"
   disk_size   = "100G"
-  additional_disk_size = "500G"
-  additional_disk_storage = "external"
+  # additional_disk_size = "500G"
+  # additional_disk_storage = "external"
   tags        = "k3s"
   vm_state    = "started"
 }

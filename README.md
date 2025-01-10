@@ -58,6 +58,9 @@ tried it out on the ubuntu vm for starters and it worked. confident tried it man
 
 Now I can either use hostpath or setup nfs drives within the cluster to get access to the same thing.
 
+Since my storage is gonna come through nfs, I'm removing the extra drive I added that was isolated for k3s, instead it can work with the original premium 100 gb ssd space that it has.
+External space needs will be filled by the nfs path.
+
 - Jan 9, 2025
 
 Had gotten more issues with dns not resolving within the cluster, so I'm gonna assume its to do with the machine, so trying to get resolved setup properly. After editing config I also linked the resolved file to it. Will see what happens.
