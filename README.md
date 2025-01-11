@@ -49,6 +49,12 @@ Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/t
 
 ### Log
 
+- Jan 11, 2025
+
+After an arduous debugging journey trying to figure out why transmission on cluster was throwing random error on trying to create a folder, finally figured that it was because the drive was shit. Both drives.
+Ugh. Gave it back, hopefully will get a refund. Ordered a fresh drive, lesson learnt, don't use shit drives. I've already spent close to 20k ehem, in an effort to spend less by running my fiscal calculation app on this server. Yup, thats going well.
+Debugging that was a bitch, figuring it was not one but both drives even more so.
+
 - Jan 10, 2025
 
 Was trying to get shared access to drives via nfs, so original plan was the mount the same drive in nixos, crashed and burned hard. Got my nixos vm fucked up enough that I couldn't do any proxmox operations like shutdown or see console on it.
