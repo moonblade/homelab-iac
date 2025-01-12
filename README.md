@@ -49,83 +49,85 @@ Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/t
 
 ### Log
 
-- Jan 11, 2025
+- **Jan 1, 2025**  
+  Bought a Lenovo ThinkCentre to use as a homelab server recently.  
+  Messing around by installing Proxmox on it and getting some VMs and k3s on it.  
 
-After an arduous debugging journey trying to figure out why transmission on cluster was throwing random error on trying to create a folder, finally figured that it was because the drive was shit. Both drives.
-Ugh. Gave it back, hopefully will get a refund. Ordered a fresh drive, lesson learnt, don't use shit drives. I've already spent close to 20k ehem, in an effort to spend less by running my fiscal calculation app on this server. Yup, thats going well.
-Debugging that was a bitch, figuring it was not one but both drives even more so.
+  Primary use case would be to get my finance tracking on it and try plaintext accounting with Beancounter as the frontend. With SMS automation to automatically put stuff into plaintext. Will see how that goes.  
 
-- Jan 10, 2025
+  Along the way, I want to learn NixOS configurations, run k3s on it, and get most of my stuff that's on the RPi server on k3s instead. I also have an Ubuntu VM to mess around with as a normal Linux machine. Wish me luck.  
 
-Was trying to get shared access to drives via nfs, so original plan was the mount the same drive in nixos, crashed and burned hard. Got my nixos vm fucked up enough that I couldn't do any proxmox operations like shutdown or see console on it.
-Whelp another reset of the entire infra later, I'm more convinced than ever that I can't give it independant storage that will just evaporate when I do the next terraform destroy and that clock is definitely ticking.
-So need to setup data on proxmox and share it with the cluster. So option two, nfs. Setup an nfs drive on proxmox that accesses the external lvm group drive and then shared that on the network.
-tried it out on the ubuntu vm for starters and it worked. confident tried it manually on nixos and that worked. So updated config and rebooted nixos. And damn it worked. Nice.
+- **Jan 4, 2025**  
+  Installed Nix on my Mac, and hoping to get a template set up for NixOS for future uses. Couldn't get the build to work on Mac, so I built it on Proxmox instead. Got the build working on Proxmox, saved it as a dump, used it to restore to a VM, and converted it into a template. Tested it in the UI.  
+  Need to try making it work with code now.  
 
-Now I can either use hostpath or setup nfs drives within the cluster to get access to the same thing.
+- **Jan 5, 2025**  
+  NixOS template is used to set up a new VM with cloud-init for k3s.  
+  Infra is saved as a Terraform file in `athena/terraform`.  
 
-Since my storage is gonna come through nfs, I'm removing the extra drive I added that was isolated for k3s, instead it can work with the original premium 100 gb ssd space that it has.
-External space needs will be filled by the nfs path.
+  Tried to attach the external hard disk to it, but it ended up freezing and not responding whatsoever.  
+  Had to reset the entire Proxmox server and recreate Sirius from scratch.  
 
-- Jan 9, 2025
+  Realized I had set up the LVM wrong, so recreated it. Had to do that a few times to figure out why it was fully used up—instead of thin provisioning, I was just provisioning the whole thing, so it couldn't be used.  
+  Ended up with provisioning a tiny bit, leaving the rest available for others. This method doesn't allow cross-sharing though. Will revisit later.  
 
-Had gotten more issues with dns not resolving within the cluster, so I'm gonna assume its to do with the machine, so trying to get resolved setup properly. After editing config I also linked the resolved file to it. Will see what happens.
-`sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf`
+- **Jan 6, 2025**  
+  Tried setting up Ubuntu directly via ISO, which worked. Then tried to do that with Terraform, but ran into issues during setup.  
+  Used the ISO to create a template, then used that—but still ran into crappy issues. Dropped everything and set it up manually. If I end up needing to set it up more, I'll address it then or try NixOS instead.  
 
-Realized why sometimes reboot causes issues, for some reasons even with cloudinit providing ip, ip isn't static, so ip was being changed. So made static ip in configuration.nix as well. hopefully that particular issue is solved.
-Figured it out by setting up a password when I had access and then logging in via proxmox ui and checking ip, then had the oh shit moment since I hadn't even thought that with cloud init given ip could change at all. Oh well.
+  Set up FluxCD with GitHub bootstrapping. IP was wrong in the NixOS config, so I fixed that and restarted.  
+  Got a basic [FluxCD bootstrap running](https://github.com/moonblade/homelab-k8s/tree/main).  
 
-- Jan 8, 2025
+- **Jan 8, 2025**  
+  Wanted Tailscale to be set up automatically (the key expires in 90 days—oh well, still better than nothing).  
+  Sirius became unresponsive. Terraform destroy and recreate. :shrug:  
 
-Wanted tailcale to be setup automatically (the key dies in 90 days, oh well, its still better than nothing I guess). Aaaaaand sirius is unresponsive. well terraform destroy and recreate.
-:shrug:. I definitely need to add some failsafe to connect to it if network crap goes down.
+  I need to add a failsafe to connect if network issues arise.  
+  To reset, I can run the following:  
 
-To reset can run the following, sigh I need to be better at debugging
+  ```bash
+  make destroy-athena
+  make plan-athena
+  make apply-athena
+  make ssh-remove
+  sleep 5
+  make rebuild-sirius
+  ```  
 
-```bash
-make destroy-athena
-make plan-athena
-make apply-athena
-make ssh-remove
-sleep 5
-make rebuild-sirius
-```
+  It's not my configuration that's the issue; it's something in either Proxmox or the VM. For now, I'm ignoring it.  
+  Used `passwd` to create a password and hope I'll be able to use the UI to reset next time.  
 
-Ask me how I know the above. Its not my configuration thats the issue. its something in either proxmox or the vm thats the issue. No clue what it could be. This will be an issue. for now ignoring it.
-I'm giving up on it, I just used passwd to create a passwd and next time this happens I hope I'll be able to use ui to login and reset it.
+- **Jan 9, 2025**  
+  Got more issues with DNS not resolving within the cluster. Linked the resolved file:  
+  ```bash
+  sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+  ```  
 
-- Jan 6, 2025
+  Realized the IP wasn't static, even with cloud-init providing it. Made it static in `configuration.nix`.  
+  Discovered this by setting a password, logging in via Proxmox UI, and checking the IP—had an "oh shit" moment when I realized the IP could change. Fixed it.  
 
-Tried setting up ubuntu directly via iso, which worked. Then tried to do that with terraform, ran into issues during setup.
-So used the iso to create a template and then use that. but still got crappy issues cropping up. so instead dropped all of it and set it up manually.
-If i end up needing to setup it more and more will do it then or try nixos instead.
+- **Jan 10, 2025**  
+  Tried getting shared access to drives via NFS. Mounted the same drive in NixOS, but it crashed hard.  
+  My NixOS VM got messed up enough that I couldn't perform any Proxmox operations like shutdown or console access.  
 
-Going to setup fluxcd with github bootstrapping. Ip was wrong on nixos config, so fixed that and restarted.
-Got a basic [fluxcd bootstrap running](https://github.com/moonblade/homelab-k8s/tree/main).
+  After resetting the entire infra, I'm convinced I can't give independent storage that will evaporate on the next Terraform destroy.  
+  Option two: set up data on Proxmox and share it with the cluster via NFS.  
+  Tested it on the Ubuntu VM—worked. Manually tested on NixOS—worked. Updated config and rebooted NixOS—worked. Nice.  
 
-- Jan 5, 2025
+  Now I can use either hostPath or set up NFS drives within the cluster.  
+  Since storage will come via NFS, I'm removing the extra drive isolated for k3s. It'll use the original premium 100GB SSD space, and external needs will be filled via the NFS path.  
 
-Nixos template is used to setup a new vm with cloud-init for k3s.
-Infra is saved as terraform file in athena/terraform
-I tried to attach the external hard disk to it, it ended up freezing and not responding whatsoever.
-Had to reset the entire proxmox server and recreate sirius from scratch.
-Then realized that I had setup the lvm wrong, so recreated the lvm. Had to do that a few times to figure out why it was fully used up, instead of thin provisioning was just provisioning the whole thing, so it couldn't be used.
-Ended up with just provisioning a tiny bit and the rest is available for others now. Though this method doesn't allow cross sharing. Will see about that.
+- **Jan 11, 2025**  
+  Debugging why Transmission on the cluster was throwing random folder creation errors. Turned out to be the drives—both of them.  
 
-- Jan 4, 2025
+  Gave the drives back and ordered a fresh one. Lesson learned: don't use bad drives. Already spent close to 20k trying to save money by running my fiscal calculation app on this server.  
+  Debugging the dual-drive issue was painful.  
 
-Installed nix on my mac, and hoping to get a template setup for nixos for any future uses.
-Couldn't get build to work on mac, so building it on proxmox instead.
-Got build working on proxmox, and saved it as dump, used it to restore to a vm and converted it to template. Tested it in ui.
-Need to try making it work with code now.
+- **Jan 12, 2025**  
+  Bought a new 2TB hard disk after learning the hard way about skimping on quality.  
 
-- Jan 1, 2025
+  Accidentally bought a 3.5-inch drive instead of a 2.5-inch one. and its non returnable.
+  It needs an external power supply, rendering my previous enclosures useless. Sigh. This project on fiscal responsibility is becoming a prime example of what not to do  to be fiscally responsible.
 
-Bought a lenovo thinkcenter to use as a homelab server recently.
-Messing around by installing proxmox on it and getting some vms and k3s on it.
+  Since I had no other choice got an external enclosure for it and a multiplug and connected it to my setup and added it as a thinvolume and mounted it.
 
-Primary use case would be to get my finance tracking on it and try plaintext accounting with beancounter as frontend.
-With sms automation to automatically put stuff into the plaintext. Will see how that goes.
-
-But along the way want to learn nixos configurations, run k3s on it and get most of my crap thats on the rpi server on k3s instead.
-I have an ubuntu vm as well on it to mess around with as a normal linux machine. Will see how it goes. Wish me luck
