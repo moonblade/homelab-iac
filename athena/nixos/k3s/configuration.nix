@@ -27,6 +27,10 @@
       autoResize = true;
       fsType = "ext4";
     };
+    fileSystems."/mnt/longhorn" = {
+      device = "/dev/vdb";
+      fsType = "ext4";
+    };
 
     # fileSystems."/mnt/external" = {
     #   device = "/dev/external/external";
