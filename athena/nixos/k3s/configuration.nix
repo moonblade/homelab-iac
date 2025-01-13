@@ -27,15 +27,11 @@
       autoResize = true;
       fsType = "ext4";
     };
-    fileSystems."/mnt/longhorn" = {
+
+    fileSystems."/mnt/external" = {
       device = "/dev/vdb";
       fsType = "ext4";
     };
-
-    # fileSystems."/mnt/external" = {
-    #   device = "/dev/external/external";
-    #   fsType = "ext4";
-    # };
 
     time.timeZone = "Asia/Kolkata";
 
@@ -143,11 +139,6 @@
     };
 
     boot.supportedFilesystems = [ "nfs" "ext4" ];
-    fileSystems."/mnt/external" = {
-      device = "192.168.1.128:/mnt/external";
-      fsType = "nfs";
-      options = [ "rw" "sync" "hard" "noatime" ];
-    };
 
     services.rpcbind.enable = true;
 
