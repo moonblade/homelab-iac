@@ -131,3 +131,6 @@ Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/t
 
   Since I had no other choice got an external enclosure for it and a multiplug and connected it to my setup and added it as a thinvolume and mounted it.
 
+- **Jan 14, 2025**
+
+The disk is going to be the death of me. Can't figure out why its not working with transmission or longhorn. Removed any use of lvm and connecting directly now. Its not helping much though.

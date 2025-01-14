@@ -9,6 +9,14 @@
     ];
   };
 
+  users.extraUsers.media = {
+    isNormalUser = true;
+    home = "/home/media";
+    description = "Media user for Transmission";
+    group = "media";
+    shell = "/bin/sh";
+    uid = 1001;
+  };
 
   users.motd = with config; ''
     Welcome to ${networking.hostName}

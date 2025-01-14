@@ -8,6 +8,9 @@ rebuild:
 	sed -i '' 's/127.0.0.1/${K3S_IP}/g' ~/.kube/sirius.yaml
 	sed -i '' 's/default/sirius/g' ~/.kube/sirius.yaml
 
+add-disk:
+	ssh athena 'qm set 301 --virtio1 /dev/sdb'
+
 tailscale:
 	ssh athena 'sudo tailscale up --advertise-routes=192.168.1.0/24'
 	echo "Go approve it in tailscale web interface > athena > subnets"
