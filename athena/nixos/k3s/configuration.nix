@@ -31,6 +31,11 @@
     fileSystems."/mnt/external" = {
       device = "/dev/vdb";
       fsType = "ext4";
+      options = [ "nofail" "x-systemd.device-timeout=0" ];
+    };
+
+    users.groups.media = {
+      gid = 1001;
     };
 
     time.timeZone = "Asia/Kolkata";
