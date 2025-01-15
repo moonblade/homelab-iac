@@ -92,6 +92,18 @@
       };
     };
 
+    # disable ipv6
+    networking.networkmanager.dispatcherScripts = [{
+      source = pkgs.writeText "upHook" ''
+        if [ "$2" != "up" ]; then
+          logger "exit: event $2 != up"
+          exit
+        fi
+        echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
+      '';
+      type = "basic";
+    }];
+
     services.resolved = {
       enable = true;
       fallbackDns = [ "8.8.8.8" ];
