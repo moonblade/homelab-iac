@@ -29,9 +29,9 @@
     };
 
     fileSystems."/mnt/external" = {
-      device = "/dev/vdb";
-      fsType = "ext4";
-      options = [ "nofail" "x-systemd.device-timeout=0" ];
+      device = "192.168.1.128:/mnt/external";
+      fsType = "nfs";
+      options = [ "rw" "sync" "nolock" "soft" "timeo=10" "retrans=3" "nofail" ];
     };
 
     users.groups.media = {
