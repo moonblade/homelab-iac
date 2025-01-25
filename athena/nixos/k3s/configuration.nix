@@ -29,7 +29,7 @@
     };
 
     fileSystems."/mnt/external" = {
-      device = "/dev/vdb";
+      device = "UUID=ffbf8741-5445-4e47-bb48-1851978346e9"; # Replace with the actual UUID of /dev/vdb
       fsType = "ext4";
       options = [ "nofail" "x-systemd.device-timeout=0" ];
     };
