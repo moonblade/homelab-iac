@@ -21,5 +21,8 @@ ssh-remove:
 rebuild-sirius:
 	make -C athena/nixos/k3s rebuild
 
+copy:
+	make -C athena/nixos/k3s copy
+
 tailscale-sirius:
 	make -C athena/nixos/k3s tailscale
