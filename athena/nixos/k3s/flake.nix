@@ -10,6 +10,8 @@
           ./configuration.nix
           ./modules/k3s.nix
           ./modules/user.nix
+          ./modules/zsh.nix
+          ./modules/nvim.nix
           ./modules/tailscale.nix
         ];
       };

@@ -72,7 +72,6 @@
     networking = {
       nameservers = [ 
        "8.8.8.8"
-       "2001:4860:4860::8888"
       ];
       useNetworkd = true;
       useHostResolvConf = false;
@@ -95,6 +94,14 @@
     services.resolved = {
       enable = true;
       fallbackDns = [ "8.8.8.8" ];
+    };
+    systemd.services.resolved.serviceConfig = {
+      DNS = [
+        "8.8.8.8"
+      ];
+      FallbackDNS = [
+        "8.8.4.4"
+      ];
     };
 
     environment.systemPackages = with pkgs; [
@@ -121,12 +128,6 @@
       "vm.dirty_ratio" = 10;
       "vm.dirty_background_ratio" = 5;
     };
-    boot.kernelModules = [
-      "ip6_tables"
-      "ip6table_mangle"
-      "ip6table_raw"
-      "ip6table_filter"
-    ];
 
     services.openiscsi = {
       enable = true;

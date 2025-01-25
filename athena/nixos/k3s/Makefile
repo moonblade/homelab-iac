@@ -2,8 +2,10 @@
 K3S_IP:=192.168.1.150
 # K3S_IP:=100.113.7.120
 
-rebuild:
+copy:
 	scp -r . root@${K3S_IP}:/etc/nixos/k3s
+
+rebuild: copy
 	ssh root@${K3S_IP} 'nixos-rebuild switch --flake /etc/nixos/k3s#sirius'
 	scp root@${K3S_IP}:/root/.kube/config ~/.kube/sirius.yaml
 	sed -i '' 's/127.0.0.1/${K3S_IP}/g' ~/.kube/sirius.yaml
