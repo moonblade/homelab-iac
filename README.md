@@ -134,3 +134,7 @@ Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/t
 - **Jan 14, 2025**
 
 The disk is going to be the death of me. Can't figure out why its not working with transmission or longhorn. Removed any use of lvm and connecting directly now. Its not helping much though.
+
+- **Jan 24, 2025**
+
+Made a script to connect or disconnect the hard disk as its available to the vm, hopefully that should make it work when available.

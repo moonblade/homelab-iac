@@ -18,8 +18,9 @@
       "--disable local-storage"
       "--disable-helm-controller"
       "--write-kubeconfig /root/.kube/config"
-      "--flannel-backend=host-gw"
+      "--flannel-backend=none"
       "--write-kubeconfig-mode 644"
+      "--node-name=nixos"
     ];
   };
 
