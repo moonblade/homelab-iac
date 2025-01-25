@@ -92,31 +92,9 @@
       };
     };
 
-    # disable ipv6
-    networking.networkmanager.dispatcherScripts = [{
-      source = pkgs.writeText "upHook" ''
-        if [ "$2" != "up" ]; then
-          logger "exit: event $2 != up"
-          exit
-        fi
-        echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
-      '';
-      type = "basic";
-    }];
-
     services.resolved = {
       enable = true;
       fallbackDns = [ "8.8.8.8" ];
-    };
-    systemd.services.resolved.serviceConfig = {
-      DNS = [
-        "8.8.8.8"
-        "2001:4860:4860::8888" # Google Public DNS (IPv6)
-      ];
-      FallbackDNS = [
-        "8.8.4.4"
-        "2606:4700:4700::1111" # Cloudflare DNS (IPv6)
-      ];
     };
 
     environment.systemPackages = with pkgs; [
