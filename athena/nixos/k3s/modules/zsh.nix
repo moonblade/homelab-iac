@@ -17,6 +17,7 @@
     shellAliases = {
       ll = "ls -l";
       la = "ls -lha";
+      k = "kubectl";
     };
   };
 
