@@ -138,3 +138,7 @@ The disk is going to be the death of me. Can't figure out why its not working wi
 - **Jan 24, 2025**
 
 Made a script to connect or disconnect the hard disk as its available to the vm, hopefully that should make it work when available.
+
+- **Jan 25, 2025**
+
+Added nvim and zsh, removing readding and configuring ipv6 did nothing, and cilium, no cilium, flannel nothing works, so gonna go broke with no ipv6.
