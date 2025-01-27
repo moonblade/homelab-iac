@@ -142,3 +142,8 @@ Made a script to connect or disconnect the hard disk as its available to the vm,
 - **Jan 25, 2025**
 
 Added nvim and zsh, removing readding and configuring ipv6 did nothing, and cilium, no cilium, flannel nothing works, so gonna go broke with no ipv6.
+
+- **Jan 27, 2025**
+
+Changed to use nfs share instead, the disk is a piece of shit, I need to get a better disk.
+
