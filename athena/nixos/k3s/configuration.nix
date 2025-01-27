@@ -29,10 +29,16 @@
     };
 
     fileSystems."/mnt/external" = {
-      device = "UUID=ffbf8741-5445-4e47-bb48-1851978346e9"; # Replace with the actual UUID of /dev/vdb
-      fsType = "ext4";
-      options = [ "nofail" "x-systemd.device-timeout=0" ];
+      device = "192.168.1.128:/mnt/external";
+      fsType = "nfs";
+      options = [ "defaults" "nofail" "x-systemd.device-timeout=0" ];
     };
+
+    # fileSystems."/mnt/external" = {
+    #   device = "UUID=ffbf8741-5445-4e47-bb48-1851978346e9";
+    #   fsType = "ext4";
+    #   options = [ "nofail" "x-systemd.device-timeout=0" ];
+    # };
 
     users.groups.media = {
       gid = 1001;
