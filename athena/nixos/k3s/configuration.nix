@@ -34,6 +34,12 @@
       options = [ "defaults" "nofail" "x-systemd.device-timeout=0" ];
     };
 
+    fileSystems."/mnt/secondary" = {
+      device = "192.168.1.128:/mnt/secondary";
+      fsType = "nfs";
+      options = [ "defaults" "nofail" "x-systemd.device-timeout=0" ];
+    };
+
     # fileSystems."/mnt/external" = {
     #   device = "UUID=ffbf8741-5445-4e47-bb48-1851978346e9";
     #   fsType = "ext4";
@@ -66,6 +72,7 @@
 
     users.users.root.openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBZYUtAZtLS8Ug7qvOpNIp1pZJetxMnaHnrw/i5S3EjBN0Hb+HRTAWSUEqH/NGZt9fTWdjAAglEE50nFfp3jfDZbpTgInW/ZHTypm9KyH1NqJ2Y9yzC4tBGNZ2JsGn/YrQ8gjWwuQdqySKByWbwi2g5dODVvxXMK5Sbim2PuEJId51IabAk8ijRpZZcbWTuU8CsuLvblmdY+w8nOOn898XFpQ17ScQXJGnuvDCYR2mqJNAS/XQb1JkbnIsAUiCXDQ+GRZovAOakQ7mATbQP9HHPCicjL51h5akDW53StiEqGrN8DmLptum/2D6bG1hMnA4XsT77K4rjfx/nqkpanYUis/e/9W2OvxJFWWX1c1WqzhyPgIjJdwV1Qj6nZro20OTMI7HH9F0B4XgqJGbS4O8SDPTiQ9gu1ldkuj2GSvWDd0Iq3MYyc+PIjKBHsl6gyxk9a7iIXSwghsJSYZgKSiU7sb8nOx6QGDkHE8t1IpEZSzwgTm2UR5JvrHXyZEm927y88SKU7VXDNmL1NV9uGZxucxSpHGGjEviu2OdklXVgA4rVPVG9aI01YoKDeRV0SpiEgsX8lss4F5yzlwP4i9oMm/X1qKEYq6Td6D9yXsiRZcKVpYJEsvFQiLHnb4PMNhQrnTY9yTKbYoGSEjGWzZN6WsBnWPyI6SCRDz0XAubgQ== root@thinkcenter"
     ];
     users.users.root.initialPassword = "password";
     services.openssh = {
@@ -111,6 +118,7 @@
     };
 
     environment.systemPackages = with pkgs; [
+      kubie
       openiscsi
       curl
       gitMinimal
