@@ -28,23 +28,29 @@
       fsType = "ext4";
     };
 
-    fileSystems."/mnt/external" = {
-      device = "192.168.1.128:/mnt/external";
-      fsType = "nfs";
-      options = [ "defaults" "nofail" "x-systemd.device-timeout=0" ];
-    };
-
-    fileSystems."/mnt/secondary" = {
-      device = "192.168.1.128:/mnt/secondary";
-      fsType = "nfs";
-      options = [ "defaults" "nofail" "x-systemd.device-timeout=0" ];
-    };
-
+    # fileSystems."/mnt/external" = {
+    #   device = "192.168.1.128:/mnt/external";
+    #   fsType = "nfs";
+    #   options = [ "defaults" "nofail" "x-systemd.device-timeout=0" ];
+    # };
+    #
+    # fileSystems."/mnt/secondary" = {
+    #   device = "192.168.1.128:/mnt/secondary";
+    #   fsType = "nfs";
+    #   options = [ "defaults" "nofail" "x-systemd.device-timeout=0" ];
+    # };
+    #
     # fileSystems."/mnt/external" = {
     #   device = "UUID=ffbf8741-5445-4e47-bb48-1851978346e9";
     #   fsType = "ext4";
     #   options = [ "nofail" "x-systemd.device-timeout=0" ];
     # };
+
+    fileSystems."/mnt/secondary" = {
+      device = "UUID=d7604944-98cb-4baa-b616-089b1a27ce3e";
+      fsType = "ext4";
+      options = [ "nofail" "x-systemd.device-timeout=0" ];
+    };
 
     users.groups.media = {
       gid = 1001;
