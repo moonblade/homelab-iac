@@ -124,6 +124,7 @@
     };
 
     environment.systemPackages = with pkgs; [
+      cloudflared
       kubie
       openiscsi
       curl
