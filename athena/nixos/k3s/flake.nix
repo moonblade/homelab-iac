@@ -13,6 +13,7 @@
           ./modules/zsh.nix
           ./modules/nvim.nix
           ./modules/tailscale.nix
+          ./modules/cloudflared.nix
         ];
       };
     };

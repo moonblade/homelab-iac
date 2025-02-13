@@ -124,6 +124,7 @@
     };
 
     environment.systemPackages = with pkgs; [
+      sops
       cloudflared
       kubie
       openiscsi
