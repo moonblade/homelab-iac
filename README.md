@@ -151,7 +151,10 @@ Changed to use nfs share instead, the disk is a piece of shit, I need to get a b
 
 Nfs has issues. I bought another disk. and connected it as a scsi drive on host. Mounted it and using that as hostpath now. Will try and setup nfs on rpi onc I have it.
 
-`qm set 301 -scsi2 /dev/disk/by-uuid/d7604944-98cb-4baa-b616-089b1a27ce3e`
+```
+qm set 301 -scsi2 /dev/disk/by-uuid/d7604944-98cb-4baa-b616-089b1a27ce3e
+qm set 301 -scsi3 /dev/disk/by-uuid/d2ffd85b-dc75-4850-9df4-952d52d993a4
+```
 
 for scsi setup
 

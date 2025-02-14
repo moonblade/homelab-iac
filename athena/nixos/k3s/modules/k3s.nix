@@ -14,6 +14,8 @@
       "--snapshotter native"
       "--disable-network-policy"
       "--node-ip=192.168.1.150"
+      "--tls-san sirius.moonblade.work"
+      "--tls-san siriusk8s.moonblade.work"
       "--disable local-storage"
       "--disable-helm-controller"
       "--write-kubeconfig /root/.kube/config"
