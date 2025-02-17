@@ -31,19 +31,19 @@
     # fileSystems."/mnt/external" = {
     #   device = "UUID=d2ffd85b-dc75-4850-9df4-952d52d993a4";
     #   fsType = "ext4";
-    #   options = [ "nofail" "x-systemd.device-timeout=0" "auto" ];
+    #   options = [ "nofail" "x-systemd.device-timeout=0" ];
     # };
 
     fileSystems."/mnt/secondary" = {
       device = "UUID=d7604944-98cb-4baa-b616-089b1a27ce3e";
       fsType = "ext4";
-      options = [ "nofail" "x-systemd.device-timeout=0" "noauto" "x-systemd.automount" ];
+      options = [ "nofail" "x-systemd.device-timeout=0" ];
     };
 
     fileSystems."/mnt/elements" = {
       device = "UUID=337704f0-9587-44df-adb2-a61ba263d75c";
       fsType = "ext4";
-      options = [ "nofail" "x-systemd.device-timeout=0" "noauto" "x-systemd.automount" ];
+      options = [ "nofail" "x-systemd.device-timeout=0" ];
     };
 
     users.groups.media = {
