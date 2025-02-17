@@ -1,6 +1,6 @@
-# K3S_IP:=192.168.1.150
+K3S_IP:=192.168.1.150
 # K3S_IP:=100.100.145.85
-K3S_IP:=sirius.moonblade.work
+# K3S_IP:=sirius.moonblade.work
 
 copy:
 	scp -r . root@${K3S_IP}:/etc/nixos/k3s
