@@ -20,6 +20,7 @@
     # Don't ask for passwords
     security.sudo.wheelNeedsPassword = false;
     programs.ssh.startAgent = true;
+    programs.tmux.enable = true;
 
     # Default filesystem
     fileSystems."/" = lib.mkDefault {
@@ -125,6 +126,7 @@
       gitMinimal
       nfs-utils
       vim
+      kubie
     ];
 
     system.activationScripts = { setupIscsi.text =
