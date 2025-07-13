@@ -26,3 +26,5 @@ copy:
 
 tailscale-sirius:
 	make -C athena/nixos/k3s tailscale
+
+run: rebuild-sirius

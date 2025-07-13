@@ -47,6 +47,11 @@ VM using nixos base image is saved as a module for reuse.
 
 Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/terraform`.
 
+## Notes for future me.
+
+1. The hard disks are connected on the host machine and then passed to the VM as SCSI drives.
+Use the `make -C athena/nixos/k3s add-disks` command to add the disks to the VM.
+
 ### Log
 
 - **Jan 1, 2025**  
@@ -159,3 +164,4 @@ qm set 301 -scsi3 /dev/disk/by-uuid/d2ffd85b-dc75-4850-9df4-952d52d993a4
 for scsi setup
 
 I should update the terraform for it probably
+
