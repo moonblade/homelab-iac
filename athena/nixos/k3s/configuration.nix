@@ -29,11 +29,11 @@
       fsType = "ext4";
     };
 
-    fileSystems."/mnt/external" = {
-      device = "UUID=d2ffd85b-dc75-4850-9df4-952d52d993a4";
-      fsType = "ext4";
-      options = [ "nofail" "x-systemd.device-timeout=10" ];
-    };
+    # fileSystems."/mnt/external" = {
+    #   device = "UUID=d2ffd85b-dc75-4850-9df4-952d52d993a4";
+    #   fsType = "ext4";
+    #   options = [ "nofail" "x-systemd.device-timeout=10" ];
+    # };
 
     fileSystems."/mnt/secondary" = {
       device = "UUID=d7604944-98cb-4baa-b616-089b1a27ce3e";
