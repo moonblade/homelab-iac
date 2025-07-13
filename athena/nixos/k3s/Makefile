@@ -12,9 +12,10 @@ rebuild: copy
 	sed -i '' 's/default/sirius/g' ~/.kube/sirius.yaml
 
 add-disks:
-	# ssh athena 'qm set 301 --scsi2 /dev/disk/by-uuid/d7604944-98cb-4baa-b616-089b1a27ce3e'
-	# ssh athena 'qm set 301 --scsi4 /dev/disk/by-uuid/337704f0-9587-44df-adb2-a61ba263d75c'
-	ssh athena 'qm set 301 --scsi3 /dev/disk/by-uuid/d2ffd85b-dc75-4850-9df4-952d52d993a4'
+	ssh athena 'qm set 301 --scsi2 /dev/disk/by-uuid/d7604944-98cb-4baa-b616-089b1a27ce3e'
+	ssh athena 'qm set 301 --scsi4 /dev/disk/by-uuid/337704f0-9587-44df-adb2-a61ba263d75c'
+	# This one has problems, maybe dont use it
+	# # ssh athena 'qm set 301 --scsi3 /dev/disk/by-uuid/d2ffd85b-dc75-4850-9df4-952d52d993a4'
 
 tailscale:
 	ssh athena 'sudo tailscale up --advertise-routes=192.168.1.0/24'

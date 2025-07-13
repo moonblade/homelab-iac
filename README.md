@@ -52,6 +52,11 @@ Run `make init`, `make plan`, `make apply` to setup the vm from within `athena/t
 1. The hard disks are connected on the host machine and then passed to the VM as SCSI drives.
 Use the `make -C athena/nixos/k3s add-disks` command to add the disks to the VM.
 
+Sigh, the 2TB disk I both, the 3.5 inch one is a piece of shit, keeps giving input output error right when I need it to perform.
+So for now adding all of it on the same disk. Hopefully will get some different option later.
+
+If this doesn't make me invest in a NAS, prolly nothing will
+
 ### Log
 
 - **Jan 1, 2025**  
