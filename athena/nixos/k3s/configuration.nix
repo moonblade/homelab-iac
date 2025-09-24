@@ -41,11 +41,11 @@
       options = [ "nofail" "x-systemd.device-timeout=10" ];
     };
 
-    fileSystems."/mnt/elements" = {
-      device = "UUID=337704f0-9587-44df-adb2-a61ba263d75c";
-      fsType = "ext4";
-      options = [ "nofail" "x-systemd.device-timeout=10" ];
-    };
+    # fileSystems."/mnt/elements" = {
+    #   device = "UUID=337704f0-9587-44df-adb2-a61ba263d75c";
+    #   fsType = "ext4";
+    #   options = [ "nofail" "x-systemd.device-timeout=10" ];
+    # };
 
     users.groups.media = {
       gid = 1001;
