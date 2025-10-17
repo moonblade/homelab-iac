@@ -2,11 +2,23 @@
   # Enable Docker service
   virtualisation.docker.enable = true;
 
+  # Configure Docker daemon for better k3s integration
+  virtualisation.docker.daemon.settings = {
+    log-driver = "json-file";
+    log-opts = {
+      max-size = "10m";
+      max-file = "3";
+    };
+  };
+
   services.k3s = {
     enable = true;
     role = "server";
     extraFlags = toString [
       "--docker"  # Enable Docker runtime
+      "--container-runtime-endpoint unix:///var/run/docker.sock"
+      "--kubelet-arg=container-log-max-files=3"
+      "--kubelet-arg=container-log-max-size=10Mi"
       "--disable traefik"
       "--disable servicelb"
       "--disable metrics-server"
@@ -26,4 +38,8 @@
       "--node-name=sirius"
     ];
   };
+
+  # Ensure Docker is started before k3s
+  systemd.services.k3s.after = [ "docker.service" ];
+  systemd.services.k3s.requires = [ "docker.service" ];
 }
