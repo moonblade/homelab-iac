@@ -13,6 +13,9 @@
           "siriusssh.moonblade.work" = {
             service = "ssh://127.0.0.1:22";
           };
+          "feeder.moonblade.work" = {
+            service = "http://192.168.1.201";
+          };
           "*.moonblade.work" = {
             service = "http://192.168.1.200";
           };
