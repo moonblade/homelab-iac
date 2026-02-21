@@ -16,6 +16,9 @@
           "feeder.moonblade.work" = {
             service = "http://192.168.1.201";
           };
+          "feeder.sirius.moonblade.work" = {
+            service = "http://192.168.1.201";
+          };
           "*.moonblade.work" = {
             service = "http://192.168.1.200";
           };
