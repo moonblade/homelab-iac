@@ -174,4 +174,4 @@ I should update the terraform for it probably
 
 - **Feb 23, 2026**
 
-Gateway API migration: Updated cloudflared.nix to route browse.moonblade.work, homer.moonblade.work, moonblade.work, jackett.moonblade.work, and login.moonblade.work through Gateway (192.168.1.201). Removed audiobooksearch.moonblade.work and jellyfin.moonblade.work entries.
+Gateway API migration: Updated cloudflared.nix to route browse.moonblade.work, homer.moonblade.work, moonblade.work, jackett.moonblade.work, login.moonblade.work, and n8n.moonblade.work through Gateway (192.168.1.201). Removed audiobooksearch.moonblade.work and jellyfin.moonblade.work entries.
