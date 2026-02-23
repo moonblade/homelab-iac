@@ -17,9 +17,6 @@
           "audiobooksearch.moonblade.work" = {
             service = "http://192.168.1.200";
           };
-          "jackett.moonblade.work" = {
-            service = "http://192.168.1.200";
-          };
           "jellyfin.moonblade.work" = {
             service = "http://192.168.1.200";
           };
