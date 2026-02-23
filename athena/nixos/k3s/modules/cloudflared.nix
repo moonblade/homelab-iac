@@ -13,10 +13,6 @@
           "siriusssh.moonblade.work" = {
             service = "ssh://127.0.0.1:22";
           };
-          # Remaining on ingress-nginx (192.168.1.200) - to migrate
-          "weave.moonblade.work" = {
-            service = "http://192.168.1.200";
-          };
         };
       };
     };
