@@ -20,12 +20,6 @@
           "browse.moonblade.work" = {
             service = "http://192.168.1.200";
           };
-          "ddsearch.moonblade.work" = {
-            service = "http://192.168.1.200";
-          };
-          "expense.moonblade.work" = {
-            service = "http://192.168.1.200";
-          };
           "homer.moonblade.work" = {
             service = "http://192.168.1.200";
           };
