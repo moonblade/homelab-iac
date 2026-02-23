@@ -170,3 +170,8 @@ for scsi setup
 
 I should update the terraform for it probably
 
+
+
+- **Feb 23, 2026**
+
+Gateway API migration: Updated cloudflared.nix to route browse.moonblade.work, homer.moonblade.work, and moonblade.work through Gateway (192.168.1.201) instead of ingress-nginx (192.168.1.200).
