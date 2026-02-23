@@ -13,16 +13,7 @@
           "siriusssh.moonblade.work" = {
             service = "ssh://127.0.0.1:22";
           };
-          # Still on ingress-nginx (192.168.1.200) - migrate these
-          "audiobooksearch.moonblade.work" = {
-            service = "http://192.168.1.200";
-          };
-          "jellyfin.moonblade.work" = {
-            service = "http://192.168.1.200";
-          };
-          "login.moonblade.work" = {
-            service = "http://192.168.1.200";
-          };
+          # Remaining on ingress-nginx (192.168.1.200) - to migrate
           "n8n.moonblade.work" = {
             service = "http://192.168.1.200";
           };
