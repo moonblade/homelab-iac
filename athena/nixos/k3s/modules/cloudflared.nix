@@ -17,9 +17,6 @@
           "audiobooksearch.moonblade.work" = {
             service = "http://192.168.1.200";
           };
-          "homer.moonblade.work" = {
-            service = "http://192.168.1.200";
-          };
           "jackett.moonblade.work" = {
             service = "http://192.168.1.200";
           };
@@ -27,9 +24,6 @@
             service = "http://192.168.1.200";
           };
           "login.moonblade.work" = {
-            service = "http://192.168.1.200";
-          };
-          "moonblade.work" = {
             service = "http://192.168.1.200";
           };
           "n8n.moonblade.work" = {
