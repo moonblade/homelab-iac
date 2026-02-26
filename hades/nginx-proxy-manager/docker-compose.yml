@@ -1,0 +1,11 @@
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:2.12.3'
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      INITIAL_ADMIN_EMAIL: admin@admin.com
+      INITIAL_ADMIN_PASSWORD: changeme
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt

@@ -28,3 +28,13 @@ tailscale-sirius:
 	make -C athena/nixos/k3s tailscale
 
 run: rebuild-sirius
+
+# Hades targets
+deploy-hades-npm:
+	make -C hades/nginx-proxy-manager deploy
+
+hades-npm-status:
+	make -C hades/nginx-proxy-manager status
+
+hades-npm-logs:
+	make -C hades/nginx-proxy-manager logs
