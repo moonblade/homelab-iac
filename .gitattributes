@@ -2,3 +2,5 @@ secrets/** filter=git-crypt diff=git-crypt
 athena/terraform/provider.tf filter=git-crypt diff=git-crypt
 athena/terraform/terraform.tfstate filter=git-crypt diff=git-crypt
 athena/nixos/k3s/secrets/** filter=git-crypt diff=git-crypt
+hades/truenas/terraform.tfstate filter=git-crypt diff=git-crypt
+hades/truenas/terraform.tfstate.backup filter=git-crypt diff=git-crypt
