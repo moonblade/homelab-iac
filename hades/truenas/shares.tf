@@ -1,4 +1,4 @@
-resource "truenas_share_smb" "root" {
+resource "truenas_sharing_smb" "root" {
   name      = "root"
   path      = "/mnt/primary/root"
   enabled   = true
@@ -6,7 +6,7 @@ resource "truenas_share_smb" "root" {
   browsable = true
 }
 
-resource "truenas_share_smb" "audiobooks" {
+resource "truenas_sharing_smb" "audiobooks" {
   name      = "audiobooks"
   path      = "/mnt/primary/root/audiobooks"
   enabled   = true
@@ -14,7 +14,7 @@ resource "truenas_share_smb" "audiobooks" {
   browsable = true
 }
 
-resource "truenas_share_smb" "downloads" {
+resource "truenas_sharing_smb" "downloads" {
   name      = "downloads"
   path      = "/mnt/primary/root/downloads"
   enabled   = true
@@ -22,7 +22,7 @@ resource "truenas_share_smb" "downloads" {
   browsable = true
 }
 
-resource "truenas_share_smb" "config" {
+resource "truenas_sharing_smb" "config" {
   name      = "config"
   path      = "/mnt/primary/root/config"
   enabled   = true
@@ -30,14 +30,14 @@ resource "truenas_share_smb" "config" {
   browsable = true
 }
 
-resource "truenas_share_nfs" "primary_root" {
+resource "truenas_sharing_nfs" "primary_root" {
   path    = "/mnt/primary/root"
   comment = "primaryroot"
   enabled = true
   ro      = false
 }
 
-resource "truenas_share_nfs" "audiobooks" {
+resource "truenas_sharing_nfs" "audiobooks" {
   path          = "/mnt/primary/root/audiobooks"
   enabled       = true
   ro            = false
@@ -45,7 +45,7 @@ resource "truenas_share_nfs" "audiobooks" {
   maproot_group = "root"
 }
 
-resource "truenas_share_nfs" "downloads" {
+resource "truenas_sharing_nfs" "downloads" {
   path          = "/mnt/primary/root/downloads"
   enabled       = true
   ro            = false
@@ -53,7 +53,7 @@ resource "truenas_share_nfs" "downloads" {
   maproot_group = "root"
 }
 
-resource "truenas_share_nfs" "config" {
+resource "truenas_sharing_nfs" "config" {
   path          = "/mnt/primary/root/config"
   enabled       = true
   ro            = false

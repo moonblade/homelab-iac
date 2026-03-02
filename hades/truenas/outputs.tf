@@ -1,20 +1,20 @@
 output "smb_shares" {
   description = "SMB share paths"
   value = {
-    root       = truenas_share_smb.root.path
-    audiobooks = truenas_share_smb.audiobooks.path
-    downloads  = truenas_share_smb.downloads.path
-    config     = truenas_share_smb.config.path
+    root       = truenas_sharing_smb.root.path
+    audiobooks = truenas_sharing_smb.audiobooks.path
+    downloads  = truenas_sharing_smb.downloads.path
+    config     = truenas_sharing_smb.config.path
   }
 }
 
 output "nfs_shares" {
   description = "NFS share paths"
   value = {
-    primary_root = truenas_share_nfs.primary_root.path
-    audiobooks   = truenas_share_nfs.audiobooks.path
-    downloads    = truenas_share_nfs.downloads.path
-    config       = truenas_share_nfs.config.path
+    primary_root = truenas_sharing_nfs.primary_root.path
+    audiobooks   = truenas_sharing_nfs.audiobooks.path
+    downloads    = truenas_sharing_nfs.downloads.path
+    config       = truenas_sharing_nfs.config.path
   }
 }
 
