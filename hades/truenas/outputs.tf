@@ -26,5 +26,19 @@ output "datasets" {
     primary_root_audiobooks = truenas_pool_dataset.primary_root_audiobooks.name
     primary_root_config     = truenas_pool_dataset.primary_root_config.name
     primary_root_downloads  = truenas_pool_dataset.primary_root_downloads.name
+    secondary_config_backup = truenas_pool_dataset.secondary_config_backup.name
+  }
+}
+
+output "backup" {
+  description = "Backup configuration"
+  value = {
+    snapshot_task_id   = truenas_pool_snapshottask.config_daily.id
+    replication_id     = truenas_replication.config_to_secondary.id
+    source_dataset     = "primary/root/config"
+    target_dataset     = "secondary/config-backup"
+    snapshot_schedule  = "Daily at 2:00 AM"
+    snapshot_retention = "14 days"
+    replica_retention  = "30 days"
   }
 }
