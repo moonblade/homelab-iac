@@ -175,3 +175,7 @@ I should update the terraform for it probably
 - **Feb 23, 2026**
 
 Gateway API migration: Updated cloudflared.nix to use default route (192.168.1.201) for all apps. Removed all explicit app routes (browse, homer, jackett, login, n8n, transmission, weave) - only k8s API and SSH remain as explicit routes. All apps now routed through nginx-gateway-fabric.
+
+- **Mar 3, 2026**
+
+TrueNAS config backup: Added automated backup of primary/root/config dataset to secondary pool. Daily snapshots at 2 AM (14 day retention) with local replication to secondary/config-backup (30 day retention).
