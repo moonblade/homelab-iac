@@ -48,3 +48,13 @@ resource "truenas_pool_dataset" "primary_root_downloads" {
 
   depends_on = [truenas_pool_dataset.primary_root]
 }
+
+# Backup dataset on secondary pool for config replication
+resource "truenas_pool_dataset" "secondary_config_backup" {
+  name        = "secondary/config-backup"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
