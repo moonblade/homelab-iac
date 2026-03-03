@@ -6,7 +6,7 @@ let
     # i3 config file (v4)
     # Vim-style keybindings (hjkl)
 
-    set $mod Mod4
+    set $mod Mod1
 
     # Font
     font pango:Inter 10

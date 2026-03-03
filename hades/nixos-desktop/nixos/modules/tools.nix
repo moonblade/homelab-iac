@@ -51,9 +51,15 @@
     # Network tools
     networkmanagerapplet  # Network tray icon (if using NetworkManager)
     
-    # Media
-    stremio               # Media center
+    # Media - Stremio installed via Flatpak (flatpak install flathub com.stremio.Stremio)
+    # Sunshine also requires insecure qtwebengine - install via Flatpak if needed
   ];
+
+  # Enable Flatpak for sandboxed apps (Stremio)
+  services.flatpak.enable = true;
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  # Add Flathub repo on first boot: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
   # Enable tmux
   programs.tmux.enable = true;

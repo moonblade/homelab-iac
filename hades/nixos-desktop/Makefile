@@ -17,7 +17,7 @@ NIXOS_IP = 192.168.1.199
 NIXOS_USER = root
 
 copy:
-	scp -r nixos $(NIXOS_USER)@$(NIXOS_IP):/etc/nixos/luna
+	scp -r nixos/* $(NIXOS_USER)@$(NIXOS_IP):/etc/nixos/luna/
 
 rebuild:
 	ssh $(NIXOS_USER)@$(NIXOS_IP) 'nixos-rebuild switch --flake /etc/nixos/luna#luna'

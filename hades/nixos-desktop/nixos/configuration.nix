@@ -6,8 +6,6 @@
   ];
 
   config = {
-    nixpkgs.config.allowUnfree = true;
-
     # Hostname
     networking.hostName = "luna";
 

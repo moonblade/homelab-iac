@@ -23,6 +23,7 @@ homelab-iac/
 1. **All changes via PR** - Never push directly to main. Create feature branch, open PR via `gh pr create`
 2. **Log changes in README** - Add brief entry to README.md Log section for each change with date
 3. **Wait for PR approval** - After creating a PR, wait for human to approve before merging. Do not auto-merge.
+4. **Always rebuild with make commands** - Use `make deploy`, `make rebuild`, etc. Never run raw nixos-rebuild or terraform commands directly.
 
 ## WHERE TO LOOK
 
