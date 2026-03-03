@@ -49,25 +49,37 @@
     lxappearance      # GTK theme configuration
   ];
 
-  # Fonts - essential for i3 and general desktop use
+  # Fonts - macOS-like defaults (Inter = open-source SF Pro alternative)
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [
-      dejavu_fonts
+      inter                 # SF Pro alternative (system UI font)
+      roboto                # Clean sans-serif
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-color-emoji  # renamed from noto-fonts-emoji
-      jetbrains-mono
+      jetbrains-mono        # Monospace
       fira-code
-      font-awesome      # For i3status icons
+      font-awesome          # For i3status icons
       liberation_ttf
-      ubuntu-classic    # renamed from ubuntu_font_family
+      source-sans           # Adobe Source Sans (clean UI font)
+      source-serif          # Adobe Source Serif
     ];
     fontconfig = {
       defaultFonts = {
-        serif = [ "DejaVu Serif" ];
-        sansSerif = [ "DejaVu Sans" ];
-        monospace = [ "JetBrains Mono" ];
+        serif = [ "Source Serif 4" "Noto Serif" ];
+        sansSerif = [ "Inter" "Roboto" ];
+        monospace = [ "JetBrains Mono" "Fira Code" ];
+      };
+      # Better font rendering (macOS-like)
+      antialias = true;
+      hinting = {
+        enable = true;
+        style = "slight";
+      };
+      subpixel = {
+        rgba = "rgb";
+        lcdfilter = "default";
       };
     };
   };
