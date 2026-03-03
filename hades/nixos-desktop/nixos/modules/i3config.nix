@@ -41,7 +41,7 @@ let
     bindsym $mod+Return exec alacritty
 
     # Kill focused window
-    bindsym $mod+w kill
+    bindsym $mod+q kill
 
     # Application launcher (rofi)
     bindsym $mod+d exec --no-startup-id rofi -show drun

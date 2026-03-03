@@ -52,7 +52,7 @@ Enable/disable features by editing `nixos/modules.nix`:
 |-----|--------|
 | `Mod+Enter` | Open terminal (alacritty) |
 | `Mod+d` | Application launcher (rofi) |
-| `Mod+w` | Close window |
+| `Mod+q` | Close window |
 | `Mod+1-9` | Switch workspace |
 | `Mod+Shift+1-9` | Move window to workspace |
 | `Mod+h/j/k/l` | Focus left/down/up/right |
