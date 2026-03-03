@@ -50,6 +50,9 @@
     
     # Network tools
     networkmanagerapplet  # Network tray icon (if using NetworkManager)
+    
+    # Media
+    stremio               # Media center
   ];
 
   # Enable tmux
