@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"nixos_desktop","Source":"../../terraform-modules/proxmox-vm-qemu","Dir":"../../terraform-modules/proxmox-vm-qemu"}]}
