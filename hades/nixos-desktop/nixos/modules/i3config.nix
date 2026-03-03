@@ -6,7 +6,7 @@ let
     # i3 config file (v4)
     # Vim-style keybindings (hjkl)
 
-    set $mod Mod4
+    set $mod Mod1
 
     # Font
     font pango:Inter 10
@@ -41,7 +41,7 @@ let
     bindsym $mod+Return exec alacritty
 
     # Kill focused window
-    bindsym $mod+w kill
+    bindsym $mod+q kill
 
     # Application launcher (rofi)
     bindsym $mod+d exec --no-startup-id rofi -show drun

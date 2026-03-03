@@ -1,11 +1,57 @@
 # Tools module: Essential desktop tools
 { config, lib, pkgs, ... }:
 
+let
+  alacrittyConfig = ''
+    [window]
+    opacity = 0.95
+    padding = { x = 5, y = 5 }
+
+    [font]
+    size = 11.0
+
+    [font.normal]
+    family = "JetBrains Mono"
+    style = "Regular"
+
+    [font.bold]
+    family = "JetBrains Mono"
+    style = "Bold"
+
+    # Dark theme (One Dark inspired)
+    [colors.primary]
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+
+    [colors.normal]
+    black   = "#45475a"
+    red     = "#f38ba8"
+    green   = "#a6e3a1"
+    yellow  = "#f9e2af"
+    blue    = "#89b4fa"
+    magenta = "#f5c2e7"
+    cyan    = "#94e2d5"
+    white   = "#bac2de"
+
+    [colors.bright]
+    black   = "#585b70"
+    red     = "#f38ba8"
+    green   = "#a6e3a1"
+    yellow  = "#f9e2af"
+    blue    = "#89b4fa"
+    magenta = "#f5c2e7"
+    cyan    = "#94e2d5"
+    white   = "#a6adc8"
+  '';
+in
 {
   environment.systemPackages = with pkgs; [
     # Terminal
     alacritty         # Modern GPU-accelerated terminal
     xterm             # Fallback terminal
+    
+    # Fonts for terminal
+    jetbrains-mono    # JetBrains Mono for alacritty
     
     # Application launchers
     dmenu             # Simple and fast launcher
@@ -51,9 +97,24 @@
     # Network tools
     networkmanagerapplet  # Network tray icon (if using NetworkManager)
     
-    # Media
-    stremio               # Media center
+    # Media - Stremio installed via Flatpak (flatpak install flathub com.stremio.Stremio)
+    # Sunshine also requires insecure qtwebengine - install via Flatpak if needed
   ];
+
+  # Deploy alacritty config
+  system.activationScripts.alacrittyConfig = ''
+    mkdir -p /home/moonblade/.config/alacritty
+    cat > /home/moonblade/.config/alacritty/alacritty.toml << 'EOFALACRITTY'
+${alacrittyConfig}
+EOFALACRITTY
+    chown -R moonblade:users /home/moonblade/.config/alacritty
+  '';
+
+  # Enable Flatpak for sandboxed apps (Stremio)
+  services.flatpak.enable = true;
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  # Add Flathub repo on first boot: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
   # Enable tmux
   programs.tmux.enable = true;
