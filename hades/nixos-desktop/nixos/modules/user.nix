@@ -1,4 +1,6 @@
 # User module: moonblade user configuration
+# NOTE: initialPassword is set here for initial setup.
+# Change password after first login with: passwd
 { config, lib, pkgs, ... }:
 
 {
@@ -17,8 +19,9 @@
       "input"       # input devices
     ];
     
-    # Initial password (can be changed later)
-    initialPassword = "nisham";
+    # Initial password - change after first login!
+    # This is only used for initial cloud-init setup
+    initialPassword = "changeme";
     
     # SSH authorized keys for passwordless SSH
     openssh.authorizedKeys.keys = [

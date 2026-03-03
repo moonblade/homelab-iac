@@ -21,8 +21,7 @@ make tailscale
 
 - **SSH**: `ssh moonblade@192.168.1.199` or `ssh luna`
 - **RDP**: Connect to `192.168.1.199:3389` with any RDP client
-  - Username: `moonblade`
-  - Password: `nisham`
+  - Credentials in `secrets/hades-nixos-desktop.tfvars`
 
 ## VM Specs
 
