@@ -59,7 +59,7 @@
       Mod+1-9       - Switch workspace
       Mod+Shift+e   - Exit i3
     
-    (Mod key = Alt key)
+    (Mod key = Super/Windows key)
 
     OS:      NixOS ${system.nixos.release} (${system.nixos.codeName})
     Version: ${system.nixos.version}
