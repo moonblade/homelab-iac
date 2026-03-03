@@ -26,7 +26,15 @@ resource "truenas_replication" "config_to_secondary" {
   recursive       = true
   auto            = true
 
-  periodic_snapshot_tasks = [truenas_pool_snapshottask.config_daily.id]
+  also_include_naming_schema = ["auto-%Y-%m-%d_%H-%M"]
+
+  schedule = jsonencode({
+    minute = "30"
+    hour   = "2"
+    dom    = "*"
+    month  = "*"
+    dow    = "*"
+  })
 
   retention_policy = "CUSTOM"
   lifetime_value   = 30
