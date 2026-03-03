@@ -179,3 +179,5 @@ Gateway API migration: Updated cloudflared.nix to use default route (192.168.1.2
 - **Mar 3, 2026**
 
 TrueNAS config backup: Added automated backup of primary/root/config dataset to secondary pool. Daily snapshots at 2 AM (14 day retention) with local replication to secondary/config-backup (30 day retention).
+
+NixOS desktop VM (Luna): Created new NixOS desktop VM on Hades for daily use as Windows replacement. Features i3 window manager with xrdp remote access, Firefox + Chrome browsers, Tailscale VPN, PulseAudio. Modular NixOS config in `hades/nixos-desktop/`. VM ID 401, static IP 192.168.1.199, Tailscale at luna.moonblade.work.
