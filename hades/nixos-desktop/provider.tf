@@ -18,5 +18,4 @@ variable "pm_password" {
   description = "Proxmox password"
   type        = string
   sensitive   = true
-  default     = "nisham"
 }
