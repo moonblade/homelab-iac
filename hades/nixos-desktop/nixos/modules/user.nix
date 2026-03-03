@@ -42,6 +42,10 @@
     };
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
+    # Customize prompt to show hostname like: (luna) ➜  ~
+    promptInit = ''
+      PROMPT='(%M) '$PROMPT
+    '';
   };
 
   # MOTD (Message of the Day)

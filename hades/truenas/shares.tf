@@ -31,10 +31,12 @@ resource "truenas_sharing_smb" "config" {
 }
 
 resource "truenas_sharing_nfs" "primary_root" {
-  path    = "/mnt/primary/root"
-  comment = "primaryroot"
-  enabled = true
-  ro      = false
+  path         = "/mnt/primary/root"
+  comment      = "primaryroot"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
 }
 
 resource "truenas_sharing_nfs" "audiobooks" {
