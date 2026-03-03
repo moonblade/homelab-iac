@@ -52,7 +52,7 @@ Enable/disable features by editing `nixos/modules.nix`:
 |-----|--------|
 | `Mod+Enter` | Open terminal (alacritty) |
 | `Mod+d` | Application launcher (rofi) |
-| `Mod+Shift+q` | Close window |
+| `Mod+q` | Close window |
 | `Mod+1-9` | Switch workspace |
 | `Mod+Shift+1-9` | Move window to workspace |
 | `Mod+h/j/k/l` | Focus left/down/up/right |
@@ -63,7 +63,19 @@ Enable/disable features by editing `nixos/modules.nix`:
 | `Mod+Shift+e` | Exit i3 |
 | `Mod+Shift+r` | Restart i3 |
 
-**Mod = Super/Windows key**
+**Mod = Alt key**
+
+## Flatpak Apps
+
+Stremio and other apps requiring insecure dependencies are installed via Flatpak:
+
+```bash
+# Stremio (already installed)
+flatpak run com.stremio.Stremio
+
+# Install new Flatpak apps
+flatpak install flathub <app-id>
+```
 
 ## Rebuilding
 

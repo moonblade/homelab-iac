@@ -6,8 +6,6 @@
   ];
 
   config = {
-    nixpkgs.config.allowUnfree = true;
-
     # Hostname
     networking.hostName = "luna";
 
@@ -29,6 +27,35 @@
       autoResize = true;
       fsType = "ext4";
     };
+
+    # NFS mount to TrueNAS primary drive
+    fileSystems."/mnt/nas" = {
+      device = "192.168.1.10:/mnt/primary/root";
+      fsType = "nfs";
+      options = [
+        # NFS version
+        "nfsvers=4.2"
+        # Performance
+        "rw"
+        "rsize=131072"
+        "wsize=131072"
+        "noatime"
+        # Reliability - soft mount returns errors instead of hanging
+        "soft"
+        "timeo=50"
+        # Systemd automount - mounts on first access, not at boot
+        "x-systemd.automount"
+        "noauto"
+        "nofail"
+        "x-systemd.after=network-online.target"
+        "x-systemd.mount-timeout=30"
+        "x-systemd.idle-timeout=600"
+      ];
+    };
+
+    # NFS support
+    boot.supportedFilesystems = [ "nfs" "ext4" ];
+    services.rpcbind.enable = true;
 
     # Timezone
     time.timeZone = "Asia/Kolkata";
@@ -78,6 +105,7 @@
       htop
       unzip
       zip
+      nfs-utils
     ];
 
     # System version
