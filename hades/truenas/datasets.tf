@@ -1,0 +1,50 @@
+resource "truenas_pool_dataset" "apps_filebrowser" {
+  name        = "apps/filebrowser"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "DISCARD"
+  acltype     = "POSIX"
+}
+
+resource "truenas_pool_dataset" "primary_root" {
+  name        = "primary/root"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
+resource "truenas_pool_dataset" "primary_root_audiobooks" {
+  name        = "primary/root/audiobooks"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root]
+}
+
+resource "truenas_pool_dataset" "primary_root_config" {
+  name        = "primary/root/config"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root]
+}
+
+resource "truenas_pool_dataset" "primary_root_downloads" {
+  name        = "primary/root/downloads"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root]
+}
