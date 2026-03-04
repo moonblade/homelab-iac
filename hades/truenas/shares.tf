@@ -40,25 +40,25 @@ resource "truenas_sharing_nfs" "primary_root" {
 }
 
 resource "truenas_sharing_nfs" "audiobooks" {
-  path          = "/mnt/primary/root/audiobooks"
-  enabled       = true
-  ro            = false
-  maproot_user  = "root"
-  maproot_group = "root"
+  path         = "/mnt/primary/root/audiobooks"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
 }
 
 resource "truenas_sharing_nfs" "downloads" {
-  path          = "/mnt/primary/root/downloads"
-  enabled       = true
-  ro            = false
-  maproot_user  = "root"
-  maproot_group = "root"
+  path         = "/mnt/primary/root/downloads"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
 }
 
 resource "truenas_sharing_nfs" "config" {
-  path          = "/mnt/primary/root/config"
-  enabled       = true
-  ro            = false
-  maproot_user  = "root"
-  maproot_group = "root"
+  path         = "/mnt/primary/root/config"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
 }
