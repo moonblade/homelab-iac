@@ -40,9 +40,18 @@ resource "truenas_service_started" "ssh" {
   service = "ssh"
 }
 
+# Fix root folder permissions for NFS and rsync access
+resource "truenas_filesystem_setperm" "root_perms" {
+  path             = "/mnt/primary/root"
+  mode             = "755"
+  options_stripacl = true
+}
+
 # Fix config folder permissions for NFS access
 resource "truenas_filesystem_setperm" "config_perms" {
   path             = "/mnt/primary/root/config"
   mode             = "755"
   options_stripacl = true
+
+  depends_on = [truenas_filesystem_setperm.root_perms]
 }
