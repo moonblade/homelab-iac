@@ -213,23 +213,27 @@ let
     pseudo-transparency = true
   '';
 
+  polybarPkg = pkgs.polybar.override {
+    i3Support = true;
+  };
+
   polybarLaunchScript = pkgs.writeShellScriptBin "polybar-launch" ''
     # Terminate already running bar instances
-    ${pkgs.polybar}/bin/polybar-msg cmd quit 2>/dev/null || true
+    ${polybarPkg}/bin/polybar-msg cmd quit 2>/dev/null || true
 
     # Wait until the processes have been shut down
     while ${pkgs.procps}/bin/pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
     # Launch polybar
-    ${pkgs.polybar}/bin/polybar main 2>&1 | ${pkgs.coreutils}/bin/tee -a /tmp/polybar.log &
+    ${polybarPkg}/bin/polybar main 2>&1 | ${pkgs.coreutils}/bin/tee -a /tmp/polybar.log &
 
     echo "Polybar launched..."
   '';
 
 in
 {
-  environment.systemPackages = with pkgs; [
-    polybar
+  environment.systemPackages = [
+    polybarPkg
     polybarLaunchScript
   ];
 
