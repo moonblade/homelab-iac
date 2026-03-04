@@ -30,3 +30,19 @@ locals {
     }
   }
 }
+
+# Enable SSH service for remote management
+resource "truenas_ssh_config" "ssh" {
+  passwordauth = true
+}
+
+resource "truenas_service_started" "ssh" {
+  service = "ssh"
+}
+
+# Fix config folder permissions for NFS access
+resource "truenas_filesystem_setperm" "config_perms" {
+  path             = "/mnt/primary/root/config"
+  mode             = "755"
+  options_stripacl = true
+}
