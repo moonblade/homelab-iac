@@ -23,15 +23,14 @@ let
     # Screen lock
     exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
-    # NetworkManager applet
-    exec --no-startup-id nm-applet
+    # Launch polybar
+    exec_always --no-startup-id polybar-launch
 
     # Volume controls
-    set $refresh_i3status killall -SIGUSR1 i3status
-    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-    bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
+    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
+    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+    bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
     # Mouse+$mod to drag floating windows
     floating_modifier $mod
@@ -154,13 +153,6 @@ let
     }
 
     bindsym $mod+r mode "resize"
-
-    # Status bar
-    bar {
-        status_command i3status
-        font pango:Inter, Font Awesome 6 Free 10
-        position bottom
-    }
 
     # Gaps (optional, for aesthetics)
     gaps inner 5

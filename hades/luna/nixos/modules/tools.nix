@@ -94,9 +94,6 @@ in
     bat               # Cat with syntax highlighting
     jq                # JSON processor
     
-    # Network tools
-    networkmanagerapplet  # Network tray icon (if using NetworkManager)
-    
     # Media - Stremio installed via Flatpak (flatpak install flathub com.stremio.Stremio)
     # Sunshine also requires insecure qtwebengine - install via Flatpak if needed
   ];
