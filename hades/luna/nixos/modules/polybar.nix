@@ -95,25 +95,48 @@ let
 
     [module/i3]
     type = internal/i3
-    pin-workspaces = true
+    pin-workspaces = false
     show-urgent = true
     strip-wsnumbers = true
     index-sort = true
+    enable-click = true
+    enable-scroll = true
+    wrapping-scroll = false
 
-    label-focused = %index%
+    ; Show all 10 workspaces, format: [current/total] 1 2 3 ...
+    format = <label-state> <label-mode>
+
+    ; Focused workspace (current)
+    label-focused =  %index%
     label-focused-background = ''${colors.background-alt}
-    label-focused-underline= ''${colors.primary}
+    label-focused-foreground = ''${colors.primary}
+    label-focused-underline = ''${colors.primary}
     label-focused-padding = 2
 
+    ; Unfocused but has windows
     label-unfocused = %index%
+    label-unfocused-foreground = ''${colors.foreground}
     label-unfocused-padding = 2
 
+    ; Visible on other monitor (not applicable for single monitor)
     label-visible = %index%
+    label-visible-background = ''${colors.background-alt}
     label-visible-padding = 2
 
-    label-urgent = %index%
+    ; Urgent workspace
+    label-urgent =  %index%
     label-urgent-background = ''${colors.alert}
     label-urgent-padding = 2
+
+    ; Empty workspaces (no windows)
+    label-empty = %index%
+    label-empty-foreground = ''${colors.disabled}
+    label-empty-padding = 2
+
+    ; Mode indicator (resize, etc)
+    label-mode = %mode%
+    label-mode-background = ''${colors.alert}
+    label-mode-padding = 2
 
     [module/ipv6]
     type = internal/network
@@ -129,14 +152,14 @@ let
     [module/eth]
     type = internal/network
     interface = ens18
-    interval = 5
+    interval = 1
 
-    format-connected-prefix = " "
-    format-connected-prefix-foreground = ''${colors.green}
-    label-connected = %local_ip%
+    format-connected = <label-connected>
+    label-connected = ETH %local_ip%  %downspeed%  %upspeed%
+    label-connected-foreground = ''${colors.green}
 
     format-disconnected = <label-disconnected>
-    label-disconnected =  disconnected
+    label-disconnected = ETH disconnected
     label-disconnected-foreground = ''${colors.disabled}
 
     [module/filesystem]
@@ -145,7 +168,7 @@ let
 
     mount-0 = /
 
-    label-mounted =  %percentage_used%%
+    label-mounted = DISK %percentage_used%%
     label-mounted-foreground = ''${colors.yellow}
 
     label-unmounted = %mountpoint% not mounted
@@ -154,16 +177,18 @@ let
     [module/cpu]
     type = internal/cpu
     interval = 2
-    format-prefix = " "
+    format-prefix = "CPU "
     format-prefix-foreground = ''${colors.primary}
     label = %percentage:2%%
+    label-foreground = ''${colors.primary}
 
     [module/memory]
     type = internal/memory
     interval = 2
-    format-prefix = " "
+    format-prefix = "RAM "
     format-prefix-foreground = ''${colors.pink}
     label = %percentage_used:2%%
+    label-foreground = ''${colors.pink}
 
     [module/date]
     type = internal/date
