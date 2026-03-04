@@ -1,4 +1,4 @@
-VAR_FILE = -var-file=../../secrets/hades-nixos-desktop.tfvars
+VAR_FILE = -var-file=../../secrets/hades-luna.tfvars
 
 init:
 	terraform init

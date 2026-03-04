@@ -23,15 +23,27 @@ let
     # Screen lock
     exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
-    # NetworkManager applet
-    exec --no-startup-id nm-applet
+    # i3bar with i3status-rust
+    bar {
+        position bottom
+        status_command i3status-rs-wrapper
+        font pango:Inter, Font Awesome 6 Free 10
+        colors {
+            background #1e1e2e
+            statusline #cdd6f4
+            separator #6c7086
+            focused_workspace #313244 #313244 #cdd6f4
+            active_workspace #313244 #1e1e2e #cdd6f4
+            inactive_workspace #1e1e2e #1e1e2e #6c7086
+            urgent_workspace #f38ba8 #f38ba8 #1e1e2e
+        }
+    }
 
     # Volume controls
-    set $refresh_i3status killall -SIGUSR1 i3status
-    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-    bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
+    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
+    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+    bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
     # Mouse+$mod to drag floating windows
     floating_modifier $mod
@@ -155,20 +167,13 @@ let
 
     bindsym $mod+r mode "resize"
 
-    # Status bar
-    bar {
-        status_command i3status
-        font pango:Inter, Font Awesome 6 Free 10
-        position bottom
-    }
-
     # Gaps (optional, for aesthetics)
     gaps inner 5
     gaps outer 2
 
     # Window borders
-    default_border pixel 2
-    default_floating_border pixel 2
+    default_border none
+    default_floating_border pixel 1
 
     # Colors (subtle, macOS-ish)
     client.focused          #4c7899 #285577 #ffffff #2e9ef4 #285577
