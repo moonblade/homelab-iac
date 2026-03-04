@@ -24,7 +24,7 @@ resource "truenas_rsynctask" "config_to_sirius" {
   path            = "/mnt/primary/root/config"
   user            = "truenas_admin"
   mode            = "SSH"
-  remotepath      = "/mnt/secondary/config-backup"
+  remotepath      = "/home/operator/config-backup"
   ssh_credentials = tonumber(truenas_keychaincredential.sirius_ssh_connection.id)
   direction       = "PUSH"
   desc            = "Sync config to sirius backup (every 4 hours)"
