@@ -21,7 +21,7 @@ make tailscale
 
 - **SSH**: `ssh moonblade@192.168.1.199` or `ssh luna`
 - **RDP**: Connect to `192.168.1.199:3389` with any RDP client
-  - Credentials in `secrets/hades-nixos-desktop.tfvars`
+  - Credentials in `secrets/hades-luna.tfvars`
 
 ## VM Specs
 
@@ -38,6 +38,8 @@ Enable/disable features by editing `nixos/modules.nix`:
 | Module | Description |
 |--------|-------------|
 | `desktop.nix` | X11 + i3 window manager |
+| `i3config.nix` | i3 config with vim-style keybindings |
+| `polybar.nix` | Modern status bar (Catppuccin theme) |
 | `xrdp.nix` | Remote desktop access |
 | `audio.nix` | PulseAudio (xrdp audio) |
 | `networking.nix` | Static IP config |
