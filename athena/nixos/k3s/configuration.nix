@@ -35,11 +35,11 @@
     #   options = [ "nofail" "x-systemd.device-timeout=10" ];
     # };
 
-    fileSystems."/mnt/secondary" = {
-      device = "UUID=d7604944-98cb-4baa-b616-089b1a27ce3e";
-      fsType = "ext4";
-      options = [ "nofail" "x-systemd.device-timeout=10" ];
-    };
+    # fileSystems."/mnt/secondary" = {
+    #   device = "UUID=d7604944-98cb-4baa-b616-089b1a27ce3e";
+    #   fsType = "ext4";
+    #   options = [ "nofail" "x-systemd.device-timeout=10" ];
+    # };
 
     fileSystems."/mnt/elements" = {
       device = "UUID=337704f0-9587-44df-adb2-a61ba263d75c";
