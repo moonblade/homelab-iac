@@ -181,3 +181,7 @@ Gateway API migration: Updated cloudflared.nix to use default route (192.168.1.2
 TrueNAS config backup: Added automated backup of primary/root/config dataset to secondary pool. Daily snapshots at 2 AM (14 day retention) with local replication to secondary/config-backup (30 day retention).
 
 NixOS desktop VM (Luna): Created new NixOS desktop VM on Hades for daily use as Windows replacement. Features i3 window manager with xrdp remote access, Firefox + Chrome browsers, Tailscale VPN, PulseAudio. Modular NixOS config in `hades/luna/`. VM ID 401, static IP 192.168.1.199, Tailscale at luna.moonblade.work.
+
+- **Mar 8, 2026**
+
+NixOS dev VM (Ares): Created lightweight NixOS VM on Hades for opencode/openclaw development. SSH-focused - no xrdp, audio, or browsers. Features i3 window manager, Tailscale VPN, NFS mount to TrueNAS, dev tools (Node.js, Python, Rust, Go). VM ID 402, 4GB RAM, 2 cores, static IP 192.168.1.197. Config in `hades/ares/`.
