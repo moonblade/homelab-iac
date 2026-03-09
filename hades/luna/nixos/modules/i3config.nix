@@ -45,6 +45,13 @@ let
     bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
     bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
+    # Media controls (playerctl for MPRIS apps: Stremio, Chrome, Firefox, etc.)
+    bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+    bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
+    bindsym XF86AudioNext exec --no-startup-id playerctl next
+    bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+    bindsym XF86AudioStop exec --no-startup-id playerctl stop
+
     # Mouse+$mod to drag floating windows
     floating_modifier $mod
     tiling_drag modifier titlebar

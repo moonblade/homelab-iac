@@ -79,6 +79,48 @@ flatpak run com.stremio.Stremio
 flatpak install flathub <app-id>
 ```
 
+## Media Key Forwarding (Mac → Luna)
+
+Forward play/pause, next, previous from Mac to Luna even when RDP isn't focused.
+Works with keyboard media keys, headset buttons, and AirPods ear detection.
+
+### Mac Setup (one-time)
+
+```bash
+# Install skhd
+brew install koekeishiya/formulae/skhd
+
+# Start service
+skhd --start-service
+
+# Grant Accessibility permissions when prompted
+# System Preferences → Privacy & Security → Accessibility → Add skhd
+```
+
+Config is at `~/.config/skhd/skhdrc` - forwards media keys to Luna via SSH + playerctl.
+
+### Requirements
+
+- SSH key auth to Luna (`ssh luna` must work without password)
+- Luna must have playerctl installed (included in tools.nix)
+- skhd needs Accessibility permissions on Mac
+
+### Troubleshooting
+
+```bash
+# Check skhd is capturing keys
+skhd --observe
+
+# Check logs
+cat /tmp/skhd_$USER.err.log
+
+# Restart skhd after config changes
+skhd --restart-service
+
+# Test playerctl on Luna
+ssh luna "DISPLAY=:0 playerctl status"
+```
+
 ## Rebuilding
 
 After changing NixOS config:
