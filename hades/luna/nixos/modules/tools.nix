@@ -94,6 +94,10 @@ in
     bat               # Cat with syntax highlighting
     jq                # JSON processor
     
+    # Media control
+    playerctl         # MPRIS media player controller (controls Chrome, Firefox, etc.)
+    xdotool           # X11 automation - send keystrokes to apps (for Stremio which lacks MPRIS)
+    
     # Media - Stremio installed via Flatpak (flatpak install flathub com.stremio.Stremio)
     # Sunshine also requires insecure qtwebengine - install via Flatpak if needed
   ];
