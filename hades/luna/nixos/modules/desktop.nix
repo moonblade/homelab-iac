@@ -2,9 +2,34 @@
 { config, lib, pkgs, ... }:
 
 {
+  # macOS-style cursor theme
+  environment.sessionVariables = {
+    XCURSOR_THEME = "macOS";
+    XCURSOR_SIZE = "24";
+  };
   # Enable X11
   services.xserver = {
     enable = true;
+    
+    # Virtual display resolution for headless streaming
+    # Required for Sunshine/Moonlight - xrdp negotiates dynamically but Sunshine captures existing display
+    # 1680x1050 chosen for comfortable scaling on MacBook displays
+    xrandrHeads = [
+      {
+        output = "Virtual-1";
+        primary = true;
+        monitorConfig = ''
+          Option "PreferredMode" "1680x1050"
+        '';
+      }
+    ];
+    
+    # Fallback resolution if virtual display not detected
+    resolutions = [
+      { x = 1680; y = 1050; }
+      { x = 1920; y = 1080; }
+      { x = 1440; y = 900; }
+    ];
     
     # Display manager - LightDM for graphical login
     displayManager.lightdm = {
@@ -12,6 +37,11 @@
       greeters.slick = {
         enable = true;
         theme.name = "Adwaita-dark";
+        cursorTheme = {
+          name = "macOS";
+          package = pkgs.apple-cursor;
+          size = 24;
+        };
       };
     };
     
@@ -34,8 +64,21 @@
     };
   };
 
-  # Default session (moved to top-level in newer NixOS)
-  services.displayManager.defaultSession = "none+i3";
+  # Display manager settings (top-level in newer NixOS)
+  services.displayManager = {
+    defaultSession = "none+i3";
+    
+    # Auto-login for Sunshine streaming (no login screen)
+    autoLogin = {
+      enable = true;
+      user = "moonblade";
+    };
+  };
+
+  # Set cursor on X session start
+  services.xserver.displayManager.sessionCommands = ''
+    ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
+  '';
 
   # Essential X11 packages (xorg.* renamed to top-level)
   environment.systemPackages = with pkgs; [
@@ -47,7 +90,21 @@
     picom             # Compositor for transparency/shadows
     nitrogen          # Wallpaper setter (alternative to feh)
     lxappearance      # GTK theme configuration
+    apple-cursor      # macOS-style cursor theme
   ];
+
+  # GTK cursor theme configuration
+  environment.etc = {
+    "gtk-2.0/gtkrc".text = ''
+      gtk-cursor-theme-name="macOS"
+      gtk-cursor-theme-size=24
+    '';
+    "gtk-3.0/settings.ini".text = ''
+      [Settings]
+      gtk-cursor-theme-name=macOS
+      gtk-cursor-theme-size=24
+    '';
+  };
 
   # Fonts - macOS-like defaults (Inter = open-source SF Pro alternative)
   fonts = {

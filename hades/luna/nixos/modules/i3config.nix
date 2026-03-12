@@ -17,6 +17,10 @@ let
     set $up k
     set $right l
 
+    # Set display resolution for virtual display (Sunshine/Moonlight streaming)
+    # Must run before other startup items to ensure correct resolution
+    exec --no-startup-id xrandr --output Virtual-1 --mode 1680x1050 --rate 60 || xrandr -s 1680x1050
+
     # Start XDG autostart
     exec --no-startup-id dex --autostart --environment i3
 
