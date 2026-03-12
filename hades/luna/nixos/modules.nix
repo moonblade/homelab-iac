@@ -11,6 +11,7 @@
     ./modules/i3config.nix     # i3 config with vim-style keybindings
     ./modules/i3status-rust.nix # Status bar (native i3bar integration)
     ./modules/xrdp.nix         # Remote desktop access
+    ./modules/sunshine.nix     # Game streaming (Moonlight)
     ./modules/audio.nix        # PulseAudio (required for xrdp audio)
     
     # Networking
