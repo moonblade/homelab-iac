@@ -94,6 +94,13 @@ in
     bat               # Cat with syntax highlighting
     jq                # JSON processor
     
+    # AI coding assistant
+    opencode          # Terminal-based AI coding agent
+    bun               # JavaScript runtime for oh-my-opencode (run: bunx oh-my-opencode install)
+    
+    # Build tools
+    gnumake           # GNU Make
+    
     # Media control
     playerctl         # MPRIS media player controller (controls Chrome, Firefox, etc.)
     xdotool           # X11 automation - send keystrokes to apps (for Stremio which lacks MPRIS)

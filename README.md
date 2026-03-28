@@ -191,3 +191,11 @@ Removed Ares VM - no longer needed.
 - **Mar 12, 2026**
 
 Luna: Added Sunshine game streaming server for Moonlight client support. Enables low-latency game streaming from Luna to any Moonlight-compatible device.
+
+- **Mar 26, 2026**
+
+IaC sync with reality: Moved Sirius (k3s) terraform config from athena/ to hades/sirius/ to reflect actual VM location (VMID 301 on Hades). Updated disk size to 150G. Added sockets variable to proxmox-vm-qemu module. Fixed Luna config to match reality (8GB RAM, 2 sockets) and increased CPU from 4 to 6 cores (12 vCPU total) to address CPU throttling issues.
+
+- **Mar 28, 2026**
+
+Luna migration to Athena: Moved Luna VM from Hades to Athena to resolve memory balloon issues causing system freezes during Moonlight streaming. Removed unused ubuntu and nixos-base VMs from Athena to free resources. Luna now has dedicated 8GB RAM (balloon disabled), 6 vCPUs (reduced from 12 due to Athena's 6-core limit). Added OpenCode and Oh My OpenCode to Luna's NixOS config for AI-assisted development.

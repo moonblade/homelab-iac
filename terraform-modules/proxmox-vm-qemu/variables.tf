@@ -20,7 +20,7 @@ variable "cores" {
 }
 
 variable "password" {
-  type = string
+  type    = string
   default = "password"
 }
 
@@ -77,4 +77,10 @@ variable "tags" {
   description = "Comma separated tags for the VM"
   type        = string
   default     = "moonblade"
+}
+
+variable "sockets" {
+  description = "Number of CPU sockets"
+  type        = number
+  default     = 1
 }
