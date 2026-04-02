@@ -92,3 +92,41 @@ resource "truenas_pool_dataset" "secondary_authentik_backup" {
   aclmode     = "PASSTHROUGH"
   acltype     = "NFSV4"
 }
+
+# USB SSD datasets (media/downloads - fast scratch storage)
+resource "truenas_pool_dataset" "usb_ssd_media" {
+  name        = "usb-ssd/media"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
+resource "truenas_pool_dataset" "usb_ssd_downloads" {
+  name        = "usb-ssd/downloads"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
+# USB HDD datasets (media/downloads - bulk storage)
+resource "truenas_pool_dataset" "usb_hdd_media" {
+  name        = "usb-hdd/media"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
+resource "truenas_pool_dataset" "usb_hdd_downloads" {
+  name        = "usb-hdd/downloads"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
