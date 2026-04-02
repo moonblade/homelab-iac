@@ -6,27 +6,41 @@
 # Pools are created manually via TrueNAS UI (cannot be managed by Terraform).
 #
 # Storage Layout:
-# - primary (10TB) - Main storage pool (sdc)
-# - secondary (2TB) - Secondary storage pool (sdd)  
-# - apps (100GB) - Application data pool (sda)
+# - primary (10TB) - Main storage pool (sata)
+# - secondary (2TB) - Secondary storage pool (sata)  
+# - apps (100GB) - Application data pool (local-lvm)
+# - usb-ssd (931GB) - USB SanDisk Extreme SSD (media/downloads)
+# - usb-hdd (931GB) - USB 1TB HDD (media/downloads)
 
 locals {
   # Pool information (for reference - pools managed via TrueNAS UI)
   pools = {
     primary = {
       size_tb = 10
-      disk    = "sdc"
+      disk    = "sata"
       path    = "/mnt/primary"
     }
     secondary = {
       size_tb = 2
-      disk    = "sdd"
+      disk    = "sata"
       path    = "/mnt/secondary"
     }
     apps = {
       size_gb = 100
-      disk    = "sda"
+      disk    = "local-lvm"
       path    = "/mnt/apps"
+    }
+    usb-ssd = {
+      size_gb = 931
+      disk    = "usb"
+      path    = "/mnt/usb-ssd"
+      note    = "SanDisk Extreme SSD via USB passthrough"
+    }
+    usb-hdd = {
+      size_gb = 931
+      disk    = "usb"
+      path    = "/mnt/usb-hdd"
+      note    = "1TB HDD via USB passthrough"
     }
   }
 }

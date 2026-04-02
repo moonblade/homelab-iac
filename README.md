@@ -199,3 +199,7 @@ IaC sync with reality: Moved Sirius (k3s) terraform config from athena/ to hades
 - **Mar 28, 2026**
 
 Luna migration to Athena: Moved Luna VM from Hades to Athena to resolve memory balloon issues causing system freezes during Moonlight streaming. Removed unused ubuntu and nixos-base VMs from Athena to free resources. Luna now has dedicated 8GB RAM (balloon disabled), 6 vCPUs (reduced from 12 due to Athena's 6-core limit). Added OpenCode and Oh My OpenCode to Luna's NixOS config for AI-assisted development.
+
+- **Apr 2, 2026**
+
+USB storage expansion: Added two USB drives to TrueNAS via SCSI passthrough from Hades. Created usb-ssd pool (931GB SanDisk Extreme SSD) and usb-hdd pool (931GB 1TB HDD). Each pool has media and downloads datasets with NFS shares for k3s access. Updated Terraform config to document new storage layout.
