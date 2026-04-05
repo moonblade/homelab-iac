@@ -73,6 +73,16 @@ resource "truenas_sharing_nfs" "storage" {
   depends_on = [truenas_pool_dataset.primary_root_storage]
 }
 
+resource "truenas_sharing_nfs" "storage_kestra" {
+  path         = "/mnt/primary/root/storage/kestra"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage_kestra]
+}
+
 resource "truenas_sharing_nfs" "storage_authentik" {
   path         = "/mnt/primary/root/storage/authentik"
   enabled      = true
