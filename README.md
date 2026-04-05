@@ -203,3 +203,7 @@ Luna migration to Athena: Moved Luna VM from Hades to Athena to resolve memory b
 - **Apr 2, 2026**
 
 USB storage expansion: Added two USB drives to TrueNAS via SCSI passthrough from Hades. Created usb-ssd pool (931GB SanDisk Extreme SSD) and usb-hdd pool (931GB 1TB HDD). Each pool has media and downloads datasets with NFS shares for k3s access. Updated Terraform config to document new storage layout.
+
+- **Apr 5, 2026**
+
+TrueNAS: Added Kestra storage dataset (primary/root/storage/kestra) with NFS share, daily snapshots at 4 AM, and replication to secondary/kestra-backup.

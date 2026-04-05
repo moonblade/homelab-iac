@@ -73,6 +73,28 @@ resource "truenas_pool_dataset" "primary_root_storage_authentik" {
   depends_on = [truenas_pool_dataset.primary_root_storage]
 }
 
+# Kestra data (nested under storage, similar to authentik)
+resource "truenas_pool_dataset" "primary_root_storage_kestra" {
+  name        = "primary/root/storage/kestra"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage]
+}
+
+# Backup dataset on secondary pool for kestra replication
+resource "truenas_pool_dataset" "secondary_kestra_backup" {
+  name        = "secondary/kestra-backup"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
 # Backup dataset on secondary pool for config replication
 resource "truenas_pool_dataset" "secondary_config_backup" {
   name        = "secondary/config-backup"
