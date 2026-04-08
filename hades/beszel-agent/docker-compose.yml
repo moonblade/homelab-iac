@@ -1,9 +1,16 @@
 services:
   beszel-agent:
-    image: henrygd/beszel-agent:0.18.7
+    image: henrygd/beszel-agent:alpine
     container_name: beszel-agent
     restart: unless-stopped
     network_mode: host
+    cap_add:
+      - SYS_RAWIO
+      - SYS_ADMIN
+    devices:
+      - /dev/sda:/dev/sda
+      - /dev/sdb:/dev/sdb
+      - /dev/nvme0:/dev/nvme0
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
