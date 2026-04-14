@@ -207,3 +207,7 @@ USB storage expansion: Added two USB drives to TrueNAS via SCSI passthrough from
 - **Apr 5, 2026**
 
 TrueNAS: Added Kestra storage dataset (primary/root/storage/kestra) with NFS share, daily snapshots at 4 AM, and replication to secondary/kestra-backup.
+
+- **Apr 14, 2026**
+
+Tailscale subnet routing for Sirius: Added `tailscale-sirius` make target to advertise 192.168.1.0/24 subnet from Sirius (nixos-2). This allows accessing internal *.sirius.moonblade.work URLs via Tailscale when outside the LAN. Run `make tailscale-sirius` and approve the subnet in Tailscale admin console.
