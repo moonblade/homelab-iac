@@ -54,6 +54,14 @@ resource "truenas_service_started" "ssh" {
   service = "ssh"
 }
 
+# Root user with SSH key for remote access
+# Import with: terraform import truenas_user.root 1
+resource "truenas_user" "root" {
+  username  = "root"
+  full_name = "root"
+  sshpubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"
+}
+
 # Fix root folder permissions for NFS and rsync access
 resource "truenas_filesystem_setperm" "root_perms" {
   path             = "/mnt/primary/root"
