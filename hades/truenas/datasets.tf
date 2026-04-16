@@ -85,6 +85,18 @@ resource "truenas_pool_dataset" "primary_root_storage_kestra" {
   depends_on = [truenas_pool_dataset.primary_root_storage]
 }
 
+# Ollama model storage (nested under storage, similar to authentik/kestra)
+resource "truenas_pool_dataset" "primary_root_storage_ollama" {
+  name        = "primary/root/storage/ollama"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage]
+}
+
 # Backup dataset on secondary pool for kestra replication
 resource "truenas_pool_dataset" "secondary_kestra_backup" {
   name        = "secondary/kestra-backup"

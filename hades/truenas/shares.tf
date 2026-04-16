@@ -93,6 +93,16 @@ resource "truenas_sharing_nfs" "storage_authentik" {
   depends_on = [truenas_pool_dataset.primary_root_storage_authentik]
 }
 
+resource "truenas_sharing_nfs" "storage_ollama" {
+  path         = "/mnt/primary/root/storage/ollama"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage_ollama]
+}
+
 resource "truenas_sharing_nfs" "usb_ssd_media" {
   path         = "/mnt/usb-ssd/media"
   comment      = "usb-ssd-media"
