@@ -11,7 +11,7 @@ module "nixos_desktop" {
   clone       = "nixos-base"
   cores       = 6
   sockets     = 1
-  memory      = 14336
+  memory      = 6144
   balloon     = 0
   desc        = "NixOS Desktop VM with i3, Sunshine streaming, and OpenCode"
   sshkeys     = local.ssh_pubkey
