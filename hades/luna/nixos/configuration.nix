@@ -1,5 +1,8 @@
 { config, pkgs, modulesPath, lib, ... }:
 
+let
+  vars = import ./variables.nix;
+in
 {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
@@ -84,7 +87,7 @@
 
     # Root user SSH keys
     users.users.root.openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"
+      vars.sshPubKey
     ];
     users.users.root.initialPassword = "nisham";
 

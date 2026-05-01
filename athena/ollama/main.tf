@@ -1,3 +1,7 @@
+locals {
+  ssh_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"
+}
+
 module "ollama_lxc" {
   source = "../../terraform-modules/proxmox-lxc"
 
@@ -12,7 +16,7 @@ module "ollama_lxc" {
   rootfs_size  = "30G"
   ipv4_addr    = "192.168.1.198/24"
   ipv4_gw      = "192.168.1.1"
-  sshkeys      = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"
+  sshkeys      = local.ssh_pubkey
   tags         = "ollama;lxc"
 }
 
