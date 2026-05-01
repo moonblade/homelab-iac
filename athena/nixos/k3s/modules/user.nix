@@ -1,11 +1,16 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }:
+
+let
+  vars = import ../variables.nix;
+in
+{
 
   users.extraUsers.operator = {
     isNormalUser = true;
     home = "/root";
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"
+      vars.sshPubKey
     ];
   };
 
