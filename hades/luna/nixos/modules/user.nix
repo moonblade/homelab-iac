@@ -3,6 +3,9 @@
 # Change password after first login with: passwd
 { config, lib, pkgs, ... }:
 
+let
+  vars = import ../variables.nix;
+in
 {
   # Create moonblade user
   users.users.moonblade = {
@@ -25,7 +28,7 @@
     
     # SSH authorized keys for passwordless SSH
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"
+      vars.sshPubKey
     ];
     
     # Default shell

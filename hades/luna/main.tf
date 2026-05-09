@@ -1,14 +1,20 @@
+locals {
+  ssh_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"
+}
+
 module "nixos_desktop" {
   source = "../../terraform-modules/proxmox-vm-qemu"
 
   vmid        = 401
-  target_node = "hades"
+  target_node = "athena"
   name        = "luna"
   clone       = "nixos-base"
-  cores       = 4
-  memory      = 16384
-  desc        = "NixOS Desktop VM with i3 window manager"
-  sshkeys     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"
+  cores       = 6
+  sockets     = 1
+  memory      = 6144
+  balloon     = 0
+  desc        = "NixOS Desktop VM with i3, Sunshine streaming, and OpenCode"
+  sshkeys     = local.ssh_pubkey
   ipv4_addr   = "192.168.1.199/24"
   ipv4_gw     = "192.168.1.1"
   disk_size   = "100G"

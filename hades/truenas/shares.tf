@@ -73,6 +73,16 @@ resource "truenas_sharing_nfs" "storage" {
   depends_on = [truenas_pool_dataset.primary_root_storage]
 }
 
+resource "truenas_sharing_nfs" "storage_kestra" {
+  path         = "/mnt/primary/root/storage/kestra"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage_kestra]
+}
+
 resource "truenas_sharing_nfs" "storage_authentik" {
   path         = "/mnt/primary/root/storage/authentik"
   enabled      = true
@@ -83,6 +93,16 @@ resource "truenas_sharing_nfs" "storage_authentik" {
   depends_on = [truenas_pool_dataset.primary_root_storage_authentik]
 }
 
+resource "truenas_sharing_nfs" "storage_ollama" {
+  path         = "/mnt/primary/root/storage/ollama"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage_ollama]
+}
+
 resource "truenas_sharing_nfs" "storage_firefly" {
   path         = "/mnt/primary/root/storage/firefly"
   enabled      = true
@@ -91,4 +111,48 @@ resource "truenas_sharing_nfs" "storage_firefly" {
   mapall_group = "root"
 
   depends_on = [truenas_pool_dataset.primary_root_storage_firefly]
+}
+
+resource "truenas_sharing_nfs" "usb_ssd_media" {
+  path         = "/mnt/usb-ssd/media"
+  comment      = "usb-ssd-media"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.usb_ssd_media]
+}
+
+resource "truenas_sharing_nfs" "usb_ssd_downloads" {
+  path         = "/mnt/usb-ssd/downloads"
+  comment      = "usb-ssd-downloads"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.usb_ssd_downloads]
+}
+
+resource "truenas_sharing_nfs" "usb_hdd_media" {
+  path         = "/mnt/usb-hdd/media"
+  comment      = "usb-hdd-media"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.usb_hdd_media]
+}
+
+resource "truenas_sharing_nfs" "usb_hdd_downloads" {
+  path         = "/mnt/usb-hdd/downloads"
+  comment      = "usb-hdd-downloads"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.usb_hdd_downloads]
 }

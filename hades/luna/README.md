@@ -1,35 +1,35 @@
 # Luna - NixOS Desktop VM
 
-NixOS desktop VM running on Hades Proxmox with i3 window manager and xrdp remote access.
+NixOS desktop VM running on **Athena** Proxmox with i3 window manager, Sunshine game streaming, and OpenCode AI coding assistant.
 
 ## Quick Start
 
 ```bash
-# Provision VM
-make init
-make plan
-make apply
-
-# After VM boots, deploy NixOS config
+# Deploy NixOS config changes
 make deploy
 
 # Authenticate Tailscale (first time only)
 make tailscale
+
+# Setup Oh My OpenCode (first time only)
+ssh luna "bunx oh-my-opencode install"
 ```
 
 ## Access
 
 - **SSH**: `ssh moonblade@192.168.1.199` or `ssh luna`
 - **RDP**: Connect to `192.168.1.199:3389` with any RDP client
-  - Credentials in `secrets/hades-luna.tfvars`
+- **Moonlight**: Game streaming via Sunshine (pair at https://192.168.1.199:47990)
 
 ## VM Specs
 
+- **Host**: Athena (Proxmox)
+- **VMID**: 401
 - **IP**: 192.168.1.199
-- **CPU**: 4 cores
-- **RAM**: 16GB
+- **CPU**: 6 vCPUs (1 socket × 6 cores)
+- **RAM**: 8GB (balloon disabled)
 - **Disk**: 100GB
-- **Template**: nixos-base
+- **Template**: nixos-base (migrated from Hades)
 
 ## NixOS Modules
 
@@ -39,14 +39,15 @@ Enable/disable features by editing `nixos/modules.nix`:
 |--------|-------------|
 | `desktop.nix` | X11 + i3 window manager |
 | `i3config.nix` | i3 config with vim-style keybindings |
-| `polybar.nix` | Modern status bar (Catppuccin theme) |
+| `i3status-rust.nix` | Status bar (native i3bar integration) |
 | `xrdp.nix` | Remote desktop access |
+| `sunshine.nix` | Game streaming (Moonlight) |
 | `audio.nix` | PulseAudio (xrdp audio) |
 | `networking.nix` | Static IP config |
 | `tailscale.nix` | VPN access |
 | `user.nix` | moonblade user |
 | `browsers.nix` | Firefox + Chrome |
-| `tools.nix` | Desktop utilities |
+| `tools.nix` | Desktop utilities + OpenCode |
 
 ## i3 Quick Reference
 
@@ -66,6 +67,33 @@ Enable/disable features by editing `nixos/modules.nix`:
 | `Mod+Shift+r` | Restart i3 |
 
 **Mod = Alt key**
+
+## OpenCode (AI Coding Assistant)
+
+Luna has OpenCode pre-installed for terminal-based AI coding assistance.
+
+### First-time Setup
+
+```bash
+# Install Oh My OpenCode plugin
+ssh luna "bunx oh-my-opencode install"
+```
+
+### Usage
+
+```bash
+# Start OpenCode in any git repo
+opencode
+
+# Or connect via SSH and use
+ssh luna
+cd ~/your-project
+opencode
+```
+
+Config files:
+- `~/.config/opencode/opencode.json` - Main config
+- `~/.config/opencode/oh-my-opencode.json` - Agent configurations
 
 ## Flatpak Apps
 
