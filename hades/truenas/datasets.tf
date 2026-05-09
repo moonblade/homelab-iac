@@ -97,6 +97,18 @@ resource "truenas_pool_dataset" "primary_root_storage_ollama" {
   depends_on = [truenas_pool_dataset.primary_root_storage]
 }
 
+# Firefly III data (PostgreSQL + app uploads)
+resource "truenas_pool_dataset" "primary_root_storage_firefly" {
+  name        = "primary/root/storage/firefly"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage]
+}
+
 # Backup dataset on secondary pool for kestra replication
 resource "truenas_pool_dataset" "secondary_kestra_backup" {
   name        = "secondary/kestra-backup"
@@ -120,6 +132,16 @@ resource "truenas_pool_dataset" "secondary_config_backup" {
 # Backup dataset on secondary pool for authentik replication
 resource "truenas_pool_dataset" "secondary_authentik_backup" {
   name        = "secondary/authentik-backup"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
+# Backup dataset on secondary pool for firefly replication
+resource "truenas_pool_dataset" "secondary_firefly_backup" {
+  name        = "secondary/firefly-backup"
   type        = "FILESYSTEM"
   compression = "LZ4"
   atime       = "OFF"

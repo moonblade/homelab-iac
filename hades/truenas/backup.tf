@@ -155,3 +155,57 @@ resource "truenas_replication" "authentik_to_secondary" {
     truenas_pool_snapshottask.authentik_daily
   ]
 }
+
+# Firefly III daily snapshots (at 4 AM, staggered from authentik at 3 AM)
+resource "truenas_pool_snapshottask" "firefly_daily" {
+  dataset        = "primary/root/storage/firefly"
+  recursive      = true
+  enabled        = true
+  lifetime_value = 14
+  lifetime_unit  = "DAY"
+  naming_schema  = "auto-%Y-%m-%d_%H-%M"
+
+  schedule = jsonencode({
+    minute = "0"
+    hour   = "4"
+    dom    = "*"
+    month  = "*"
+    dow    = "*"
+  })
+
+  depends_on = [truenas_pool_dataset.primary_root_storage_firefly]
+}
+
+# Firefly III replication to secondary (at 4:30 AM, after snapshot)
+resource "truenas_replication" "firefly_to_secondary" {
+  name            = "firefly-to-secondary"
+  direction       = "PUSH"
+  transport       = "LOCAL"
+  source_datasets = ["primary/root/storage/firefly"]
+  target_dataset  = "secondary/firefly-backup"
+  recursive       = true
+  auto            = true
+
+  also_include_naming_schema = ["auto-%Y-%m-%d_%H-%M"]
+
+  schedule = jsonencode({
+    minute = "30"
+    hour   = "4"
+    dom    = "*"
+    month  = "*"
+    dow    = "*"
+  })
+
+  retention_policy = "CUSTOM"
+  lifetime_value   = 30
+  lifetime_unit    = "DAY"
+
+  readonly   = "SET"
+  properties = true
+  compressed = true
+
+  depends_on = [
+    truenas_pool_dataset.secondary_firefly_backup,
+    truenas_pool_snapshottask.firefly_daily
+  ]
+}
