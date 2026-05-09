@@ -8,15 +8,25 @@ Homelab infrastructure as code. Proxmox VMs, NixOS configurations, Terraform mod
 
 ```
 homelab-iac/
-├── athena/               # First Proxmox server
-│   ├── nixos/            # NixOS VM configurations (k3s cluster "sirius")
+├── athena/               # First Proxmox server (6-core, 16GB RAM)
+│   ├── nixos/            # NixOS templates
 │   └── terraform/        # VM provisioning via Terraform
-├── hades/                # Second server (Proxmox VM with TrueNAS)
+├── hades/                # Second Proxmox server (primary workloads)
+│   ├── sirius/           # k3s cluster VM (VMID 301)
+│   ├── luna/             # Desktop VM with Sunshine streaming (VMID 401, on Athena)
 │   └── truenas/          # TrueNAS SCALE Terraform config
 ├── proxmox/              # Proxmox-level configurations
 ├── secrets/              # git-crypt encrypted secrets
 └── terraform-modules/    # Reusable Terraform modules
 ```
+
+## VM LOCATIONS
+
+| VM | Host | VMID | IP | Purpose |
+|----|------|------|-----|---------|
+| Sirius | Hades | 301 | 192.168.1.200 | k3s cluster |
+| Luna | Athena | 401 | 192.168.1.199 | NixOS desktop + Sunshine + OpenCode |
+| TrueNAS | Hades | 201 | 192.168.1.10 | Storage |
 
 ## WORKFLOW RULES
 
@@ -29,8 +39,8 @@ homelab-iac/
 
 | Task | Location | Notes |
 |------|----------|-------|
-| Provision Athena VMs | `athena/terraform/` | `make plan && make apply` |
-| NixOS config | `athena/nixos/k3s/` | Rebuild with `make rebuild-sirius` |
+| Sirius (k3s) config | `hades/sirius/` | Rebuild with `make deploy` |
+| Luna (desktop) config | `hades/luna/nixos/` | Rebuild with `make deploy` |
 | TrueNAS config | `hades/truenas/` | `make plan && make apply` |
 | Secrets | `secrets/` | git-crypt encrypted |
 
@@ -49,20 +59,23 @@ homelab-iac/
 ## COMMANDS
 
 ```bash
-# Athena VM management
-cd athena/terraform
-make init && make plan && make apply
+# Luna desktop management
+cd hades/luna
+make deploy
+
+# Sirius k3s management
+cd hades/sirius
+make deploy
 
 # TrueNAS management  
 cd hades/truenas
 make init && make plan && make apply
-
-# Rebuild NixOS
-make rebuild-sirius
 ```
 
 ## NOTES
 
-- **Athena**: Lenovo ThinkCentre running Proxmox
-- **Hades**: Second Proxmox instance with TrueNAS SCALE VM
+- **Athena**: Lenovo ThinkCentre running Proxmox (6 cores, 16GB RAM). Hosts Luna desktop VM.
+- **Hades**: Second Proxmox instance (12 cores, 32GB RAM). Hosts Sirius k3s and TrueNAS.
+- **Luna**: NixOS desktop with i3, Sunshine game streaming, OpenCode AI assistant. IP 192.168.1.199.
+- **Sirius**: k3s cluster for homelab services. IP 192.168.1.200.
 - **TrueNAS**: 192.168.1.10, SCALE 25.10.1 (Fangtooth)

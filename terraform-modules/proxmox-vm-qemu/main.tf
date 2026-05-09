@@ -21,7 +21,7 @@ resource "proxmox_vm_qemu" "this" {
   protection             = false
   qemu_os                = "l26"
   scsihw                 = "virtio-scsi-single"
-  sockets                = 1
+  sockets                = var.sockets
   sshkeys                = var.sshkeys
   tablet                 = true
   vm_state               = var.vm_state

@@ -17,6 +17,7 @@
     # Networking
     ./modules/networking.nix   # Static IP configuration
     ./modules/tailscale.nix    # VPN access
+    ./modules/beszel.nix       # Server monitoring agent
     
     # User & Tools
     ./modules/user.nix         # moonblade user configuration

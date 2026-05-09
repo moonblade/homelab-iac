@@ -73,6 +73,30 @@ resource "truenas_pool_dataset" "primary_root_storage_authentik" {
   depends_on = [truenas_pool_dataset.primary_root_storage]
 }
 
+# Kestra data (nested under storage, similar to authentik)
+resource "truenas_pool_dataset" "primary_root_storage_kestra" {
+  name        = "primary/root/storage/kestra"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage]
+}
+
+# Ollama model storage (nested under storage, similar to authentik/kestra)
+resource "truenas_pool_dataset" "primary_root_storage_ollama" {
+  name        = "primary/root/storage/ollama"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage]
+}
+
 # Firefly III data (PostgreSQL + app uploads)
 resource "truenas_pool_dataset" "primary_root_storage_firefly" {
   name        = "primary/root/storage/firefly"
@@ -83,6 +107,16 @@ resource "truenas_pool_dataset" "primary_root_storage_firefly" {
   acltype     = "NFSV4"
 
   depends_on = [truenas_pool_dataset.primary_root_storage]
+}
+
+# Backup dataset on secondary pool for kestra replication
+resource "truenas_pool_dataset" "secondary_kestra_backup" {
+  name        = "secondary/kestra-backup"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
 }
 
 # Backup dataset on secondary pool for config replication
@@ -108,6 +142,44 @@ resource "truenas_pool_dataset" "secondary_authentik_backup" {
 # Backup dataset on secondary pool for firefly replication
 resource "truenas_pool_dataset" "secondary_firefly_backup" {
   name        = "secondary/firefly-backup"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
+# USB SSD datasets (media/downloads - fast scratch storage)
+resource "truenas_pool_dataset" "usb_ssd_media" {
+  name        = "usb-ssd/media"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
+resource "truenas_pool_dataset" "usb_ssd_downloads" {
+  name        = "usb-ssd/downloads"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
+# USB HDD datasets (media/downloads - bulk storage)
+resource "truenas_pool_dataset" "usb_hdd_media" {
+  name        = "usb-hdd/media"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
+resource "truenas_pool_dataset" "usb_hdd_downloads" {
+  name        = "usb-hdd/downloads"
   type        = "FILESYSTEM"
   compression = "LZ4"
   atime       = "OFF"
