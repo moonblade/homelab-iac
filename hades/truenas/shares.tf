@@ -82,3 +82,13 @@ resource "truenas_sharing_nfs" "storage_authentik" {
 
   depends_on = [truenas_pool_dataset.primary_root_storage_authentik]
 }
+
+resource "truenas_sharing_nfs" "storage_firefly" {
+  path         = "/mnt/primary/root/storage/firefly"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage_firefly]
+}
