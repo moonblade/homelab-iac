@@ -30,7 +30,7 @@ Beszel monitoring agent for TrueNAS SCALE.
 
 ## Network
 
-Uses SSH jump proxy through Hades (`hadests`) to reach TrueNAS at 192.168.1.10.
+Uses SSH jump proxy through Hades (`hadests`) to reach TrueNAS at 192.168.29.10.
 
 ## Note
 
