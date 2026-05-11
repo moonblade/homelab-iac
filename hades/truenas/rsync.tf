@@ -11,7 +11,7 @@ resource "truenas_keychaincredential" "sirius_ssh_connection" {
   name = "sirius-ssh-connection"
   type = "SSH_CREDENTIALS"
   attributes = jsonencode({
-    host            = "192.168.1.150"
+    host            = "192.168.29.150"
     port            = 22
     username        = "operator"
     private_key     = tonumber(truenas_keychaincredential.sirius_ssh_keypair.id)

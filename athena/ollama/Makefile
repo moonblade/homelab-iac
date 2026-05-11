@@ -1,5 +1,5 @@
 SECRETS_FILE = ../../secrets/athena-ollama.tfvars
-OLLAMA_IP = 192.168.1.198
+OLLAMA_IP = 192.168.29.198
 
 init:
 	terraform init

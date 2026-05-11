@@ -14,8 +14,8 @@ module "k3svm" {
   balloon     = 0
   desc        = "VM for k3s"
   sshkeys     = local.ssh_pubkey
-  ipv4_addr   = "192.168.1.150/24"
-  ipv4_gw     = "192.168.1.1"
+  ipv4_addr   = "192.168.29.150/24"
+  ipv4_gw     = "192.168.29.1"
   disk_size   = "150G"
   password    = var.cipassword
   tags        = "k3s"

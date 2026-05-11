@@ -1,6 +1,6 @@
 HOST := truenas
 PROXY := hadests
-TRUENAS_IP := 192.168.1.10
+TRUENAS_IP := 192.168.29.10
 REMOTE_DIR := /root/beszel-agent
 SECRETS_DIR := ../../../secrets
 VERSION := 0.18.7

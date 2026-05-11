@@ -1,5 +1,5 @@
 # TrueNAS SCALE Configuration
-# Host: 192.168.1.10 (Hades Proxmox VM)
+# Host: 192.168.29.10 (Hades Proxmox VM)
 # Version: TrueNAS SCALE 25.10.1 (Fangtooth)
 #
 # This Terraform configuration documents the existing TrueNAS setup.

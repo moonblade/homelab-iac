@@ -1,4 +1,4 @@
-#K3S_IP:=192.168.1.150
+#K3S_IP:=192.168.29.150
 # K3S_IP:=100.100.145.85
 K3S_IP:=sirius.moonblade.work
 
@@ -18,9 +18,9 @@ add-disks:
 	# # ssh athena 'qm set 301 --scsi3 /dev/disk/by-uuid/d2ffd85b-dc75-4850-9df4-952d52d993a4'
 
 tailscale:
-	ssh athena 'sudo tailscale up --advertise-routes=192.168.1.0/24'
+	ssh athena 'sudo tailscale up --advertise-routes=192.168.29.0/24'
 	echo "Go approve it in tailscale web interface > athena > subnets"
 
 tailscale-sirius:
-	ssh siriusts 'sudo tailscale up --accept-dns=false --advertise-routes=192.168.1.0/24'
+	ssh siriusts 'sudo tailscale up --accept-dns=false --advertise-routes=192.168.29.0/24'
 	echo "Go approve it in tailscale web interface > sirius (nixos-2) > subnets"

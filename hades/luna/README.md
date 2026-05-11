@@ -17,15 +17,15 @@ ssh luna "bunx oh-my-opencode install"
 
 ## Access
 
-- **SSH**: `ssh moonblade@192.168.1.199` or `ssh luna`
-- **RDP**: Connect to `192.168.1.199:3389` with any RDP client
-- **Moonlight**: Game streaming via Sunshine (pair at https://192.168.1.199:47990)
+- **SSH**: `ssh moonblade@192.168.29.199` or `ssh luna`
+- **RDP**: Connect to `192.168.29.199:3389` with any RDP client
+- **Moonlight**: Game streaming via Sunshine (pair at https://192.168.29.199:47990)
 
 ## VM Specs
 
 - **Host**: Athena (Proxmox)
 - **VMID**: 401
-- **IP**: 192.168.1.199
+- **IP**: 192.168.29.199
 - **CPU**: 6 vCPUs (1 socket × 6 cores)
 - **RAM**: 8GB (balloon disabled)
 - **Disk**: 100GB
