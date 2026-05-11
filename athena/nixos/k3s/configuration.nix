@@ -97,13 +97,13 @@ in
       interfaces.ens18 = {
         ipv4.addresses = [
           {
-            address = "192.168.1.150";  # Static IP
+            address = "192.168.29.150";  # Static IP
             prefixLength = 24;          # Subnet mask
           }
         ];
       };
       defaultGateway = {
-        address = "192.168.1.1";       # Default gateway IP address
+        address = "192.168.29.1";       # Default gateway IP address
         interface = "ens18";           # Interface associated with the default gateway
       };
     };

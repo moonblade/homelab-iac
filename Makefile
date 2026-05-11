@@ -16,7 +16,7 @@ destroy-athena:
 
 ssh-remove:
 	ssh-keygen -R sirius
-	ssh-keygen -R 192.168.1.150
+	ssh-keygen -R 192.168.29.150
 
 rebuild-sirius:
 	make -C athena/nixos/k3s rebuild

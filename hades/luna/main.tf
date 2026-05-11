@@ -15,8 +15,8 @@ module "nixos_desktop" {
   balloon     = 0
   desc        = "NixOS Desktop VM with i3, Sunshine streaming, and OpenCode"
   sshkeys     = local.ssh_pubkey
-  ipv4_addr   = "192.168.1.199/24"
-  ipv4_gw     = "192.168.1.1"
+  ipv4_addr   = "192.168.29.199/24"
+  ipv4_gw     = "192.168.29.1"
   disk_size   = "100G"
   password    = var.cipassword
   tags        = "desktop,nixos"
@@ -30,6 +30,6 @@ variable "cipassword" {
 }
 
 output "vm_ip" {
-  value       = "192.168.1.199"
+  value       = "192.168.29.199"
   description = "Static IP address of the desktop VM"
 }
