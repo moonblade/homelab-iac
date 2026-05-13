@@ -1,6 +1,6 @@
 # Luna - NixOS Desktop VM
 
-NixOS desktop VM running on **Athena** Proxmox with i3 window manager, Sunshine game streaming, and OpenCode AI coding assistant.
+NixOS desktop VM running on **Hades** Proxmox with i3 window manager, Sunshine game streaming, and OpenCode AI coding assistant.
 
 ## Quick Start
 
@@ -23,13 +23,13 @@ ssh luna "bunx oh-my-opencode install"
 
 ## VM Specs
 
-- **Host**: Athena (Proxmox)
+- **Host**: Hades (Proxmox)
 - **VMID**: 401
 - **IP**: 192.168.29.199
 - **CPU**: 6 vCPUs (1 socket × 6 cores)
-- **RAM**: 8GB (balloon disabled)
+- **RAM**: 6GB (balloon disabled)
 - **Disk**: 100GB
-- **Template**: nixos-base (migrated from Hades)
+- **Template**: nixos-base
 
 ## NixOS Modules
 

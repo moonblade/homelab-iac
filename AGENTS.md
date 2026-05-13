@@ -13,7 +13,7 @@ homelab-iac/
 │   └── terraform/        # VM provisioning via Terraform
 ├── hades/                # Second Proxmox server (primary workloads)
 │   ├── sirius/           # k3s cluster VM (VMID 301)
-│   ├── luna/             # Desktop VM with Sunshine streaming (VMID 401, on Athena)
+│   ├── luna/             # Desktop VM with Sunshine streaming (VMID 401, on Hades)
 │   └── truenas/          # TrueNAS SCALE Terraform config
 ├── proxmox/              # Proxmox-level configurations
 ├── secrets/              # git-crypt encrypted secrets
@@ -25,7 +25,7 @@ homelab-iac/
 | VM | Host | VMID | IP | Purpose |
 |----|------|------|-----|---------|
 | Sirius | Hades | 301 | 192.168.29.150 | k3s cluster |
-| Luna | Athena | 401 | 192.168.29.199 | NixOS desktop + Sunshine + OpenCode |
+| Luna | Hades | 401 | 192.168.29.199 | NixOS desktop + Sunshine + OpenCode |
 | TrueNAS | Hades | 201 | 192.168.29.10 | Storage |
 
 ## WORKFLOW RULES
@@ -74,8 +74,8 @@ make init && make plan && make apply
 
 ## NOTES
 
-- **Athena**: Lenovo ThinkCentre running Proxmox (6 cores, 16GB RAM). Hosts Luna desktop VM.
-- **Hades**: Second Proxmox instance (12 cores, 32GB RAM). Hosts Sirius k3s and TrueNAS.
+- **Athena**: Lenovo ThinkCentre running Proxmox (6 cores, 16GB RAM).
+- **Hades**: Second Proxmox instance (12 cores, 32GB RAM). Hosts Luna desktop, Sirius k3s, and TrueNAS.
 - **Luna**: NixOS desktop with i3, Sunshine game streaming, OpenCode AI assistant. IP 192.168.29.199.
 - **Sirius**: k3s cluster for homelab services. IP 192.168.29.150.
 - **TrueNAS**: 192.168.29.10, SCALE 25.10.1 (Fangtooth)

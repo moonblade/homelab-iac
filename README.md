@@ -211,3 +211,7 @@ TrueNAS: Added Kestra storage dataset (primary/root/storage/kestra) with NFS sha
 - **Apr 14, 2026**
 
 Tailscale subnet routing for Sirius: Added `tailscale-sirius` make target to advertise 192.168.1.0/24 subnet from Sirius (nixos-2). This allows accessing internal *.sirius.moonblade.work URLs via Tailscale when outside the LAN. Run `make tailscale-sirius` and approve the subnet in Tailscale admin console.
+
+- **May 13, 2026**
+
+Removed Athena Ollama LXC (102): No longer needed since GPU is now available on Hades. Luna migration back to Hades: Moved Luna VM from Athena back to Hades. Reduced RAM from 16GB to 6GB with balloon disabled.
