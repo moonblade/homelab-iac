@@ -6,7 +6,7 @@ module "nixos_desktop" {
   source = "../../terraform-modules/proxmox-vm-qemu"
 
   vmid        = 401
-  target_node = "athena"
+  target_node = "hades"
   name        = "luna"
   clone       = "nixos-base"
   cores       = 6
