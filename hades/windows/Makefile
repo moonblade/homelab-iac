@@ -1,13 +1,19 @@
-SECRETS_FILE = ../../secrets/hades-windows.tfvars
+HADES_IP = 192.168.29.73
+VMID = 202
 
-init:
-	terraform init
+# VM management
+start:
+	ssh root@$(HADES_IP) 'qm start $(VMID)'
 
-plan:
-	terraform plan -var-file=$(SECRETS_FILE) -out=hades-windows.tfplan
+stop:
+	ssh root@$(HADES_IP) 'qm stop $(VMID)'
 
-apply:
-	terraform apply hades-windows.tfplan
+status:
+	ssh root@$(HADES_IP) 'qm status $(VMID)'
 
-destroy:
-	terraform destroy -var-file=$(SECRETS_FILE)
+config:
+	ssh root@$(HADES_IP) 'qm config $(VMID)'
+
+# GPU management
+gpu-status:
+	ssh root@$(HADES_IP) 'lspci -nnk -s 01:00'

@@ -14,7 +14,7 @@ homelab-iac/
 ├── hades/                # Second Proxmox server (primary workloads)
 │   ├── sirius/           # k3s cluster VM (VMID 301)
 │   ├── luna/             # Desktop VM with Sunshine streaming (VMID 401, on Hades)
-│   ├── windows/          # Windows 11 desktop VM (VMID 402, on Hades)
+│   ├── windows/          # Windows 11 desktop VM (VMID 202, on Hades, GPU passthrough)
 │   └── truenas/          # TrueNAS SCALE Terraform config
 ├── proxmox/              # Proxmox-level configurations
 ├── secrets/              # git-crypt encrypted secrets
@@ -27,7 +27,7 @@ homelab-iac/
 |----|------|------|-----|---------|
 | Sirius | Hades | 301 | 192.168.29.150 | k3s cluster |
 | Luna | Hades | 401 | 192.168.29.199 | NixOS desktop + Sunshine + OpenCode |
-| Windows | Hades | 402 | DHCP | Windows 11 desktop |
+| Windows | Hades | 202 | DHCP | Windows 11 desktop + GPU + Ollama |
 | TrueNAS | Hades | 201 | 192.168.29.10 | Storage |
 
 ## WORKFLOW RULES
@@ -43,7 +43,7 @@ homelab-iac/
 |------|----------|-------|
 | Sirius (k3s) config | `hades/sirius/` | Rebuild with `make deploy` |
 | Luna (desktop) config | `hades/luna/nixos/` | Rebuild with `make deploy` |
-| Windows config | `hades/windows/` | `make plan && make apply` |
+| Windows config | `hades/windows/` | `make start`, `make stop` (not Terraform managed) |
 | TrueNAS config | `hades/truenas/` | `make plan && make apply` |
 | Secrets | `secrets/` | git-crypt encrypted |
 
