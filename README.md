@@ -215,3 +215,7 @@ Tailscale subnet routing for Sirius: Added `tailscale-sirius` make target to adv
 - **May 13, 2026**
 
 Removed Athena Ollama LXC (102): No longer needed since GPU is now available on Hades. Luna migration back to Hades: Moved Luna VM from Athena back to Hades. Reduced RAM from 16GB to 6GB with balloon disabled.
+
+- **May 14, 2026**
+
+Windows 11 desktop VM: Created Windows 11 VM (VMID 402) on Hades. UEFI boot with TPM 2.0, 6 cores, 12GB RAM, 100GB SSD, VirtIO networking. Win 11 25H2 ISO with VirtIO drivers ISO attached for installation. Terraform config in `hades/windows/`.
