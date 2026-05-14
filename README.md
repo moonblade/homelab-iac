@@ -218,4 +218,4 @@ Removed Athena Ollama LXC (102): No longer needed since GPU is now available on 
 
 - **May 14, 2026**
 
-Windows 11 desktop VM: Created Windows 11 VM (VMID 402) on Hades. UEFI boot with TPM 2.0, 6 cores, 12GB RAM, 100GB SSD, VirtIO networking. Win 11 25H2 ISO with VirtIO drivers ISO attached for installation. Terraform config in `hades/windows/`.
+GPU passthrough migration: Moved GPU from ollama LXC (cgroup passthrough) to Windows VM 202 (VFIO passthrough). Configured vfio-pci to bind NVIDIA GPU at boot, blacklisted nvidia/nouveau on Hades host. Added 200GB extra disk to Windows VM for ollama models. Removed VM 402 (unused duplicate). Updated `hades/windows/` config to document VM 202. Removed GPU targets from ollama LXC Makefile. Ollama will now run on Windows VM with GPU access.

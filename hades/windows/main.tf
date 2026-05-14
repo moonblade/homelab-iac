@@ -1,58 +1,15 @@
-resource "proxmox_vm_qemu" "windows" {
-  vmid        = 402
-  target_node = "hades"
-  name        = "windows"
-  desc        = "Windows 11 Desktop VM"
-  bios        = "ovmf"
-  machine     = "pc-q35-9.0"
-  qemu_os     = "win11"
-  cpu_type    = "host"
-  cores       = 6
-  sockets     = 1
-  memory      = 12288
-  balloon     = 0
-  onboot      = false
-  tablet      = true
-  tags        = "windows,desktop"
-  vm_state    = "running"
-  scsihw      = "virtio-scsi-single"
-
-  # EFI disk for OVMF/UEFI boot
-  efidisk {
-    efitype = "4m"
-    storage = "local-lvm"
-  }
-
-  # Main OS disk
-  disks {
-    scsi {
-      scsi0 {
-        disk {
-          size    = "100G"
-          storage = "local-lvm"
-          format  = "raw"
-          ssd     = true
-        }
-      }
-    }
-  }
-
-  # Network
-  network {
-    bridge = "vmbr0"
-    model  = "virtio"
-  }
-
-  lifecycle {
-    ignore_changes = [
-      default_ipv4_address,
-      ssh_host,
-      ssh_port
-    ]
-  }
-}
-
-output "vm_name" {
-  value       = "windows"
-  description = "Windows 11 desktop VM"
-}
+# Windows 11 Desktop VM (VMID 202)
+# This VM was created manually via Proxmox UI.
+# This Terraform config documents its configuration but does not manage it.
+#
+# Hardware:
+#   - UEFI/OVMF with TPM 2.0, Q35 machine
+#   - 6 cores, 16GB RAM (balloon disabled)
+#   - 128GB OS disk (ide0), 100GB data disk (sata1), 200GB ollama disk (sata2)
+#   - NVIDIA GPU passthrough (hostpci0: 01:00, PCIe, x-vga)
+#   - VirtIO networking
+#
+# GPU passthrough requires:
+#   - vfio-pci bound to GPU at boot (see /etc/modprobe.d/vfio.conf on Hades)
+#   - nvidia/nouveau blacklisted on host (see /etc/modprobe.d/blacklist-nvidia.conf)
+#   - IOMMU enabled (AMD-Vi)
