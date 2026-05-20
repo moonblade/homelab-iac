@@ -14,7 +14,7 @@ destroy:
 	terraform destroy $(VAR_FILE)
 
 # NixOS deployment targets
-NIXOS_IP = 192.168.29.199
+NIXOS_IP = 192.168.1.199
 NIXOS_USER = root
 
 copy:
