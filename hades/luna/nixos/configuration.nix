@@ -33,7 +33,7 @@ in
 
     # NFS mount to TrueNAS primary drive
     fileSystems."/mnt/nas" = {
-      device = "192.168.29.10:/mnt/primary/root";
+      device = "192.168.1.10:/mnt/primary/root";
       fsType = "nfs";
       options = [
         # NFS version

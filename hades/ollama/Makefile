@@ -1,5 +1,5 @@
 SECRETS_FILE = ../../secrets/hades-ollama.tfvars
-OLLAMA_IP = 192.168.29.74
+OLLAMA_IP = 192.168.1.74
 
 init:
 	terraform init
