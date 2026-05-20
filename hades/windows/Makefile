@@ -1,4 +1,4 @@
-HADES_IP = 192.168.29.73
+HADES_IP = 192.168.1.73
 VMID = 202
 
 # VM management

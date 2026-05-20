@@ -14,8 +14,8 @@ module "ollama_lxc" {
   memory       = 16384
   swap         = 1024
   rootfs_size  = "30G"
-  ipv4_addr    = "192.168.29.74/24"
-  ipv4_gw      = "192.168.29.1"
+  ipv4_addr    = "192.168.1.74/24"
+  ipv4_gw      = "192.168.1.1"
   sshkeys      = local.ssh_pubkey
   tags         = "ollama;lxc;gpu"
 }
@@ -33,6 +33,6 @@ variable "container_password" {
 }
 
 output "container_ip" {
-  value       = "192.168.29.74"
+  value       = "192.168.1.74"
   description = "Static IP address of the Ollama LXC container"
 }

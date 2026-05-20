@@ -25,10 +25,10 @@ homelab-iac/
 
 | VM | Host | VMID | IP | Purpose |
 |----|------|------|-----|---------|
-| Sirius | Hades | 301 | 192.168.29.150 | k3s cluster |
-| Luna | Hades | 401 | 192.168.29.199 | NixOS desktop + Sunshine + OpenCode |
+| Sirius | Hades | 301 | 192.168.1.150 | k3s cluster |
+| Luna | Hades | 401 | 192.168.1.199 | NixOS desktop + Sunshine + OpenCode |
 | Windows | Hades | 202 | DHCP | Windows 11 desktop + GPU + Ollama |
-| TrueNAS | Hades | 201 | 192.168.29.10 | Storage |
+| TrueNAS | Hades | 201 | 192.168.1.10 | Storage |
 
 ## WORKFLOW RULES
 
@@ -79,6 +79,6 @@ make init && make plan && make apply
 
 - **Athena**: Lenovo ThinkCentre running Proxmox (6 cores, 16GB RAM).
 - **Hades**: Second Proxmox instance (12 cores, 32GB RAM). Hosts Luna desktop, Windows desktop, Sirius k3s, and TrueNAS.
-- **Luna**: NixOS desktop with i3, Sunshine game streaming, OpenCode AI assistant. IP 192.168.29.199.
-- **Sirius**: k3s cluster for homelab services. IP 192.168.29.150.
-- **TrueNAS**: 192.168.29.10, SCALE 25.10.1 (Fangtooth)
+- **Luna**: NixOS desktop with i3, Sunshine game streaming, OpenCode AI assistant. IP 192.168.1.199.
+- **Sirius**: k3s cluster for homelab services. IP 192.168.1.150.
+- **TrueNAS**: 192.168.1.10, SCALE 25.10.1 (Fangtooth)

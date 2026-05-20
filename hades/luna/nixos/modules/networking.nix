@@ -21,7 +21,7 @@
     interfaces.ens18 = {
       ipv4.addresses = [
         {
-          address = "192.168.29.199";  # Static IP
+          address = "192.168.1.199";  # Static IP
           prefixLength = 24;          # /24 subnet
         }
       ];
@@ -29,7 +29,7 @@
     
     # Default gateway
     defaultGateway = {
-      address = "192.168.29.1";
+      address = "192.168.1.1";
       interface = "ens18";
     };
   };

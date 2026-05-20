@@ -46,8 +46,8 @@ k3s/
 - TLS SANs: sirius.moonblade.work, siriusk8s.moonblade.work
 
 **Network Topology**:
-- Static IP: 192.168.29.150 (ens18)
-- Cloudflared routes *.moonblade.work → 192.168.29.201 (k8s ingress)
+- Static IP: 192.168.1.150 (ens18)
+- Cloudflared routes *.moonblade.work → 192.168.1.201 (k8s ingress)
 - siriusk8s.moonblade.work → localhost:6443 (API server via tunnel)
 
 ## CONVENTIONS
@@ -55,7 +55,7 @@ k3s/
 - One module = one feature (no mixing concerns)
 - Module signature: `{ config, lib, pkgs, ... }: { ... }`
 - Secrets: plaintext in `secrets/` (this is homelab, not prod)
-- IP addresses: hardcoded (192.168.29.x subnet)
+- IP addresses: hardcoded (192.168.1.x subnet)
 
 ## ANTI-PATTERNS
 
