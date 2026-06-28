@@ -12,15 +12,19 @@
   };
 
   # udev rules for virtual input (mouse/keyboard injection)
+  # /dev/uinput is owned by group "uinput" — must use that group, not "input"
   services.udev.extraRules = ''
-    KERNEL=="uinput", SUBSYSTEM=="misc", MODE="0660", GROUP="input", OPTIONS+="static_node=uinput"
+    KERNEL=="uinput", SUBSYSTEM=="misc", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
   '';
 
   # Load uinput kernel module at boot
   boot.kernelModules = [ "uinput" ];
 
-  # Add moonblade user to input group for uinput access
-  users.users.moonblade.extraGroups = [ "input" "video" ];
+  # uinput group for /dev/uinput access (sunshine virtual keyboard/mouse)
+  users.groups.uinput = {};
+
+  # Add moonblade to both input and uinput groups
+  users.users.moonblade.extraGroups = [ "input" "uinput" "video" ];
 
   # Persist Sunshine config across NixOS rebuilds
   # capture = x11: NVIDIA proprietary Xorg bypasses KMS so DRM planes are always null.
@@ -31,6 +35,7 @@
     qp = 20
     adapter_name = NVIDIA GeForce RTX 5060 Ti
     capture = x11
+    resolutions = [1920x1080, 1680x1050, 1440x900, 1280x720]
   '';
 
   # Symlink config into place on activation
