@@ -8,7 +8,7 @@
   # NVIDIA proprietary drivers
   hardware.nvidia = {
     modesetting.enable = true;
-    open = false;           # Proprietary driver (better CUDA perf than open kernel module)
+    open = true;            # RTX 5060 Ti (Blackwell/GB206) requires open kernel modules
     nvidiaSettings = false; # No GUI app needed on this machine
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
@@ -22,8 +22,8 @@
   # Tell Xorg to use the nvidia driver (desktop.nix already enables xserver)
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  # Ollama with CUDA backend via pkgs.ollama-cuda
-  # (services.ollama.acceleration is removed in NixOS 24.11+)
+  # Ollama with CUDA backend.
+  # ollama-cuda builds from source (~40min) since it's not in the binary cache for 26.05.
   services.ollama = {
     enable = true;
     package = pkgs.ollama-cuda;
@@ -71,7 +71,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    pciutils      # lspci for GPU diagnostics
-    ollama-cuda   # CLI access for model management
+    pciutils     # lspci for GPU diagnostics
+    ollama-cuda  # CLI access for model management
   ];
 }
