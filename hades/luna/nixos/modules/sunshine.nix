@@ -13,8 +13,11 @@
 
   # udev rules for virtual input (mouse/keyboard injection)
   # /dev/uinput is owned by group "uinput" — must use that group, not "input"
+  # ID_INPUT_KEYBOARD=1 tells libinput to treat sunshine's virtual keyboard as real,
+  # preventing it from being silently disabled (libinput Send Events Mode = 0).
   services.udev.extraRules = ''
     KERNEL=="uinput", SUBSYSTEM=="misc", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
+    SUBSYSTEM=="input", ATTRS{name}=="Keyboard passthrough", ENV{ID_INPUT_KEYBOARD}="1", ENV{LIBINPUT_DEVICE_GROUP}="sunshine"
   '';
 
   # Load uinput kernel module at boot
@@ -35,7 +38,7 @@
     qp = 20
     adapter_name = NVIDIA GeForce RTX 5060 Ti
     capture = x11
-    resolutions = [1920x1080, 1680x1050, 1440x900, 1280x720]
+    resolutions = [1440x900, 1920x1080, 1280x720]
   '';
 
   # Symlink config into place on activation
