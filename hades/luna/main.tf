@@ -23,10 +23,11 @@ module "nixos_desktop" {
   vm_state    = "running"
 
   # NVIDIA GPU passthrough (moved from Windows VM 202)
-  # GPU: NVIDIA (10de:2d04) + Audio (10de:22eb) at 0000:01:00
+  # GPU: NVIDIA RTX 5060 Ti (10de:2d04) + Audio (10de:22eb) at 0000:01:00
   # Requires: vfio-pci bound on host, IOMMU enabled (AMD-Vi)
   # machine = "q35"  # Q35 required for PCIe passthrough (managed outside Terraform)
-  # hostpci0 = "0000:01:00,pcie=1,x-vga=0"  # Set via: qm set 401 --hostpci0 0000:01:00,pcie=1,x-vga=0
+  # hostpci0 = "0000:01:00,pcie=1,x-vga=1"  # x-vga=1 required for Xorg/Sunshine display
+  #   Set via: qm set 401 --hostpci0 0000:01:00,pcie=1,x-vga=1
 }
 
 variable "cipassword" {
