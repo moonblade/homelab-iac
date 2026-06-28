@@ -17,8 +17,9 @@
     firewall.enable = false;
     
     # Static IP configuration
-    # Interface name is typically ens18 for Proxmox VMs
-    interfaces.ens18 = {
+    # Interface is enp6s18 on Q35 machine type (was ens18 on i440fx/pc)
+    # Q35 places the VirtIO NIC on a different PCI bus, changing the udev name
+    interfaces.enp6s18 = {
       ipv4.addresses = [
         {
           address = "192.168.1.199";  # Static IP
@@ -30,7 +31,7 @@
     # Default gateway
     defaultGateway = {
       address = "192.168.1.1";
-      interface = "ens18";
+      interface = "enp6s18";
     };
   };
 
