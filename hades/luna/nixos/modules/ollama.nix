@@ -51,6 +51,8 @@
       RemainAfterExit = true;
       ExecStart = pkgs.writeShellScript "ollama-pull-qwen3" ''
         set -e
+        export HOME=/var/lib/ollama
+        export OLLAMA_HOST=http://localhost:11434
         # Wait for Ollama API to be ready (up to 60s)
         for i in $(seq 1 30); do
           if ${pkgs.curl}/bin/curl -sf http://localhost:11434/ > /dev/null 2>&1; then
@@ -67,6 +69,7 @@
         fi
       '';
       User = "ollama";
+      Environment = "HOME=/var/lib/ollama OLLAMA_HOST=http://localhost:11434";
     };
   };
 
