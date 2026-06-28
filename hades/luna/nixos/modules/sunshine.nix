@@ -23,13 +23,14 @@
   users.users.moonblade.extraGroups = [ "input" "video" ];
 
   # Persist Sunshine config across NixOS rebuilds
-  # output_name left unset = auto-detect first connected display (HDMI-0 dummy plug)
-  # nvenc fails on this GPU in KMS mode; Vulkan encoders (h264/hevc/av1_vulkan) work fine
+  # capture = x11: NVIDIA proprietary Xorg bypasses KMS so DRM planes are always null.
+  # X11 capture works correctly. nvenc/vulkan don't work with x11 capture; libx264 (software) is used.
   environment.etc."sunshine/sunshine.conf".text = ''
     min_bitrate = 20000
     fps = 60
     qp = 20
     adapter_name = NVIDIA GeForce RTX 5060 Ti
+    capture = x11
   '';
 
   # Symlink config into place on activation
