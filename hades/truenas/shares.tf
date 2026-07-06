@@ -103,6 +103,16 @@ resource "truenas_sharing_nfs" "storage_ollama" {
   depends_on = [truenas_pool_dataset.primary_root_storage_ollama]
 }
 
+resource "truenas_sharing_nfs" "storage_seafile" {
+  path         = "/mnt/primary/root/storage/seafile"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage_seafile]
+}
+
 resource "truenas_sharing_nfs" "storage_firefly" {
   path         = "/mnt/primary/root/storage/firefly"
   enabled      = true
