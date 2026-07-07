@@ -156,6 +156,60 @@ resource "truenas_replication" "authentik_to_secondary" {
   ]
 }
 
+# Seafile daily snapshots (at 5 AM, staggered from firefly at 4 AM)
+resource "truenas_pool_snapshottask" "seafile_daily" {
+  dataset        = "primary/root/storage/seafile"
+  recursive      = true
+  enabled        = true
+  lifetime_value = 14
+  lifetime_unit  = "DAY"
+  naming_schema  = "auto-%Y-%m-%d_%H-%M"
+
+  schedule = jsonencode({
+    minute = "0"
+    hour   = "5"
+    dom    = "*"
+    month  = "*"
+    dow    = "*"
+  })
+
+  depends_on = [truenas_pool_dataset.primary_root_storage_seafile]
+}
+
+# Seafile replication to secondary (at 5:30 AM, after snapshot)
+resource "truenas_replication" "seafile_to_secondary" {
+  name            = "seafile-to-secondary"
+  direction       = "PUSH"
+  transport       = "LOCAL"
+  source_datasets = ["primary/root/storage/seafile"]
+  target_dataset  = "secondary/seafile-backup"
+  recursive       = true
+  auto            = true
+
+  also_include_naming_schema = ["auto-%Y-%m-%d_%H-%M"]
+
+  schedule = jsonencode({
+    minute = "30"
+    hour   = "5"
+    dom    = "*"
+    month  = "*"
+    dow    = "*"
+  })
+
+  retention_policy = "CUSTOM"
+  lifetime_value   = 30
+  lifetime_unit    = "DAY"
+
+  readonly   = "SET"
+  properties = true
+  compressed = true
+
+  depends_on = [
+    truenas_pool_dataset.secondary_seafile_backup,
+    truenas_pool_snapshottask.seafile_daily
+  ]
+}
+
 # Firefly III daily snapshots (at 4 AM, staggered from authentik at 3 AM)
 resource "truenas_pool_snapshottask" "firefly_daily" {
   dataset        = "primary/root/storage/firefly"

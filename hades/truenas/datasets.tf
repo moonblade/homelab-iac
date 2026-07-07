@@ -109,6 +109,18 @@ resource "truenas_pool_dataset" "primary_root_storage_firefly" {
   depends_on = [truenas_pool_dataset.primary_root_storage]
 }
 
+# Seafile data (MariaDB + app data)
+resource "truenas_pool_dataset" "primary_root_storage_seafile" {
+  name        = "primary/root/storage/seafile"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage]
+}
+
 # Backup dataset on secondary pool for kestra replication
 resource "truenas_pool_dataset" "secondary_kestra_backup" {
   name        = "secondary/kestra-backup"
@@ -132,6 +144,16 @@ resource "truenas_pool_dataset" "secondary_config_backup" {
 # Backup dataset on secondary pool for authentik replication
 resource "truenas_pool_dataset" "secondary_authentik_backup" {
   name        = "secondary/authentik-backup"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
+# Backup dataset on secondary pool for seafile replication
+resource "truenas_pool_dataset" "secondary_seafile_backup" {
+  name        = "secondary/seafile-backup"
   type        = "FILESYSTEM"
   compression = "LZ4"
   atime       = "OFF"

@@ -23,5 +23,8 @@
     ./modules/user.nix         # moonblade user configuration
     ./modules/browsers.nix     # Firefox + Chrome
     ./modules/tools.nix        # Essential desktop tools
+
+    # AI / LLM
+    ./modules/ollama.nix       # Ollama + NVIDIA GPU + qwen3:14b (64k ctx)
   ];
 }

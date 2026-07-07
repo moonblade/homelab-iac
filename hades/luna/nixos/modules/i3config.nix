@@ -17,9 +17,10 @@ let
     set $up k
     set $right l
 
-    # Set display resolution for virtual display (Sunshine/Moonlight streaming)
-    # Must run before other startup items to ensure correct resolution
-    exec --no-startup-id xrandr --output Virtual-1 --mode 1680x1050 --rate 60 || xrandr -s 1680x1050
+    # Set display resolution for NVIDIA GPU HDMI output (dummy plug)
+    # HDMI-0 = dummy plug on NVIDIA RTX 5060 Ti via passthrough
+    # 1440x900 (16:10) chosen for MacBook Air M4 — comfortable icon size
+    exec --no-startup-id xrandr --output HDMI-0 --mode 1440x900 --rate 59.89
 
     # Start XDG autostart
     exec --no-startup-id dex --autostart --environment i3
