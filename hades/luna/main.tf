@@ -11,16 +11,23 @@ module "nixos_desktop" {
   clone       = "nixos-base"
   cores       = 6
   sockets     = 1
-  memory      = 6144
+  memory      = 24576
   balloon     = 0
-  desc        = "NixOS Desktop VM with i3, Sunshine streaming, and OpenCode"
+  desc        = "NixOS Desktop VM with i3, Sunshine streaming, OpenCode, and Ollama (NVIDIA GPU)"
   sshkeys     = local.ssh_pubkey
   ipv4_addr   = "192.168.1.199/24"
   ipv4_gw     = "192.168.1.1"
   disk_size   = "100G"
   password    = var.cipassword
-  tags        = "desktop,nixos"
+  tags        = "desktop,nixos,gpu,ollama"
   vm_state    = "running"
+
+  # NVIDIA GPU passthrough (moved from Windows VM 202)
+  # GPU: NVIDIA RTX 5060 Ti (10de:2d04) + Audio (10de:22eb) at 0000:01:00
+  # Requires: vfio-pci bound on host, IOMMU enabled (AMD-Vi)
+  # machine = "q35"  # Q35 required for PCIe passthrough (managed outside Terraform)
+  # hostpci0 = "0000:01:00,pcie=1,x-vga=1"  # x-vga=1 required for Xorg/Sunshine display
+  #   Set via: qm set 401 --hostpci0 0000:01:00,pcie=1,x-vga=1
 }
 
 variable "cipassword" {

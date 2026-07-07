@@ -11,23 +11,10 @@
   services.xserver = {
     enable = true;
     
-    # Virtual display resolution for headless streaming
-    # Required for Sunshine/Moonlight - xrdp negotiates dynamically but Sunshine captures existing display
-    # 1680x1050 chosen for comfortable scaling on MacBook displays
-    xrandrHeads = [
-      {
-        output = "Virtual-1";
-        primary = true;
-        monitorConfig = ''
-          Option "PreferredMode" "1680x1050"
-        '';
-      }
-    ];
-    
-    # Fallback resolution if virtual display not detected
+    # Resolution options (Sunshine/Moonlight negotiates at stream time)
     resolutions = [
-      { x = 1680; y = 1050; }
       { x = 1920; y = 1080; }
+      { x = 1680; y = 1050; }
       { x = 1440; y = 900; }
     ];
     
@@ -148,6 +135,14 @@
     mime.enable = true;
     icons.enable = true;
   };
+
+  # Force Xorg to use the NVIDIA GPU (PCI:1:0:0) not the QEMU VGA emulator (PCI:0:1:0).
+  # Without BusID, Xorg picks the first PCI device (QEMU 1234:1111) and NVIDIA finds no screens.
+  # BusID "PCI:1:0:0" = NVIDIA RTX 5060 Ti at 0000:01:00.0
+  services.xserver.deviceSection = ''
+    BusID      "PCI:1:0:0"
+    Option     "AllowEmptyInitialConfiguration" "true"
+  '';
 
   # Enable dbus for desktop applications
   services.dbus.enable = true;

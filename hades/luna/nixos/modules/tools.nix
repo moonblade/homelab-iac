@@ -77,7 +77,7 @@ in
     
     # System monitoring
     btop              # Beautiful resource monitor
-    neofetch          # System info display
+    fastfetch         # System info display (neofetch replacement)
     
     # Notifications
     dunst             # Notification daemon

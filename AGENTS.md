@@ -13,8 +13,8 @@ homelab-iac/
 │   └── terraform/        # VM provisioning via Terraform
 ├── hades/                # Second Proxmox server (primary workloads)
 │   ├── sirius/           # k3s cluster VM (VMID 301)
-│   ├── luna/             # Desktop VM with Sunshine streaming (VMID 401, on Hades)
-│   ├── windows/          # Windows 11 desktop VM (VMID 202, on Hades, GPU passthrough)
+│   ├── luna/             # Desktop VM with Sunshine, Ollama, NVIDIA GPU (VMID 401, on Hades)
+│   ├── windows/          # Windows 11 desktop VM (VMID 202, on Hades, STOPPED - GPU moved to Luna)
 │   └── truenas/          # TrueNAS SCALE Terraform config
 ├── proxmox/              # Proxmox-level configurations
 ├── secrets/              # git-crypt encrypted secrets
@@ -26,8 +26,8 @@ homelab-iac/
 | VM | Host | VMID | IP | Purpose |
 |----|------|------|-----|---------|
 | Sirius | Hades | 301 | 192.168.1.150 | k3s cluster |
-| Luna | Hades | 401 | 192.168.1.199 | NixOS desktop + Sunshine + OpenCode |
-| Windows | Hades | 202 | DHCP | Windows 11 desktop + GPU + Ollama |
+| Luna | Hades | 401 | 192.168.1.199 | NixOS desktop + Sunshine + OpenCode + Ollama (NVIDIA GPU, 24GB RAM) |
+| Windows | Hades | 202 | DHCP | Windows 11 (STOPPED — GPU/RAM moved to Luna) |
 | TrueNAS | Hades | 201 | 192.168.1.10 | Storage |
 
 ## WORKFLOW RULES
@@ -78,7 +78,7 @@ make init && make plan && make apply
 ## NOTES
 
 - **Athena**: Lenovo ThinkCentre running Proxmox (6 cores, 16GB RAM).
-- **Hades**: Second Proxmox instance (12 cores, 32GB RAM). Hosts Luna desktop, Windows desktop, Sirius k3s, and TrueNAS.
-- **Luna**: NixOS desktop with i3, Sunshine game streaming, OpenCode AI assistant. IP 192.168.1.199.
+- **Hades**: Second Proxmox instance (12 cores, 64GB RAM). Hosts Luna desktop, Sirius k3s, and TrueNAS. Windows VM is stopped (GPU/RAM moved to Luna).
+- **Luna**: NixOS desktop with i3, Sunshine game streaming, OpenCode AI assistant, and Ollama LLM server. NVIDIA GPU passthrough (10de:2d04), 24GB RAM. Machine type: Q35 (required for PCIe GPU passthrough). NIC is enp6s18 (not ens18 — Q35 changes PCI bus layout). IP 192.168.1.199. Ollama served at ollama.moonblade.work via NPM custom conf on hades.
 - **Sirius**: k3s cluster for homelab services. IP 192.168.1.150.
 - **TrueNAS**: 192.168.1.10, SCALE 25.10.1 (Fangtooth)
