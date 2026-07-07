@@ -16,7 +16,7 @@ module "k3svm" {
   sshkeys     = local.ssh_pubkey
   ipv4_addr   = "192.168.1.150/24"
   ipv4_gw     = "192.168.1.1"
-  disk_size   = "150G"
+  disk_size   = "250G"
   password    = var.cipassword
   tags        = "k3s"
   vm_state    = "running"
