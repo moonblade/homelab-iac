@@ -151,9 +151,31 @@ resource "truenas_pool_dataset" "secondary_authentik_backup" {
   acltype     = "NFSV4"
 }
 
+# Immich data (photos library + PostgreSQL)
+resource "truenas_pool_dataset" "primary_root_storage_immich" {
+  name        = "primary/root/storage/immich"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage]
+}
+
 # Backup dataset on secondary pool for seafile replication
 resource "truenas_pool_dataset" "secondary_seafile_backup" {
   name        = "secondary/seafile-backup"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+}
+
+# Backup dataset on secondary pool for immich replication
+resource "truenas_pool_dataset" "secondary_immich_backup" {
+  name        = "secondary/immich-backup"
   type        = "FILESYSTEM"
   compression = "LZ4"
   atime       = "OFF"

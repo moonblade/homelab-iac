@@ -210,6 +210,60 @@ resource "truenas_replication" "seafile_to_secondary" {
   ]
 }
 
+# Immich daily snapshots (at 6 AM, staggered from seafile at 5 AM)
+resource "truenas_pool_snapshottask" "immich_daily" {
+  dataset        = "primary/root/storage/immich"
+  recursive      = true
+  enabled        = true
+  lifetime_value = 14
+  lifetime_unit  = "DAY"
+  naming_schema  = "auto-%Y-%m-%d_%H-%M"
+
+  schedule = jsonencode({
+    minute = "0"
+    hour   = "6"
+    dom    = "*"
+    month  = "*"
+    dow    = "*"
+  })
+
+  depends_on = [truenas_pool_dataset.primary_root_storage_immich]
+}
+
+# Immich replication to secondary (at 6:30 AM, after snapshot)
+resource "truenas_replication" "immich_to_secondary" {
+  name            = "immich-to-secondary"
+  direction       = "PUSH"
+  transport       = "LOCAL"
+  source_datasets = ["primary/root/storage/immich"]
+  target_dataset  = "secondary/immich-backup"
+  recursive       = true
+  auto            = true
+
+  also_include_naming_schema = ["auto-%Y-%m-%d_%H-%M"]
+
+  schedule = jsonencode({
+    minute = "30"
+    hour   = "6"
+    dom    = "*"
+    month  = "*"
+    dow    = "*"
+  })
+
+  retention_policy = "CUSTOM"
+  lifetime_value   = 30
+  lifetime_unit    = "DAY"
+
+  readonly   = "SET"
+  properties = true
+  compressed = true
+
+  depends_on = [
+    truenas_pool_dataset.secondary_immich_backup,
+    truenas_pool_snapshottask.immich_daily
+  ]
+}
+
 # Firefly III daily snapshots (at 4 AM, staggered from authentik at 3 AM)
 resource "truenas_pool_snapshottask" "firefly_daily" {
   dataset        = "primary/root/storage/firefly"
