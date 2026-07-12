@@ -42,12 +42,6 @@
     mkdir -p /mnt/nas/storage/games
   '';
 
-  # 32-bit graphics support (required for many Steam/Proton games)
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages32 = with pkgs.pkgsi686Linux; [
-      libva
-    ];
-  };
+  # Note: hardware.graphics and NVIDIA drivers are configured in ollama.nix.
+  # enable32Bit is already set there — required for Steam/Proton 32-bit games.
 }
