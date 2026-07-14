@@ -3,6 +3,9 @@
 { config, lib, pkgs, ... }:
 
 {
+  # Add moonblade to the hermes group so the CLI can read /var/lib/hermes/.hermes/
+  users.users.moonblade.extraGroups = [ "hermes" ];
+
   services.hermes-agent = {
     enable = true;
     addToSystemPackages = true;
