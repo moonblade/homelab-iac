@@ -26,6 +26,7 @@
 
     # AI / LLM
     ./modules/ollama.nix       # Ollama + NVIDIA GPU + qwen3:14b (64k ctx)
+    ./modules/hermes.nix       # Hermes Agent (NousResearch) using Ollama models
 
     # Gaming
     ./modules/steam.nix        # Steam + Proton + NAS game library (/mnt/nas/storage/games)
