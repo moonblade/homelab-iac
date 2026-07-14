@@ -9,8 +9,8 @@
 
     settings = {
       model = {
-        # Ollama on Luna via NPM reverse proxy (OpenAI-compatible)
-        base_url = "http://ollama.moonblade.work/v1";
+        # Ollama running locally on Luna (direct, no proxy hop)
+        base_url = "http://localhost:11434/v1";
         default  = "qwen3:14b";
         api_mode = "chat_completions";
       };
