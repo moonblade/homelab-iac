@@ -123,6 +123,21 @@ resource "truenas_sharing_nfs" "storage_immich" {
   depends_on = [truenas_pool_dataset.primary_root_storage_immich]
 }
 
+# Games NFS share: mapall to moonblade (uid=1000) so Steam on Luna can write
+# game manifests, compatdata, and shadercache without root ownership issues.
+resource "truenas_sharing_nfs" "storage_games" {
+  path         = "/mnt/primary/root/storage/games"
+  enabled      = true
+  ro           = false
+  mapall_user  = "moonblade"
+  mapall_group = "moonblade"
+
+  depends_on = [
+    truenas_pool_dataset.primary_root_storage_games,
+    truenas_user.moonblade,
+  ]
+}
+
 resource "truenas_sharing_nfs" "storage_firefly" {
   path         = "/mnt/primary/root/storage/firefly"
   enabled      = true

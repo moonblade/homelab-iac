@@ -56,6 +56,32 @@ in
       ];
     };
 
+    # Dedicated NFS mount for Steam games library.
+    # Mounted at /mnt/nas-games (NOT nested under /mnt/nas) to avoid symlink loops
+    # with the parent /mnt/nas automount. Uses the storage/games NFS share which maps
+    # all access to moonblade (uid=1000) so Steam can write manifests, compatdata,
+    # and shadercache without root ownership issues.
+    # Steam libraryfolders.vdf must point to /mnt/nas-games.
+    fileSystems."/mnt/nas-games" = {
+      device = "192.168.1.10:/mnt/primary/root/storage/games";
+      fsType = "nfs";
+      options = [
+        "nfsvers=4.2"
+        "rw"
+        "rsize=131072"
+        "wsize=131072"
+        "noatime"
+        "soft"
+        "timeo=50"
+        "x-systemd.automount"
+        "noauto"
+        "nofail"
+        "x-systemd.after=network-online.target"
+        "x-systemd.mount-timeout=30"
+        "x-systemd.idle-timeout=600"
+      ];
+    };
+
     # NFS support
     boot.supportedFilesystems = [ "nfs" "ext4" ];
     services.rpcbind.enable = true;

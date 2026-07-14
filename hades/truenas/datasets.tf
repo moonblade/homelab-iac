@@ -163,6 +163,17 @@ resource "truenas_pool_dataset" "primary_root_storage_immich" {
   depends_on = [truenas_pool_dataset.primary_root_storage]
 }
 
+resource "truenas_pool_dataset" "primary_root_storage_games" {
+  name        = "primary/root/storage/games"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root_storage]
+}
+
 # Backup dataset on secondary pool for firefly replication
 resource "truenas_pool_dataset" "secondary_firefly_backup" {
   name        = "secondary/firefly-backup"
