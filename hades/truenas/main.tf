@@ -64,6 +64,15 @@ resource "truenas_user" "root" {
   sshpubkey = local.ssh_pubkey
 }
 
+# moonblade user (uid=1000) — matches Luna's moonblade user.
+# Required so NFS games share can mapall to uid=1000, allowing Steam to write
+# to game manifests, compatdata, and shadercache.
+resource "truenas_user" "moonblade" {
+  username  = "moonblade"
+  full_name = "moonblade"
+  uid       = 1000
+}
+
 # Fix root folder permissions for NFS and rsync access
 resource "truenas_filesystem_setperm" "root_perms" {
   path             = "/mnt/primary/root"
@@ -78,4 +87,20 @@ resource "truenas_filesystem_setperm" "config_perms" {
   options_stripacl = true
 
   depends_on = [truenas_filesystem_setperm.root_perms]
+}
+
+# Games folder: owned by moonblade (uid=1000) so Steam on Luna can write
+# manifests, compatdata, and shadercache over NFS.
+resource "truenas_filesystem_setperm" "games_perms" {
+  path             = "/mnt/primary/root/storage/games"
+  mode             = "755"
+  user             = "moonblade"
+  group            = "moonblade"
+  options_stripacl = true
+  options_recursive = true
+
+  depends_on = [
+    truenas_pool_dataset.primary_root_storage_games,
+    truenas_user.moonblade,
+  ]
 }
