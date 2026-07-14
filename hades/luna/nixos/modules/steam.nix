@@ -1,5 +1,7 @@
 # Steam module: Gaming via Steam with NAS game library
-# Game library stored on TrueNAS at /mnt/nas/storage/games (NFS, auto-mounted)
+# Game library stored on TrueNAS at /mnt/nas-games (NFS, auto-mounted)
+# Uses dedicated NFS share with moonblade (uid=1000) mapping — separate from /mnt/nas
+# to avoid symlink loops with the parent /mnt/nas automount.
 { config, lib, pkgs, ... }:
 
 {
@@ -35,11 +37,10 @@
   # GameMode service (CPU governor + process priority optimisation)
   programs.gamemode.enable = true;
 
-  # Ensure games NAS directory exists and is accessible
-  # /mnt/nas is auto-mounted via NFS from TrueNAS (192.168.1.10:/mnt/primary/root)
-  # Game library path: /mnt/nas/storage/games
+  # Ensure games NAS mount point exists
+  # /mnt/nas-games is auto-mounted via NFS from TrueNAS (192.168.1.10:/mnt/primary/root/storage/games)
   system.activationScripts.steamGamesDir = ''
-    mkdir -p /mnt/nas/storage/games
+    mkdir -p /mnt/nas-games
   '';
 
   # Note: hardware.graphics and NVIDIA drivers are configured in ollama.nix.
