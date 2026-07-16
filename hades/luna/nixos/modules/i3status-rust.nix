@@ -43,7 +43,7 @@ let
 
     [[block]]
     block = "net"
-    device = "ens18"
+    device = "enp6s18"
     format = " ↓$speed_down.eng(prefix:K,w:4,pad_with:' ') ↑$speed_up.eng(prefix:K,w:4,pad_with:' ') "
     interval = 2
     [block.theme_overrides]
