@@ -162,3 +162,7 @@ Or manually:
 make copy
 make rebuild
 ```
+
+## Log
+
+- **2026-07-16**: Fix i3status-rust net block device name (`ens18` → `enp6s18`) — Q35 machine type places VirtIO NIC on a different PCI bus.

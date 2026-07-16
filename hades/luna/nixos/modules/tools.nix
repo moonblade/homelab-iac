@@ -105,6 +105,7 @@ in
     xdotool           # X11 automation - send keystrokes to apps (for Stremio which lacks MPRIS)
     
     # Media - Stremio installed via Flatpak (flatpak install flathub com.stremio.Stremio)
+    # NOTE: Also requires NVIDIA GL Flatpak extension for GLX to work — see flatpak section below.
     # Sunshine also requires insecure qtwebengine - install via Flatpak if needed
   ];
 
@@ -122,6 +123,17 @@ EOFALACRITTY
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # Add Flathub repo on first boot: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  #
+  # NVIDIA GL extensions for Flatpak (required for Stremio and any Flatpak using OpenGL/GLX):
+  # Flatpak sandboxes are isolated from host GL drivers. Without the matching extension,
+  # Qt/GLX inside the sandbox only sees Mesa software GL and fails with "Could not initialize GLX".
+  # The extension version must match the host NVIDIA driver exactly (595.71.05 as of 2026-07-13).
+  # Install (run once, persists across nixos-rebuild):
+  #   sudo flatpak install --system flathub org.freedesktop.Platform.GL.nvidia-595-71-05
+  #   sudo flatpak install --system flathub org.freedesktop.Platform.GL32.nvidia-595-71-05
+  # If driver is upgraded, install the new matching extension version and remove the old one:
+  #   sudo flatpak uninstall --system org.freedesktop.Platform.GL.nvidia-<old-version>
+  #   sudo flatpak install --system flathub org.freedesktop.Platform.GL.nvidia-<new-version>
 
   # Enable tmux
   programs.tmux.enable = true;
