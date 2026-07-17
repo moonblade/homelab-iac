@@ -25,6 +25,13 @@ copy-secrets:
 	@ssh $(NIXOS_USER)@$(NIXOS_IP) 'mkdir -p /var/lib/beszel-agent'
 	@grep '^BESZEL_KEY=' $(SECRETS_DIR)/beszel.env | sed 's/BESZEL_KEY=/KEY=/' | ssh $(NIXOS_USER)@$(NIXOS_IP) 'cat > /var/lib/beszel-agent/beszel.env'
 	@ssh $(NIXOS_USER)@$(NIXOS_IP) 'chmod 600 /var/lib/beszel-agent/beszel.env'
+	@echo "Copying NPM secrets..."
+	@scp $(SECRETS_DIR)/npm-luna.env $(NIXOS_USER)@$(NIXOS_IP):/root/workspace/npm-luna.env
+	@ssh $(NIXOS_USER)@$(NIXOS_IP) 'chmod 600 /root/workspace/npm-luna.env'
+
+# Set up NPM + SSL + proxy host for ollama.moonblade.work
+npm-setup:
+	@$(MAKE) -C nginx-proxy-manager setup
 
 rebuild:
 	ssh $(NIXOS_USER)@$(NIXOS_IP) 'nixos-rebuild switch --flake /etc/nixos/luna#luna'

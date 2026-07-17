@@ -79,6 +79,6 @@ make init && make plan && make apply
 
 - **Athena**: Lenovo ThinkCentre running Proxmox (6 cores, 16GB RAM).
 - **Hades**: Second Proxmox instance (12 cores, 64GB RAM). Hosts Luna desktop, Sirius k3s, and TrueNAS. Windows VM is stopped (GPU/RAM moved to Luna).
-- **Luna**: NixOS desktop with i3, Sunshine game streaming, OpenCode AI assistant, and Ollama LLM server. NVIDIA GPU passthrough (10de:2d04), 24GB RAM. Machine type: Q35 (required for PCIe GPU passthrough). NIC is enp6s18 (not ens18 — Q35 changes PCI bus layout). IP 192.168.1.199. Ollama served at ollama.moonblade.work via NPM custom conf on hades.
+- **Luna**: NixOS desktop with i3, Sunshine game streaming, OpenCode AI assistant, and Ollama LLM server. NVIDIA GPU passthrough (10de:2d04), 24GB RAM. Machine type: Q35 (required for PCIe GPU passthrough). NIC is enp6s18 (not ens18 — Q35 changes PCI bus layout). IP 192.168.1.199. Ollama served at ollama.moonblade.work via NPM running on Luna itself (Docker, host networking). NPM config in `hades/luna/nginx-proxy-manager/`. SSL via Let's Encrypt + Cloudflare DNS challenge (cloudflare.env). NPM creds in `secrets/npm-luna.env`.
 - **Sirius**: k3s cluster for homelab services. IP 192.168.1.150.
 - **TrueNAS**: 192.168.1.10, SCALE 25.10.1 (Fangtooth)
