@@ -134,7 +134,28 @@ configure-proxy:
 		echo "  Proxy host already exists"; \
 	fi
 
-# Renew certificate
+# Renew certificate (manual fallback - cert-sync CronJob in k8s handles this automatically)
+# Re-installs certbot-dns-cloudflare each time because it is not baked into the NPM image
+# and is lost whenever the container is recreated.
 renew-cert:
-	@ssh $(HOST) "docker exec $(CONTAINER) certbot renew"
-	@echo "✓ Certificate renewed"
+	@echo "Installing certbot-dns-cloudflare plugin..."
+	@ssh $(HOST) "docker exec $(CONTAINER) pip install certbot-dns-cloudflare -q"
+	@echo "Renewing certificate..."
+	@ssh $(HOST) "docker exec $(CONTAINER) certbot certonly \
+		--dns-cloudflare \
+		--dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini \
+		--dns-cloudflare-propagation-seconds 30 \
+		-d $(DOMAIN) \
+		--non-interactive \
+		--agree-tos \
+		--email admin@moonblade.work \
+		--force-renewal 2>&1"
+	@echo "Copying renewed cert into NPM letsencrypt volume..."
+	@ssh $(HOST) "docker cp $(CONTAINER):/etc/letsencrypt/archive/$(DOMAIN)/fullchain2.pem $(REMOTE_DIR)/letsencrypt/live/npm-1/fullchain.pem 2>/dev/null || \
+		docker cp $(CONTAINER):/etc/letsencrypt/archive/$(DOMAIN)/fullchain1.pem $(REMOTE_DIR)/letsencrypt/live/npm-1/fullchain.pem"
+	@ssh $(HOST) "docker cp $(CONTAINER):/etc/letsencrypt/archive/$(DOMAIN)/privkey2.pem $(REMOTE_DIR)/letsencrypt/live/npm-1/privkey.pem 2>/dev/null || \
+		docker cp $(CONTAINER):/etc/letsencrypt/archive/$(DOMAIN)/privkey1.pem $(REMOTE_DIR)/letsencrypt/live/npm-1/privkey.pem"
+	@ssh $(HOST) "docker cp $(CONTAINER):/etc/letsencrypt/archive/$(DOMAIN)/cert2.pem $(REMOTE_DIR)/letsencrypt/live/npm-1/cert.pem 2>/dev/null || \
+		docker cp $(CONTAINER):/etc/letsencrypt/archive/$(DOMAIN)/cert1.pem $(REMOTE_DIR)/letsencrypt/live/npm-1/cert.pem"
+	@ssh $(HOST) "docker exec $(CONTAINER) nginx -s reload"
+	@echo "✓ Certificate renewed and NPM reloaded"
