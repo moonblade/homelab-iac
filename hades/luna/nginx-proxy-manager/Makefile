@@ -1,4 +1,4 @@
-HOST := luna
+HOST := root@192.168.1.199
 REMOTE_DIR := /root/workspace/nginx-proxy-manager
 CONTAINER := nginx-proxy-manager-app-1
 SECRETS_DIR := ../../../secrets
@@ -132,7 +132,7 @@ configure-proxy:
 	\
 	echo "  Creating proxy host..."; \
 	EXISTING=$$(ssh $(HOST) "curl -s 'http://127.0.0.1:81/api/nginx/proxy-hosts' \
-		-H 'Authorization: Bearer $$TOKEN'" | grep -c '"id":1' || echo 0); \
+		-H 'Authorization: Bearer $$TOKEN'" | python3 -c 'import sys,json; h=json.load(sys.stdin); print(len([x for x in h if "$(DOMAIN)" in x.get("domain_names",[])]))'  2>/dev/null || echo 0); \
 	if [ "$$EXISTING" = "0" ]; then \
 		ssh $(HOST) "curl -s -X POST 'http://127.0.0.1:81/api/nginx/proxy-hosts' \
 			-H 'Authorization: Bearer $$TOKEN' \
