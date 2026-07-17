@@ -27,6 +27,7 @@
     # AI / LLM
     ./modules/ollama.nix       # Ollama + NVIDIA GPU + qwen3:14b (64k ctx)
     ./modules/hermes.nix       # Hermes Agent (NousResearch) using Ollama models
+    ./modules/npm.nix          # Nginx Proxy Manager (Docker) — ollama.moonblade.work → :11434
 
     # Gaming
     ./modules/steam.nix        # Steam + Proton + NAS game library (/mnt/nas/storage/games)
