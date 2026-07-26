@@ -36,6 +36,12 @@
         memory_enabled       = true;
         user_profile_enabled = true;
       };
+
+      # Basic auth for dashboard when bound to 0.0.0.0 (required by hermes security policy)
+      dashboard.basic_auth = {
+        username      = "moonblade";
+        password_hash = "scrypt$16384$8$1$5havU7CNxWDKQhC4cXLzjw==$wquAerGhFHqdeBe+d57x+aY8Xb6dQ1kkdv+/sand5Zc=";
+      };
     };
   };
 
@@ -56,6 +62,7 @@
       Restart     = "always";
       RestartSec  = 10;
       ExecStart   = "/run/current-system/sw/bin/hermes dashboard --no-open --port 9119 --host 0.0.0.0";
+      # Note: basic_auth must be set in hermes settings above for 0.0.0.0 binding to be allowed
     };
   };
 }
