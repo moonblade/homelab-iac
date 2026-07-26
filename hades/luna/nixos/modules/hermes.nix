@@ -55,7 +55,7 @@
       Group       = "hermes";
       Restart     = "always";
       RestartSec  = 10;
-      ExecStart   = "/run/current-system/sw/bin/hermes dashboard --no-open --port 9119 --host 127.0.0.1";
+      ExecStart   = "/run/current-system/sw/bin/hermes dashboard --no-open --port 9119 --host 0.0.0.0";
     };
   };
 }
