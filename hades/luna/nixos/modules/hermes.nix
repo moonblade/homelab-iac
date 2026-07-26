@@ -38,4 +38,24 @@
       };
     };
   };
+
+  # Hermes web dashboard — runs on port 9119, proxied via NPM
+  # Docs: hermes dashboard --no-open --port 9119
+  systemd.services.hermes-dashboard = {
+    description = "Hermes Agent Web Dashboard";
+    after       = [ "hermes-agent.service" "network.target" ];
+    wants       = [ "hermes-agent.service" ];
+    wantedBy    = [ "multi-user.target" ];
+    environment = {
+      HERMES_HOME = "/var/lib/hermes/.hermes";
+    };
+    serviceConfig = {
+      Type        = "simple";
+      User        = "hermes";
+      Group       = "hermes";
+      Restart     = "always";
+      RestartSec  = 10;
+      ExecStart   = "/run/current-system/sw/bin/hermes dashboard --no-open --port 9119 --host 127.0.0.1";
+    };
+  };
 }
