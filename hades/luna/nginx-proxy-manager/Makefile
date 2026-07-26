@@ -5,9 +5,13 @@ SECRETS_DIR := ../../../secrets
 DOMAIN := ollama.moonblade.work
 OLLAMA_PORT := 11434
 NPM_SECRETS := $(SECRETS_DIR)/npm-luna.env
+HERMES_UI_DOMAIN := hermes-ui.moonblade.work
+HERMES_DASHBOARD_DOMAIN := hermes-dashboard.moonblade.work
+HERMES_PORT := 9119
 
 .PHONY: setup deploy copy up down logs status restart wait-ready \
-        install-certbot change-password generate-cert configure-proxy renew-cert
+        install-certbot change-password generate-cert configure-proxy renew-cert \
+        configure-hermes generate-cert-hermes-ui generate-cert-hermes-dashboard
 
 # Full automated setup: deploy + SSL + proxy host
 setup: deploy wait-ready change-password generate-cert configure-proxy
@@ -156,6 +160,131 @@ configure-proxy:
 		echo "Proxy host created: https://$(DOMAIN) -> localhost:$(OLLAMA_PORT)"; \
 	else \
 		echo "  Proxy host already exists"; \
+	fi
+
+# Generate cert for hermes-ui.moonblade.work
+generate-cert-hermes-ui:
+	@echo "Generating SSL certificate for $(HERMES_UI_DOMAIN)..."
+	@CF_TOKEN=$$(grep CLOUDFLARE_API_TOKEN $(SECRETS_DIR)/cloudflare.env | cut -d'=' -f2); \
+	ssh $(HOST) "docker exec $(CONTAINER) certbot certonly \
+		--dns-cloudflare \
+		--dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini \
+		--dns-cloudflare-propagation-seconds 30 \
+		-d $(HERMES_UI_DOMAIN) \
+		--non-interactive \
+		--agree-tos \
+		--email admin@moonblade.work \
+		--keep-until-expiring" 2>/dev/null || true
+	@echo "Certificate ready"
+
+# Generate cert for hermes-dashboard.moonblade.work
+generate-cert-hermes-dashboard:
+	@echo "Generating SSL certificate for $(HERMES_DASHBOARD_DOMAIN)..."
+	@CF_TOKEN=$$(grep CLOUDFLARE_API_TOKEN $(SECRETS_DIR)/cloudflare.env | cut -d'=' -f2); \
+	ssh $(HOST) "docker exec $(CONTAINER) certbot certonly \
+		--dns-cloudflare \
+		--dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini \
+		--dns-cloudflare-propagation-seconds 30 \
+		-d $(HERMES_DASHBOARD_DOMAIN) \
+		--non-interactive \
+		--agree-tos \
+		--email admin@moonblade.work \
+		--keep-until-expiring" 2>/dev/null || true
+	@echo "Certificate ready"
+
+# Configure NPM proxy hosts for hermes-ui and hermes-dashboard → localhost:9119
+configure-hermes: generate-cert-hermes-ui generate-cert-hermes-dashboard
+	@echo "Configuring proxy hosts for Hermes (port $(HERMES_PORT))..."
+	@NPM_EMAIL=$$(grep NPM_EMAIL $(NPM_SECRETS) | cut -d'=' -f2); \
+	NPM_PASSWORD=$$(grep NPM_PASSWORD $(NPM_SECRETS) | cut -d'=' -f2); \
+	TOKEN=$$(ssh $(HOST) "curl -s -X POST 'http://127.0.0.1:81/api/tokens' \
+		-H 'Content-Type: application/json' \
+		-d '{\"identity\":\"$$NPM_EMAIL\",\"secret\":\"$$NPM_PASSWORD\"}'" \
+		| grep -o '"token":"[^"]*"' | cut -d'"' -f4); \
+	if [ -z "$$TOKEN" ]; then echo "Failed to get NPM API token"; exit 1; fi; \
+	\
+	CERT_ID_UI=$$(ssh $(HOST) "sqlite3 $(REMOTE_DIR)/data/database.sqlite \
+		\"SELECT id FROM certificate WHERE nice_name='$(HERMES_UI_DOMAIN)' LIMIT 1\"" 2>/dev/null || echo ""); \
+	if [ -z "$$CERT_ID_UI" ]; then \
+		ssh $(HOST) "sqlite3 $(REMOTE_DIR)/data/database.sqlite \
+			\"INSERT INTO certificate \
+			(created_on, modified_on, owner_user_id, provider, nice_name, domain_names, expires_on, meta) \
+			VALUES (datetime('now'), datetime('now'), 1, 'letsencrypt', '$(HERMES_UI_DOMAIN)', \
+			'[\\\"$(HERMES_UI_DOMAIN)\\\"]', datetime('now', '+90 days'), '{}')\""; \
+		CERT_ID_UI=$$(ssh $(HOST) "sqlite3 $(REMOTE_DIR)/data/database.sqlite \
+			\"SELECT id FROM certificate WHERE nice_name='$(HERMES_UI_DOMAIN)' ORDER BY id DESC LIMIT 1\""); \
+		ssh $(HOST) "mkdir -p $(REMOTE_DIR)/letsencrypt/live/npm-$$CERT_ID_UI"; \
+		ssh $(HOST) "docker cp $(CONTAINER):/etc/letsencrypt/live/$(HERMES_UI_DOMAIN)/. \
+			$(REMOTE_DIR)/letsencrypt/live/npm-$$CERT_ID_UI/ 2>/dev/null || true"; \
+	fi; \
+	\
+	EXISTING_UI=$$(ssh $(HOST) "curl -s 'http://127.0.0.1:81/api/nginx/proxy-hosts' \
+		-H 'Authorization: Bearer $$TOKEN'" | python3 -c 'import sys,json; h=json.load(sys.stdin); print(len([x for x in h if "$(HERMES_UI_DOMAIN)" in x.get("domain_names",[])]))'  2>/dev/null || echo 0); \
+	if [ "$$EXISTING_UI" = "0" ]; then \
+		ssh $(HOST) "curl -s -X POST 'http://127.0.0.1:81/api/nginx/proxy-hosts' \
+			-H 'Authorization: Bearer $$TOKEN' \
+			-H 'Content-Type: application/json' \
+			-d '{ \
+				\"domain_names\": [\"$(HERMES_UI_DOMAIN)\"], \
+				\"forward_scheme\": \"http\", \
+				\"forward_host\": \"127.0.0.1\", \
+				\"forward_port\": $(HERMES_PORT), \
+				\"certificate_id\": '$$CERT_ID_UI', \
+				\"ssl_forced\": true, \
+				\"http2_support\": true, \
+				\"allow_websocket_upgrade\": true, \
+				\"block_exploits\": false, \
+				\"access_list_id\": 0, \
+				\"advanced_config\": \"\", \
+				\"enabled\": 1, \
+				\"meta\": {}, \
+				\"locations\": [] \
+			}'" >/dev/null; \
+		echo "Proxy host created: https://$(HERMES_UI_DOMAIN) -> localhost:$(HERMES_PORT)"; \
+	else \
+		echo "  Proxy host $(HERMES_UI_DOMAIN) already exists"; \
+	fi; \
+	\
+	CERT_ID_DASH=$$(ssh $(HOST) "sqlite3 $(REMOTE_DIR)/data/database.sqlite \
+		\"SELECT id FROM certificate WHERE nice_name='$(HERMES_DASHBOARD_DOMAIN)' LIMIT 1\"" 2>/dev/null || echo ""); \
+	if [ -z "$$CERT_ID_DASH" ]; then \
+		ssh $(HOST) "sqlite3 $(REMOTE_DIR)/data/database.sqlite \
+			\"INSERT INTO certificate \
+			(created_on, modified_on, owner_user_id, provider, nice_name, domain_names, expires_on, meta) \
+			VALUES (datetime('now'), datetime('now'), 1, 'letsencrypt', '$(HERMES_DASHBOARD_DOMAIN)', \
+			'[\\\"$(HERMES_DASHBOARD_DOMAIN)\\\"]', datetime('now', '+90 days'), '{}')\""; \
+		CERT_ID_DASH=$$(ssh $(HOST) "sqlite3 $(REMOTE_DIR)/data/database.sqlite \
+			\"SELECT id FROM certificate WHERE nice_name='$(HERMES_DASHBOARD_DOMAIN)' ORDER BY id DESC LIMIT 1\""); \
+		ssh $(HOST) "mkdir -p $(REMOTE_DIR)/letsencrypt/live/npm-$$CERT_ID_DASH"; \
+		ssh $(HOST) "docker cp $(CONTAINER):/etc/letsencrypt/live/$(HERMES_DASHBOARD_DOMAIN)/. \
+			$(REMOTE_DIR)/letsencrypt/live/npm-$$CERT_ID_DASH/ 2>/dev/null || true"; \
+	fi; \
+	\
+	EXISTING_DASH=$$(ssh $(HOST) "curl -s 'http://127.0.0.1:81/api/nginx/proxy-hosts' \
+		-H 'Authorization: Bearer $$TOKEN'" | python3 -c 'import sys,json; h=json.load(sys.stdin); print(len([x for x in h if "$(HERMES_DASHBOARD_DOMAIN)" in x.get("domain_names",[])]))'  2>/dev/null || echo 0); \
+	if [ "$$EXISTING_DASH" = "0" ]; then \
+		ssh $(HOST) "curl -s -X POST 'http://127.0.0.1:81/api/nginx/proxy-hosts' \
+			-H 'Authorization: Bearer $$TOKEN' \
+			-H 'Content-Type: application/json' \
+			-d '{ \
+				\"domain_names\": [\"$(HERMES_DASHBOARD_DOMAIN)\"], \
+				\"forward_scheme\": \"http\", \
+				\"forward_host\": \"127.0.0.1\", \
+				\"forward_port\": $(HERMES_PORT), \
+				\"certificate_id\": '$$CERT_ID_DASH', \
+				\"ssl_forced\": true, \
+				\"http2_support\": true, \
+				\"allow_websocket_upgrade\": true, \
+				\"block_exploits\": false, \
+				\"access_list_id\": 0, \
+				\"advanced_config\": \"\", \
+				\"enabled\": 1, \
+				\"meta\": {}, \
+				\"locations\": [] \
+			}'" >/dev/null; \
+		echo "Proxy host created: https://$(HERMES_DASHBOARD_DOMAIN) -> localhost:$(HERMES_PORT)"; \
+	else \
+		echo "  Proxy host $(HERMES_DASHBOARD_DOMAIN) already exists"; \
 	fi
 
 # Renew certificate manually (fallback; normally auto-renewed by certbot inside container)
