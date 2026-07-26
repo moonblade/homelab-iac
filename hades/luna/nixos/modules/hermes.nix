@@ -51,7 +51,7 @@
     };
     serviceConfig = {
       Type        = "simple";
-      User        = "hermes";
+      User        = "moonblade";
       Group       = "hermes";
       Restart     = "always";
       RestartSec  = 10;
