@@ -20,8 +20,8 @@
 
       auxiliary = {
         # Use the smaller/faster model for side tasks (compression, title gen, etc.)
-        compression.model    = "qwen3.5:9b";
-        title_generation.model = "qwen3.5:9b";
+        compression.model    = "gemma4:latest";
+        title_generation.model = "gemma4:latest";
       };
 
       # 64K context (Ollama is configured with OLLAMA_NUM_CTX=65536 on Luna)
