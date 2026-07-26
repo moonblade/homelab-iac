@@ -14,7 +14,7 @@
       model = {
         # Ollama running locally on Luna (direct, no proxy hop)
         base_url = "http://localhost:11434/v1";
-        default  = "qwen3:14b";
+        default  = "gemma4";
         api_mode = "chat_completions";
       };
 
