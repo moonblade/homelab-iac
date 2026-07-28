@@ -1,22 +1,27 @@
-# Audio module: PulseAudio for xrdp compatibility
-# NOTE: xrdp audio ONLY works with PulseAudio, NOT PipeWire
+# Audio module: PipeWire (replaces PulseAudio)
+# PipeWire provides PulseAudio compatibility via pipewire-pulse,
+# better latency, and works correctly with Sunshine/Moonlight streaming.
 { config, lib, pkgs, ... }:
 
 {
-  # PulseAudio - required for xrdp audio support
-  services.pulseaudio = {
+  # Disable PulseAudio — PipeWire replaces it
+  services.pulseaudio.enable = false;
+
+  # PipeWire with full compatibility layers
+  services.pipewire = {
     enable = true;
-    # Enable extra modules for better compatibility
-    package = pkgs.pulseaudioFull;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;   # PulseAudio compatibility (pavucontrol etc. still work)
+    jack.enable = false;
   };
-  
-  # IMPORTANT: Explicitly disable PipeWire to avoid conflicts
-  # xrdp audio does NOT work with PipeWire
-  services.pipewire.enable = false;
+
+  # Real-time scheduling for PipeWire (low-latency audio)
+  security.rtkit.enable = true;
 
   # Audio control packages
   environment.systemPackages = with pkgs; [
-    pavucontrol       # PulseAudio volume control GUI
+    pavucontrol       # PulseAudio volume control GUI (works via pipewire-pulse)
     pamixer           # Command-line mixer
     playerctl         # MPRIS media player controller
   ];
