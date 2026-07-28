@@ -17,7 +17,6 @@
     # Networking
     ./modules/networking.nix   # Static IP configuration
     ./modules/tailscale.nix    # VPN access
-    ./modules/beszel.nix       # Server monitoring agent
     
     # User & Tools
     ./modules/user.nix         # moonblade user configuration
@@ -31,5 +30,8 @@
 
     # Gaming
     ./modules/steam.nix        # Steam + Proton + NAS game library (/mnt/nas/storage/games)
+
+    # Hardware
+    ./modules/bluetooth.nix    # Bluetooth (Realtek 13d3:3571 USB passthrough from Hades host)
   ];
 }
