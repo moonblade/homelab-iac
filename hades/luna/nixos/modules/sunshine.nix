@@ -38,7 +38,10 @@
     qp = 20
     adapter_name = NVIDIA GeForce RTX 5060 Ti
     capture = x11
-    resolutions = [1440x900, 1920x1080, 1280x720]
+    resolutions = [1920x1200, 1920x1080, 1440x900, 1280x720]
+    # PipeWire: explicitly set the virtual sink for audio capture.
+    # pa_simple_new() fails without this when using pipewire-pulse compat layer.
+    audio_sink = sink-sunshine-stereo
   '';
 
   # Symlink config into place on activation
