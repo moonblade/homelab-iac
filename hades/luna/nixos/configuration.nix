@@ -52,7 +52,8 @@ in
         "nofail"
         "x-systemd.after=network-online.target"
         "x-systemd.mount-timeout=30"
-        "x-systemd.idle-timeout=600"
+        # No idle-timeout: TrueNAS is on the same Proxmox host, always available.
+        # Idle-unmounting caused issues with other services accessing /mnt/nas intermittently.
       ];
     };
 
@@ -78,7 +79,9 @@ in
         "nofail"
         "x-systemd.after=network-online.target"
         "x-systemd.mount-timeout=30"
-        "x-systemd.idle-timeout=600"
+        # No idle-timeout: TrueNAS is on the same Proxmox host, always available.
+        # Idle-unmounting caused Steam to stall (BMainLoop > 15s) when the mount
+        # expired mid-session, freezing the whole VM kernel.
       ];
     };
 
