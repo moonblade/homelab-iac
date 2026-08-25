@@ -1,6 +1,7 @@
 # Ollama module: NVIDIA GPU-accelerated LLM serving
-# Model: qwen3:14b — fits in 16GB VRAM at default quantisation, supports 64k context
-# GPU: NVIDIA (10de:2d04) passed through from host via VFIO
+# Models: qwen3:14b (9.3GB), qwen3.8:27b (~17GB, may use up to 1GB RAM overflow)
+# GPU: NVIDIA RTX 5060 Ti (10de:2d04) passed through from host via VFIO, 16GB VRAM
+# ollama-cuda overridden from nixpkgs-unstable (0.32.x) to support qwen3.8:27b
 # NixOS 26.05 stable
 { config, lib, pkgs, ... }:
 
@@ -40,16 +41,18 @@
     };
   };
 
-  # Pull qwen3:14b on first boot (oneshot, idempotent)
-  systemd.services.ollama-pull-qwen3 = {
-    description = "Pull qwen3:14b model for Ollama";
+  # Pull models on first boot (oneshot, idempotent)
+  systemd.services.ollama-pull-models = {
+    description = "Pull qwen3:14b and qwen3.8:27b models for Ollama";
     after = [ "ollama.service" ];
     wants = [ "ollama.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = pkgs.writeShellScript "ollama-pull-qwen3" ''
+      # qwen3.8:27b is ~17GB — allow plenty of time
+      TimeoutStartSec = "3600";
+      ExecStart = pkgs.writeShellScript "ollama-pull-models" ''
         set -e
         export HOME=/var/lib/ollama
         export OLLAMA_HOST=http://localhost:11434
@@ -60,12 +63,19 @@
           fi
           sleep 2
         done
-        # Pull only if not already present
+        # Pull qwen3:14b if not already present
         if ! ${pkgs.ollama-cuda}/bin/ollama list | grep -q 'qwen3:14b'; then
           echo "Pulling qwen3:14b..."
           ${pkgs.ollama-cuda}/bin/ollama pull qwen3:14b
         else
           echo "qwen3:14b already present, skipping"
+        fi
+        # Pull qwen3.8:27b if not already present
+        if ! ${pkgs.ollama-cuda}/bin/ollama list | grep -q 'qwen3.8:27b'; then
+          echo "Pulling qwen3.8:27b..."
+          ${pkgs.ollama-cuda}/bin/ollama pull qwen3.8:27b
+        else
+          echo "qwen3.8:27b already present, skipping"
         fi
       '';
       User = "ollama";
