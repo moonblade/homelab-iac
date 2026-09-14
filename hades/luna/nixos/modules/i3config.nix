@@ -19,14 +19,17 @@ let
 
     # Set display resolution for NVIDIA GPU HDMI output (dummy plug)
     # HDMI-0 = dummy plug on NVIDIA RTX 5060 Ti via passthrough
-    # 1440x900 (16:10) chosen for MacBook Air M4 — comfortable icon size
-    exec --no-startup-id xrandr --output HDMI-0 --mode 1440x900 --rate 59.89
+    # 1920x1200 (16:10) chosen for MacBook Air M4 primary display — native is 2560x1664 but too small at that DPI
+    exec --no-startup-id xrandr --output HDMI-0 --mode 1920x1200 --rate 60
 
     # Start XDG autostart
     exec --no-startup-id dex --autostart --environment i3
 
-    # Screen lock
-    exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+    # Bluetooth tray applet (blueman)
+    exec --no-startup-id blueman-applet
+
+    # Screenshot tool (flameshot)
+    exec --no-startup-id flameshot
 
     # i3bar with i3status-rust
     bar {
@@ -43,6 +46,10 @@ let
             urgent_workspace #f38ba8 #f38ba8 #1e1e2e
         }
     }
+
+    # Screenshots (flameshot)
+    bindsym Print exec --no-startup-id flameshot gui
+    bindsym $mod+Print exec --no-startup-id flameshot full -p /home/moonblade/Pictures/screenshots
 
     # Volume controls
     bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
