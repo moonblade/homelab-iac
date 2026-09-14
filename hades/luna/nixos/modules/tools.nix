@@ -93,6 +93,9 @@ in
     fd                # Fast find alternative
     bat               # Cat with syntax highlighting
     jq                # JSON processor
+
+    # i3 helpers (referenced in i3config.nix)
+    dex               # XDG autostart support (exec --no-startup-id dex)
     
     # AI coding assistant (opencode installed via curl - needs nix-ld)
     bun               # JavaScript runtime for oh-my-opencode (run: bunx oh-my-opencode install)
@@ -134,6 +137,12 @@ EOFALACRITTY
   # If driver is upgraded, install the new matching extension version and remove the old one:
   #   sudo flatpak uninstall --system org.freedesktop.Platform.GL.nvidia-<old-version>
   #   sudo flatpak install --system flathub org.freedesktop.Platform.GL.nvidia-<new-version>
+
+  # Create screenshots directory for flameshot
+  system.activationScripts.flameshotDir = ''
+    mkdir -p /home/moonblade/Pictures/screenshots
+    chown -R moonblade:users /home/moonblade/Pictures
+  '';
 
   # Enable tmux
   programs.tmux.enable = true;
