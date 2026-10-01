@@ -1,0 +1,167 @@
+# Tools module: Essential desktop tools
+{ config, lib, pkgs, ... }:
+
+let
+  alacrittyConfig = ''
+    [window]
+    opacity = 0.95
+    padding = { x = 5, y = 5 }
+
+    [font]
+    size = 11.0
+
+    [font.normal]
+    family = "JetBrains Mono"
+    style = "Regular"
+
+    [font.bold]
+    family = "JetBrains Mono"
+    style = "Bold"
+
+    # Dark theme (One Dark inspired)
+    [colors.primary]
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+
+    [colors.normal]
+    black   = "#45475a"
+    red     = "#f38ba8"
+    green   = "#a6e3a1"
+    yellow  = "#f9e2af"
+    blue    = "#89b4fa"
+    magenta = "#f5c2e7"
+    cyan    = "#94e2d5"
+    white   = "#bac2de"
+
+    [colors.bright]
+    black   = "#585b70"
+    red     = "#f38ba8"
+    green   = "#a6e3a1"
+    yellow  = "#f9e2af"
+    blue    = "#89b4fa"
+    magenta = "#f5c2e7"
+    cyan    = "#94e2d5"
+    white   = "#a6adc8"
+  '';
+in
+{
+  environment.systemPackages = with pkgs; [
+    # Terminal
+    alacritty         # Modern GPU-accelerated terminal
+    xterm             # Fallback terminal
+    
+    # Fonts for terminal
+    jetbrains-mono    # JetBrains Mono for alacritty
+    
+    # Application launchers
+    dmenu             # Simple and fast launcher
+    rofi              # Feature-rich launcher with themes
+    
+    # File management
+    pcmanfm           # Lightweight file manager
+    thunar            # Feature-rich file manager (moved from xfce.thunar)
+    ranger            # Terminal file manager
+    
+    # Text editors
+    neovim            # Modern vim
+    vscode            # VS Code (unfree)
+    
+    # Image viewing/wallpapers
+    feh               # Image viewer and wallpaper setter
+    flameshot         # Screenshot tool
+    scrot             # Simple screenshot utility
+    
+    # Clipboard
+    xclip             # Command-line clipboard
+    xsel              # Another clipboard tool
+    
+    # System monitoring
+    btop              # Beautiful resource monitor
+    fastfetch         # System info display (neofetch replacement)
+    
+    # Notifications
+    dunst             # Notification daemon
+    libnotify         # Send notifications from command line
+    
+    # Archive tools
+    p7zip             # 7zip support
+    unrar             # RAR extraction
+    
+    # Misc utilities
+    tree              # Directory tree view
+    ripgrep           # Fast grep alternative
+    fd                # Fast find alternative
+    bat               # Cat with syntax highlighting
+    jq                # JSON processor
+
+    # i3 helpers (referenced in i3config.nix)
+    dex               # XDG autostart support (exec --no-startup-id dex)
+    
+    # AI coding assistant (opencode installed via curl - needs nix-ld)
+    bun               # JavaScript runtime for oh-my-opencode (run: bunx oh-my-opencode install)
+    
+    # Build tools
+    gnumake           # GNU Make
+    
+    # Media control
+    playerctl         # MPRIS media player controller (controls Chrome, Firefox, etc.)
+    xdotool           # X11 automation - send keystrokes to apps (for Stremio which lacks MPRIS)
+    
+    # Media - Stremio installed via Flatpak (flatpak install flathub com.stremio.Stremio)
+    # NOTE: Also requires NVIDIA GL Flatpak extension for GLX to work — see flatpak section below.
+    # Sunshine also requires insecure qtwebengine - install via Flatpak if needed
+  ];
+
+  # Deploy alacritty config
+  system.activationScripts.alacrittyConfig = ''
+    mkdir -p /home/moonblade/.config/alacritty
+    cat > /home/moonblade/.config/alacritty/alacritty.toml << 'EOFALACRITTY'
+${alacrittyConfig}
+EOFALACRITTY
+    chown -R moonblade:users /home/moonblade/.config/alacritty
+  '';
+
+  # Enable Flatpak for sandboxed apps (Stremio)
+  services.flatpak.enable = true;
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  # Add Flathub repo on first boot: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  #
+  # NVIDIA GL extensions for Flatpak (required for Stremio and any Flatpak using OpenGL/GLX):
+  # Flatpak sandboxes are isolated from host GL drivers. Without the matching extension,
+  # Qt/GLX inside the sandbox only sees Mesa software GL and fails with "Could not initialize GLX".
+  # The extension version must match the host NVIDIA driver exactly (595.71.05 as of 2026-07-13).
+  # Install (run once, persists across nixos-rebuild):
+  #   sudo flatpak install --system flathub org.freedesktop.Platform.GL.nvidia-595-71-05
+  #   sudo flatpak install --system flathub org.freedesktop.Platform.GL32.nvidia-595-71-05
+  # If driver is upgraded, install the new matching extension version and remove the old one:
+  #   sudo flatpak uninstall --system org.freedesktop.Platform.GL.nvidia-<old-version>
+  #   sudo flatpak install --system flathub org.freedesktop.Platform.GL.nvidia-<new-version>
+
+  # Create screenshots directory for flameshot
+  system.activationScripts.flameshotDir = ''
+    mkdir -p /home/moonblade/Pictures/screenshots
+    chown -R moonblade:users /home/moonblade/Pictures
+  '';
+
+  # Enable tmux
+  programs.tmux.enable = true;
+
+  # Enable neovim as default editor
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+  };
+
+  # Enable nix-ld for running dynamically linked binaries (opencode, etc.)
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc.lib  # libstdc++
+      zlib
+      openssl
+    ];
+  };
+}

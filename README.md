@@ -219,3 +219,7 @@ Removed Athena Ollama LXC (102): No longer needed since GPU is now available on 
 - **May 14, 2026**
 
 GPU passthrough migration: Moved GPU from ollama LXC (cgroup passthrough) to Windows VM 202 (VFIO passthrough). Configured vfio-pci to bind NVIDIA GPU at boot, blacklisted nvidia/nouveau on Hades host. Added 200GB extra disk to Windows VM for ollama models. Removed VM 402 (unused duplicate). Updated `hades/windows/` config to document VM 202. Removed GPU targets from ollama LXC Makefile. Ollama will now run on Windows VM with GPU access.
+
+- **Oct 1, 2026**
+
+New VM: Terra (`athena/terra/`) — smaller backup desktop on Athena for when Hades (which has had random reboots) is down. Same stack as Luna (i3 + xrdp, Firefox + Chrome, Tailscale, OpenCode, Beszel) minus everything GPU-bound (no Sunshine, Ollama, Steam, NPM, or the Hades-specific bluetooth dongle passthrough). VMID 402, 192.168.1.200, 4 vCPUs, 14GB RAM (balloon disabled, capped below Athena's 16GB host total to leave headroom for Proxmox), 80GB disk. Not yet provisioned — run `make init && make plan && make apply && make deploy` in `athena/terra/` to bring it up.

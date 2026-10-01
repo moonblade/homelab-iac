@@ -1,0 +1,3 @@
+.terraform
+athena-terra.tfplan
+terraform.tfstate.backup
