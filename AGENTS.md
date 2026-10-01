@@ -10,7 +10,8 @@ Homelab infrastructure as code. Proxmox VMs, NixOS configurations, Terraform mod
 homelab-iac/
 ├── athena/               # First Proxmox server (6-core, 16GB RAM)
 │   ├── nixos/            # NixOS templates
-│   └── terraform/        # VM provisioning via Terraform
+│   ├── terraform/        # VM provisioning via Terraform
+│   └── terra/            # Desktop VM, backup for Luna (VMID 402, no GPU)
 ├── hades/                # Second Proxmox server (primary workloads)
 │   ├── sirius/           # k3s cluster VM (VMID 301)
 │   ├── luna/             # Desktop VM with Sunshine, Ollama, NVIDIA GPU (VMID 401, on Hades)
@@ -27,6 +28,7 @@ homelab-iac/
 |----|------|------|-----|---------|
 | Sirius | Hades | 301 | 192.168.1.150 | k3s cluster |
 | Luna | Hades | 401 | 192.168.1.199 | NixOS desktop + Sunshine + OpenCode + Ollama (NVIDIA GPU, 24GB RAM) |
+| Terra | Athena | 402 | 192.168.1.200 | NixOS desktop (i3 + xrdp), backup for Luna, no GPU, 14GB RAM |
 | Windows | Hades | 202 | DHCP | Windows 11 (STOPPED — GPU/RAM moved to Luna) |
 | TrueNAS | Hades | 201 | 192.168.1.10 | Storage |
 
@@ -43,6 +45,7 @@ homelab-iac/
 |------|----------|-------|
 | Sirius (k3s) config | `hades/sirius/` | Rebuild with `make deploy` |
 | Luna (desktop) config | `hades/luna/nixos/` | Rebuild with `make deploy` |
+| Terra (backup desktop) config | `athena/terra/nixos/` | Rebuild with `make deploy` |
 | Windows config | `hades/windows/` | `make start`, `make stop` (not Terraform managed) |
 | TrueNAS config | `hades/truenas/` | `make plan && make apply` |
 | Secrets | `secrets/` | git-crypt encrypted |
@@ -66,6 +69,10 @@ homelab-iac/
 cd hades/luna
 make deploy
 
+# Terra (backup desktop) management
+cd athena/terra
+make deploy
+
 # Sirius k3s management
 cd hades/sirius
 make deploy
@@ -77,8 +84,9 @@ make init && make plan && make apply
 
 ## NOTES
 
-- **Athena**: Lenovo ThinkCentre running Proxmox (6 cores, 16GB RAM).
-- **Hades**: Second Proxmox instance (12 cores, 64GB RAM). Hosts Luna desktop, Sirius k3s, and TrueNAS. Windows VM is stopped (GPU/RAM moved to Luna).
+- **Athena**: Lenovo ThinkCentre running Proxmox (6 cores, 16GB RAM total host). Hosts Terra (desktop backup VM, 14GB/4 cores — capped below host max to leave headroom for Proxmox itself).
+- **Hades**: Second Proxmox instance (12 cores, 64GB RAM). Hosts Luna desktop, Sirius k3s, and TrueNAS. Windows VM is stopped (GPU/RAM moved to Luna). Known to have random reboots occasionally — Terra on Athena exists as a fallback desktop for when Hades/Luna is down.
 - **Luna**: NixOS desktop with i3, Sunshine game streaming, OpenCode AI assistant, and Ollama LLM server. NVIDIA GPU passthrough (10de:2d04), 24GB RAM. Machine type: Q35 (required for PCIe GPU passthrough). NIC is enp6s18 (not ens18 — Q35 changes PCI bus layout). IP 192.168.1.199. Ollama served at ollama.moonblade.work via NPM running on Luna itself (Docker, host networking). NPM config in `hades/luna/nginx-proxy-manager/`. SSL via Let's Encrypt + Cloudflare DNS challenge (cloudflare.env). NPM creds in `secrets/npm-luna.env`.
+- **Terra**: Smaller NixOS desktop (i3 + xrdp), same stack as Luna minus anything GPU-bound (no Sunshine, no Ollama, no Steam, no NPM, no Hades-specific bluetooth dongle). IP 192.168.1.200. Access via RDP/SSH only. Config in `athena/terra/nixos/`.
 - **Sirius**: k3s cluster for homelab services. IP 192.168.1.150.
 - **TrueNAS**: 192.168.1.10, SCALE 25.10.1 (Fangtooth)
