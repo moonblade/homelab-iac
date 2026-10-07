@@ -19,8 +19,12 @@ let
 
     # Set display resolution for NVIDIA GPU HDMI output (dummy plug)
     # HDMI-0 = dummy plug on NVIDIA RTX 5060 Ti via passthrough
-    # 1440x900 (16:10) chosen for MacBook Air M4 — comfortable icon size
-    exec --no-startup-id xrandr --output HDMI-0 --mode 1440x900 --rate 59.89
+    # 1920x1200 (16:10) chosen for MacBook Air M4 primary display
+    exec --no-startup-id xrandr --output HDMI-0 --mode 1920x1200 --rate 59.95
+
+    # Bump DPI so UI/fonts/icons render bigger while keeping resolution at 1920x1200
+    # Default is 96 DPI; 120 gives ~25% bigger scaling for GTK/Qt apps
+    exec --no-startup-id xrdb -merge /home/moonblade/.Xresources
 
     # Start XDG autostart
     exec --no-startup-id dex --autostart --environment i3
@@ -204,5 +208,11 @@ in
 ${i3Config}
 EOFI3
     chown -R moonblade:users /home/moonblade/.config
+
+    # DPI scaling: 120 DPI (vs default 96) for bigger UI/fonts/icons at 1920x1200
+    cat > /home/moonblade/.Xresources << 'EOFXRES'
+Xft.dpi: 120
+EOFXRES
+    chown moonblade:users /home/moonblade/.Xresources
   '';
 }
