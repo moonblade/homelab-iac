@@ -1,6 +1,16 @@
 # Browsers module: Firefox and Chrome
 { config, lib, pkgs, ... }:
 
+let
+  # Chrome doesn't follow Xft.dpi; force a device scale factor so UI isn't
+  # tiny at 1920x1200 (matches the 120 DPI set for other apps, 120/96=1.25)
+  google-chrome-scaled = pkgs.google-chrome.overrideAttrs (old: {
+    postInstall = (old.postInstall or "") + ''
+      sed -i 's|\(google-chrome-stable\)\( --incognito\)\?\( %U\)\?$|\1 --force-device-scale-factor=1.25\2\3|' \
+        $out/share/applications/google-chrome.desktop
+    '';
+  });
+in
 {
   # Allow unfree packages (required for Chrome)
   nixpkgs.config.allowUnfree = true;
@@ -9,8 +19,8 @@
     # Firefox - primary browser
     firefox
     
-    # Google Chrome - secondary browser
-    google-chrome
+    # Google Chrome - secondary browser (scaled for DPI, see above)
+    google-chrome-scaled
   ];
 
   # Firefox policies (optional - customize as needed)
