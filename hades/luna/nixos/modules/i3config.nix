@@ -209,9 +209,9 @@ ${i3Config}
 EOFI3
     chown -R moonblade:users /home/moonblade/.config
 
-    # DPI scaling: 120 DPI (vs default 96) for bigger UI/fonts/icons at 1920x1200
+    # DPI scaling: 108 DPI (vs default 96) for bigger UI/fonts/icons at 1920x1200
     cat > /home/moonblade/.Xresources << 'EOFXRES'
-Xft.dpi: 120
+Xft.dpi: 108
 EOFXRES
     chown moonblade:users /home/moonblade/.Xresources
   '';
