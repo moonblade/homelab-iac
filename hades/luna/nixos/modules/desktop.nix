@@ -144,8 +144,6 @@
     Option     "AllowEmptyInitialConfiguration" "true"
   '';
 
-
-
   # Enable dbus for desktop applications
   services.dbus.enable = true;
 
