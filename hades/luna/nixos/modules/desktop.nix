@@ -13,6 +13,8 @@
     
     # Resolution options (Sunshine/Moonlight negotiates at stream time)
     resolutions = [
+      { x = 2560; y = 1664; }
+      { x = 1920; y = 1200; }
       { x = 1920; y = 1080; }
       { x = 1680; y = 1050; }
       { x = 1440; y = 900; }
@@ -142,6 +144,12 @@
   services.xserver.deviceSection = ''
     BusID      "PCI:1:0:0"
     Option     "AllowEmptyInitialConfiguration" "true"
+  '';
+
+  # Custom modeline for MacBook native resolution (2560x1664 @ 60Hz, CVT).
+  # Needed so the NVIDIA driver accepts the mode via xrandr --addmode at stream time.
+  services.xserver.monitorSection = ''
+    Modeline "2560x1664_60" 338.75 2560 2696 2968 3376 1664 1667 1671 1672 -hsync +vsync
   '';
 
   # Enable dbus for desktop applications
