@@ -147,9 +147,12 @@
   '';
 
   # Custom modeline for MacBook native resolution (2560x1664 @ 60Hz, CVT).
-  # Needed so the NVIDIA driver accepts the mode via xrandr --addmode at stream time.
+  # UseEDID "false" lets NVIDIA accept modes not in the dummy plug's EDID.
+  # ModeValidation skips bandwidth/sync checks that block non-EDID modes.
   services.xserver.monitorSection = ''
     Modeline "2560x1664_60" 338.75 2560 2696 2968 3376 1664 1667 1671 1672 -hsync +vsync
+    Option "UseEDID" "false"
+    Option "ModeValidation" "NoMaxPClkCheck, NoEdidMaxPClkCheck, NoMaxSizeCheck, NoHorizSyncCheck, NoVertRefreshCheck, NoVirtualSizeCheck, NoExtendedGpuCapabilitiesCheck, NoTotalSizeCheck, NoDualLinkDVICheck, NoDisplayPortBandwidthCheck, AllowNon3DVisionModes, AllowNonEdidModes"
   '';
 
   # Enable dbus for desktop applications
