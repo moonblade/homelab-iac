@@ -19,8 +19,8 @@ let
 
     # Set display resolution for NVIDIA GPU HDMI output (dummy plug)
     # HDMI-0 = dummy plug on NVIDIA RTX 5060 Ti via passthrough
-    # 1920x1200 (16:10) chosen for MacBook Air M4 primary display
-    exec --no-startup-id xrandr --output HDMI-0 --mode 1920x1200 --rate 59.95
+    # 2560x1664 matches MacBook native Liquid Retina display for Moonlight streaming
+    exec --no-startup-id xrandr --addmode HDMI-0 2560x1664_60 && xrandr --output HDMI-0 --mode 2560x1664_60
 
     # Bump DPI so UI/fonts/icons render bigger while keeping resolution at 1920x1200
     # Default is 96 DPI; 120 gives ~25% bigger scaling for GTK/Qt apps
