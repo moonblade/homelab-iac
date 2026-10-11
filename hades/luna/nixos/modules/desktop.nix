@@ -13,8 +13,6 @@
     
     # Resolution options (Sunshine/Moonlight negotiates at stream time)
     resolutions = [
-      { x = 2560; y = 1664; }
-      { x = 1920; y = 1200; }
       { x = 1920; y = 1080; }
       { x = 1680; y = 1050; }
       { x = 1440; y = 900; }
