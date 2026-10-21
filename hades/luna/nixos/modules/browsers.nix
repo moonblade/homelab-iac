@@ -21,6 +21,9 @@ in
     
     # Google Chrome - secondary browser (scaled for DPI, see above)
     google-chrome-scaled
+
+    # Opera browser
+    opera
   ];
 
   # Firefox policies (optional - customize as needed)
