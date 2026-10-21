@@ -22,8 +22,8 @@ in
     # Google Chrome - secondary browser (scaled for DPI, see above)
     google-chrome-scaled
 
-    # Opera browser
-    opera
+    # Opera: installed via Flatpak — flatpak install flathub com.opera.Opera
+    # (opera package was removed from nixpkgs due to lack of maintenance)
   ];
 
   # Firefox policies (optional - customize as needed)
