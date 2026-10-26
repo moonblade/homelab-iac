@@ -195,6 +195,16 @@ let
     client.focused          #4c7899 #285577 #ffffff #2e9ef4 #285577
     client.focused_inactive #333333 #5f676a #ffffff #484e50 #5f676a
     client.unfocused        #333333 #222222 #888888 #292d2e #222222
+
+    # Assign apps to workspaces
+    assign [class="Google-chrome"] $ws1
+    assign [class="Opera"] $ws2
+    assign [class="Steam"] $ws3
+
+    # Launch apps on startup into their assigned workspaces
+    exec --no-startup-id google-chrome-stable
+    exec --no-startup-id flatpak run com.opera.Opera
+    exec --no-startup-id steam
   '';
 in
 {
