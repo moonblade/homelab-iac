@@ -53,6 +53,9 @@
     # Sunshine's repeat fires independently and can get stuck if key-up is
     # dropped on a network hiccup, causing infinite key repeat.
     key_repeat_delay = -1
+    # Disable VMware VMMouse devices on stream start — they compete with
+    # Sunshine's Mouse passthrough and cause mouse desync. Re-enable on end.
+    global_prep_cmd = [{"do":"DISPLAY=:0 xinput disable \"VirtualPS/2 VMware VMMouse\"","undo":"DISPLAY=:0 xinput enable \"VirtualPS/2 VMware VMMouse\""}]
   '';
 
   # Symlink config into place on activation
