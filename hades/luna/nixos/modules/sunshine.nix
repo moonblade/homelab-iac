@@ -60,36 +60,38 @@
     global_prep_cmd = [{"do":"/home/moonblade/.local/bin/sunshine-mice-disable","undo":"/home/moonblade/.local/bin/sunshine-mice-enable"}]
   '';
 
-  # Symlink config into place on activation, and deploy VMware mouse helper scripts.
-  # Scripts are needed because: (1) xinput has two devices with identical names so
-  # we find them by ID dynamically, and (2) prep-cmd doesn't run through a shell
-  # so env vars like DISPLAY=:0 can't be set inline.
+  # Symlink config into place on activation
   system.activationScripts.sunshineConfig = ''
     mkdir -p /home/moonblade/.config/sunshine
     if [ ! -f /home/moonblade/.config/sunshine/sunshine.conf ]; then
       cp /etc/sunshine/sunshine.conf /home/moonblade/.config/sunshine/sunshine.conf
       chown moonblade:users /home/moonblade/.config/sunshine/sunshine.conf
     fi
-
-    mkdir -p /home/moonblade/.local/bin
-
-    cat > /home/moonblade/.local/bin/sunshine-mice-disable << 'SCRIPT'
-#!/run/current-system/sw/bin/sh
-export DISPLAY=:0
-xinput list | grep 'VMware VMMouse' | grep -o 'id=[0-9]*' | cut -d= -f2 | while read id; do
-  xinput disable $id
-done
-SCRIPT
-
-    cat > /home/moonblade/.local/bin/sunshine-mice-enable << 'SCRIPT'
-#!/run/current-system/sw/bin/sh
-export DISPLAY=:0
-xinput list | grep 'VMware VMMouse' | grep -o 'id=[0-9]*' | cut -d= -f2 | while read id; do
-  xinput enable $id
-done
-SCRIPT
-
-    chmod +x /home/moonblade/.local/bin/sunshine-mice-disable /home/moonblade/.local/bin/sunshine-mice-enable
-    chown moonblade:users /home/moonblade/.local/bin/sunshine-mice-disable /home/moonblade/.local/bin/sunshine-mice-enable
   '';
+
+  # Helper scripts to disable/enable VMware VMMouse devices around Sunshine sessions.
+  # Needed because: (1) two devices share the same name so we find by ID dynamically,
+  # and (2) prep-cmd doesn't run through a shell so DISPLAY=:0 can't be set inline.
+  home-manager.users.moonblade.home.file = {
+    ".local/bin/sunshine-mice-disable" = {
+      executable = true;
+      text = ''
+        #!/run/current-system/sw/bin/sh
+        export DISPLAY=:0
+        xinput list | grep 'VMware VMMouse' | grep -o 'id=[0-9]*' | cut -d= -f2 | while read id; do
+          xinput disable $id
+        done
+      '';
+    };
+    ".local/bin/sunshine-mice-enable" = {
+      executable = true;
+      text = ''
+        #!/run/current-system/sw/bin/sh
+        export DISPLAY=:0
+        xinput list | grep 'VMware VMMouse' | grep -o 'id=[0-9]*' | cut -d= -f2 | while read id; do
+          xinput enable $id
+        done
+      '';
+    };
+  };
 }
