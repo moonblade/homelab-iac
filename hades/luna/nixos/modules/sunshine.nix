@@ -42,6 +42,13 @@
     # PipeWire: explicitly set the virtual sink for audio capture.
     # pa_simple_new() fails without this when using pipewire-pulse compat layer.
     audio_sink = sink-sunshine-stereo
+    # Disable touch/pen passthrough — not used for desktop streaming.
+    # Pre-v2026.906 Sunshine has a bug where Touch/Pen uinput devices are not
+    # destroyed on client disconnect, causing them to accumulate across sessions.
+    # Each reconnect leaves orphaned devices that inject duplicate input events,
+    # causing mouse desync and infinite key repeat. Fixed upstream in v2026.906
+    # (PR #5368, libvirtualhid rewrite) but this stays as belt-and-suspenders.
+    native_pen_touch = disabled
   '';
 
   # Symlink config into place on activation
