@@ -1,14 +1,17 @@
 # Sunshine module: Game streaming server (Moonlight compatible)
 # GPU: NVIDIA RTX 5060 Ti passed through with x-vga=1 (Proxmox: qm set 401 --hostpci0 0000:01:00,pcie=1,x-vga=1)
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgsUnstable, ... }:
 
 {
-  # Sunshine via NixOS module - runs as a system service
+  # Use sunshine from nixpkgs-unstable — it includes autoAddDriverRunpath which
+  # bakes /run/opengl-driver/lib into the binary RPATH at build time, enabling
+  # NVENC hardware encoding. LD_LIBRARY_PATH doesn't work for setcap binaries.
   services.sunshine = {
     enable = true;
     autoStart = true;
     openFirewall = true;
     capSysAdmin = true;  # Required for KMS display capture
+    package = pkgsUnstable.sunshine;
   };
 
 
@@ -33,15 +36,15 @@
 
   # Persist Sunshine config across NixOS rebuilds
   # capture = x11: NVIDIA proprietary Xorg bypasses KMS so DRM planes are always null.
-  # X11 capture works correctly. NVENC/NVFBC require /run/opengl-driver/lib in the
-  # dynamic linker path, but LD_LIBRARY_PATH is stripped for setcap binaries — this
-  # needs a proper fix at the nixpkgs level (sunshine should link against nvidia libs).
+  # X11 capture works correctly. With the unstable sunshine package (autoAddDriverRunpath),
+  # nvenc should now work with x11 capture since libcuda.so.1 is in the binary RPATH.
   environment.etc."sunshine/sunshine.conf".text = ''
     min_bitrate = 20000
     fps = 60
     qp = 20
     adapter_name = NVIDIA GeForce RTX 5060 Ti
     capture = x11
+    encoder = nvenc
     resolutions = [1920x1200, 1920x1080, 1440x900, 1280x720]
     # PipeWire: explicitly set the virtual sink for audio capture.
     # pa_simple_new() fails without this when using pipewire-pulse compat layer.
