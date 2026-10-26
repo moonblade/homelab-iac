@@ -72,6 +72,7 @@
   # Helper scripts to disable/enable VMware VMMouse devices around Sunshine sessions.
   # Needed because: (1) two devices share the same name so we find by ID dynamically,
   # and (2) prep-cmd doesn't run through a shell so DISPLAY=:0 can't be set inline.
+  home-manager.users.moonblade.home.stateVersion = "26.05";
   home-manager.users.moonblade.home.file = {
     ".local/bin/sunshine-mice-disable" = {
       executable = true;
