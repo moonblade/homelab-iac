@@ -55,15 +55,41 @@
     key_repeat_delay = -1
     # Disable VMware VMMouse devices on stream start — they compete with
     # Sunshine's Mouse passthrough and cause mouse desync. Re-enable on end.
-    global_prep_cmd = [{"do":"DISPLAY=:0 xinput disable \"VirtualPS/2 VMware VMMouse\"","undo":"DISPLAY=:0 xinput enable \"VirtualPS/2 VMware VMMouse\""}]
+    # Uses scripts in ~/.local/bin because xinput has two devices with the
+    # same name and prep-cmd doesn't run through a shell (no env vars).
+    global_prep_cmd = [{"do":"/home/moonblade/.local/bin/sunshine-mice-disable","undo":"/home/moonblade/.local/bin/sunshine-mice-enable"}]
   '';
 
-  # Symlink config into place on activation
+  # Symlink config into place on activation, and deploy VMware mouse helper scripts.
+  # Scripts are needed because: (1) xinput has two devices with identical names so
+  # we find them by ID dynamically, and (2) prep-cmd doesn't run through a shell
+  # so env vars like DISPLAY=:0 can't be set inline.
   system.activationScripts.sunshineConfig = ''
     mkdir -p /home/moonblade/.config/sunshine
     if [ ! -f /home/moonblade/.config/sunshine/sunshine.conf ]; then
       cp /etc/sunshine/sunshine.conf /home/moonblade/.config/sunshine/sunshine.conf
       chown moonblade:users /home/moonblade/.config/sunshine/sunshine.conf
     fi
+
+    mkdir -p /home/moonblade/.local/bin
+
+    cat > /home/moonblade/.local/bin/sunshine-mice-disable << 'SCRIPT'
+#!/run/current-system/sw/bin/sh
+export DISPLAY=:0
+xinput list | grep 'VMware VMMouse' | grep -o 'id=[0-9]*' | cut -d= -f2 | while read id; do
+  xinput disable $id
+done
+SCRIPT
+
+    cat > /home/moonblade/.local/bin/sunshine-mice-enable << 'SCRIPT'
+#!/run/current-system/sw/bin/sh
+export DISPLAY=:0
+xinput list | grep 'VMware VMMouse' | grep -o 'id=[0-9]*' | cut -d= -f2 | while read id; do
+  xinput enable $id
+done
+SCRIPT
+
+    chmod +x /home/moonblade/.local/bin/sunshine-mice-disable /home/moonblade/.local/bin/sunshine-mice-enable
+    chown moonblade:users /home/moonblade/.local/bin/sunshine-mice-disable /home/moonblade/.local/bin/sunshine-mice-enable
   '';
 }
