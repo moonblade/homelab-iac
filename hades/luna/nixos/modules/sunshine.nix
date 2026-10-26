@@ -11,6 +11,8 @@
     capSysAdmin = true;  # Required for KMS display capture
   };
 
+
+
   # udev rules for virtual input (mouse/keyboard injection)
   # /dev/uinput is owned by group "uinput" — must use that group, not "input"
   # ID_INPUT_KEYBOARD=1 tells libinput to treat sunshine's virtual keyboard as real,
@@ -31,7 +33,9 @@
 
   # Persist Sunshine config across NixOS rebuilds
   # capture = x11: NVIDIA proprietary Xorg bypasses KMS so DRM planes are always null.
-  # X11 capture works correctly. nvenc/vulkan don't work with x11 capture; libx264 (software) is used.
+  # X11 capture works correctly. NVENC/NVFBC require /run/opengl-driver/lib in the
+  # dynamic linker path, but LD_LIBRARY_PATH is stripped for setcap binaries — this
+  # needs a proper fix at the nixpkgs level (sunshine should link against nvidia libs).
   environment.etc."sunshine/sunshine.conf".text = ''
     min_bitrate = 20000
     fps = 60
