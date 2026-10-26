@@ -51,27 +51,6 @@
     native_pen_touch = disabled
   '';
 
-  # Daily Sunshine restart at 3am to clear any accumulated uinput state.
-  # Belt-and-suspenders: native_pen_touch=disabled prevents Touch/Pen device
-  # leaks, but Keyboard/Mouse passthrough devices are also affected in older
-  # builds. Fixed upstream in v2026.906 (PR #5368) but kept as a safety net.
-  systemd.user.services.sunshine-restart = {
-    description = "Daily Sunshine restart to clear virtual input device state";
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.systemd}/bin/systemctl --user restart sunshine.service";
-    };
-  };
-
-  systemd.user.timers.sunshine-restart = {
-    description = "Timer for daily Sunshine restart at 3am";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "*-*-* 03:00:00";
-      Persistent = true;
-    };
-  };
-
   # Symlink config into place on activation
   system.activationScripts.sunshineConfig = ''
     mkdir -p /home/moonblade/.config/sunshine
