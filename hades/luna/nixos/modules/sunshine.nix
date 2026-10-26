@@ -49,6 +49,10 @@
     # causing mouse desync and infinite key repeat. Fixed upstream in v2026.906
     # (PR #5368, libvirtualhid rewrite) but this stays as belt-and-suspenders.
     native_pen_touch = disabled
+    # Disable Sunshine's own software key repeat — let X11 handle it.
+    # Sunshine's repeat fires independently and can get stuck if key-up is
+    # dropped on a network hiccup, causing infinite key repeat.
+    key_repeat_delay = -1
   '';
 
   # Symlink config into place on activation
