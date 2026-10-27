@@ -199,8 +199,8 @@ let
     # Assign apps to workspaces
     assign [class="Google-chrome"] $ws1
     assign [class="Opera"] $ws2
-    assign [class="Steam"] $ws3
-    assign [class="factorio"] $ws4
+    assign [class="steam"] $ws3
+    assign [class="com.factorio.Factorio"] $ws4
 
     # Launch apps on startup into their assigned workspaces
     exec --no-startup-id google-chrome-stable
