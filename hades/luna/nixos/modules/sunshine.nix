@@ -20,9 +20,17 @@
   # /dev/uinput is owned by group "uinput" — must use that group, not "input"
   # ID_INPUT_KEYBOARD=1 tells libinput to treat sunshine's virtual keyboard as real,
   # preventing it from being silently disabled (libinput Send Events Mode = 0).
+  #
+  # libvirtualhid Mouse (Absolute) and Touchscreen are always created by Sunshine v2026.914+
+  # for macOS Moonlight clients. They fight the relative mouse causing cursor desync.
+  # ENV{LIBINPUT_IGNORE_DEVICE}="1" tells libinput to ignore them at the kernel level
+  # so they never register as active X11 pointer devices — works on every reconnect,
+  # independent of global_prep_cmd which only fires on first session after idle.
   services.udev.extraRules = ''
     KERNEL=="uinput", SUBSYSTEM=="misc", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
     SUBSYSTEM=="input", ATTRS{name}=="Keyboard passthrough", ENV{ID_INPUT_KEYBOARD}="1", ENV{LIBINPUT_DEVICE_GROUP}="sunshine"
+    SUBSYSTEM=="input", ATTRS{name}=="libvirtualhid Mouse (Absolute)", ENV{LIBINPUT_IGNORE_DEVICE}="1"
+    SUBSYSTEM=="input", ATTRS{name}=="libvirtualhid Touchscreen", ENV{LIBINPUT_IGNORE_DEVICE}="1"
   '';
 
   # Load uinput kernel module at boot
@@ -83,9 +91,12 @@
   home-manager.users.moonblade.home.file = {
     ".local/bin/sunshine-mice-disable" = {
       executable = true;
+      force = true;
       text = ''
         #!/run/current-system/sw/bin/sh
         export DISPLAY=:0
+        # Disable Proxmox-emulated VMware mice — they compete with Sunshine's relative mouse.
+        # libvirtualhid Absolute mouse and Touchscreen are handled by udev (always ignored).
         xinput list | grep 'VMware VMMouse' | grep -o 'id=[0-9]*' | cut -d= -f2 | while read id; do
           xinput disable $id
         done
@@ -93,9 +104,11 @@
     };
     ".local/bin/sunshine-mice-enable" = {
       executable = true;
+      force = true;
       text = ''
         #!/run/current-system/sw/bin/sh
         export DISPLAY=:0
+        # Re-enable VMware mice on stream end (for local use).
         xinput list | grep 'VMware VMMouse' | grep -o 'id=[0-9]*' | cut -d= -f2 | while read id; do
           xinput enable $id
         done
