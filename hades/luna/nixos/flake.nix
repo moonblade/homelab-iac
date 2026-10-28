@@ -11,10 +11,9 @@
   outputs = { nixpkgs, nixpkgs-unstable, hermes-agent, home-manager, ... }:
     let
       system = "x86_64-linux";
-      # Pull just the sunshine package from unstable — it has autoAddDriverRunpath
-      # which bakes /run/opengl-driver/lib into the binary RPATH at build time.
-      # This is needed for NVENC: LD_LIBRARY_PATH is stripped for setcap binaries.
-      # The rest of the system stays on stable 26.05.
+      # Pull sunshine from unstable — it has autoAddDriverRunpath which bakes
+      # /run/opengl-driver/lib into the binary RPATH at build time, enabling NVENC.
+      # LD_LIBRARY_PATH is stripped for setcap binaries, so RPATH is required.
       pkgsUnstable = import nixpkgs-unstable {
         inherit system;
         config.allowUnfree = true;

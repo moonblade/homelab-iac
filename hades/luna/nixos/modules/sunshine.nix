@@ -3,17 +3,16 @@
 { config, lib, pkgs, pkgsUnstable, ... }:
 
 {
-  # Use sunshine from nixpkgs-unstable — it includes autoAddDriverRunpath which
-  # bakes /run/opengl-driver/lib into the binary RPATH at build time, enabling
-  # NVENC hardware encoding. LD_LIBRARY_PATH doesn't work for setcap binaries.
+  # Use sunshine from nixpkgs-unstable — it has autoAddDriverRunpath which bakes
+  # /run/opengl-driver/lib into the binary RPATH at build time, enabling NVENC.
+  # LD_LIBRARY_PATH is stripped for setcap binaries so RPATH is required.
   services.sunshine = {
     enable = true;
     autoStart = true;
     openFirewall = true;
-    capSysAdmin = true;  # Required for KMS display capture
+    capSysAdmin = true;
     package = pkgsUnstable.sunshine;
   };
-
 
 
   # udev rules for virtual input (mouse/keyboard injection)
@@ -21,15 +20,14 @@
   # ID_INPUT_KEYBOARD=1 tells libinput to treat sunshine's virtual keyboard as real,
   # preventing it from being silently disabled (libinput Send Events Mode = 0).
   #
-  # libvirtualhid Mouse (Absolute) and Touchscreen are always created by Sunshine v2026.914+
-  # for macOS Moonlight clients. They fight the relative mouse causing cursor desync.
-  # ENV{LIBINPUT_IGNORE_DEVICE}="1" tells libinput to ignore them at the kernel level
-  # so they never register as active X11 pointer devices — works on every reconnect,
-  # independent of global_prep_cmd which only fires on first session after idle.
+  # v2026.914+ (libvirtualhid rewrite, PR #5368) correctly creates and destroys
+  # libvirtualhid Mouse (Absolute) per session — no more device accumulation.
+  # We no longer suppress it; absolute mouse mode (Moonlight "remote desktop") needs it.
+  # Touchscreen still suppressed — not useful for desktop streaming and causes
+  # spurious touch events on some clients.
   services.udev.extraRules = ''
     KERNEL=="uinput", SUBSYSTEM=="misc", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
     SUBSYSTEM=="input", ATTRS{name}=="Keyboard passthrough", ENV{ID_INPUT_KEYBOARD}="1", ENV{LIBINPUT_DEVICE_GROUP}="sunshine"
-    SUBSYSTEM=="input", ATTRS{name}=="libvirtualhid Mouse (Absolute)", ENV{LIBINPUT_IGNORE_DEVICE}="1"
     SUBSYSTEM=="input", ATTRS{name}=="libvirtualhid Touchscreen", ENV{LIBINPUT_IGNORE_DEVICE}="1"
   '';
 
