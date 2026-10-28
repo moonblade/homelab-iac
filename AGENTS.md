@@ -66,7 +66,8 @@ homelab-iac/
 ## LUNA SUNSHINE NOTES
 
 - Sunshine v2026.914 from `nixpkgs-unstable` — pre-built with NVENC/CUDA in binary cache. Do not switch to stable.
-- Moonlight "optimize for games" = relative mouse (works). "Optimize for remote desktop" = absolute mouse (broken on Linux/X11 — cursor doesn't move, known issue under investigation).
+- Moonlight "optimize for games" = relative mouse (works). "Optimize for remote desktop" = absolute mouse (works — requires `libvirtualhid Mouse (Absolute)` NOT suppressed by udev LIBINPUT_IGNORE_DEVICE).
+- **Do NOT add `LIBINPUT_IGNORE_DEVICE` for `libvirtualhid Mouse (Absolute)`** — this breaks absolute mouse mode. The old device accumulation bug it was guarding against is fixed in v2026.914.
 - Emergency mouse recovery: `ssh luna "/home/moonblade/.local/bin/sunshine-mice-enable && systemctl --user restart sunshine"`
 - Full fix history: `hades/luna/SUNSHINE_MOUSE_FIXES.md`
 
