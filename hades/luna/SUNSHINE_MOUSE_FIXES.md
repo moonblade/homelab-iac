@@ -34,15 +34,13 @@ Mouse desync, infinite key repeat, and cursor lag when streaming via Moonlight.
 - **Config**: `encoder = nvenc`, `capture = x11`, `config.cudaSupport = true` in flake.nix (unstable pkgs only, NOT stable pkgs)
 - **Result**: CPU 115% → ~1% idle. h264_nvenc, hevc_nvenc, av1_nvenc all available.
 
-### 6. Absolute mouse mode not working (in progress, Oct 28 2026)
+### 6. Absolute mouse mode not working (FIXED Oct 28 2026)
 - **Symptom**: Moonlight "optimize for remote desktop" (absolute mouse) → cursor doesn't move
-- **Root cause**: Moonlight sends absolute coordinate packets; Sunshine injects them via `move_absolute()` on `libvirtualhid Mouse` (a relative EV_REL device) → X11 ignores EV_ABS events on a relative device
-- **What was tried**:
-  - Removing udev `LIBINPUT_IGNORE_DEVICE` rule for `libvirtualhid Mouse (Absolute)` → device still not created (controlled by `native_pen_touch`, not udev)
-  - Setting `native_pen_touch = enabled` → creates `libvirtualhid Mouse (Absolute)` but absolute mode still broken; also risks device accumulation bug
-  - Switching to stable 26.05 sunshine package with `cudaSupport = true` → triggered full CUDA rebuild from source (hours, 100% CPU) — **DO NOT DO THIS**
-- **Status**: Investigating. Relative mouse (games mode) works correctly.
-- **Workaround**: Use Moonlight "optimize for games" (relative mouse) — works fine for desktop use too
+- **Root cause**: udev rule `ENV{LIBINPUT_IGNORE_DEVICE}="1"` on `libvirtualhid Mouse (Absolute)` was suppressing the device entirely — X11 never saw it, so absolute events had nowhere to go
+- **Fix**: Remove the `LIBINPUT_IGNORE_DEVICE` rule for `libvirtualhid Mouse (Absolute)` from `services.udev.extraRules` in `sunshine.nix`. The rule was originally added to prevent cursor desync from the pre-v2026.906 device accumulation bug — but v2026.914 fixed that, and the rule was blocking legitimate absolute mouse use.
+- **Also required**: `native_pen_touch = disabled` is fine — Sunshine v2026.914 creates `libvirtualhid Mouse (Absolute)` for macOS clients regardless of this setting
+- **Status**: Working. Deploy the udev rule change to make permanent (currently applied via `/run/udev/rules.d/` override which survives until reboot)
+- **Pending**: `make deploy` in `hades/luna` to persist the fix — was killed to avoid CUDA rebuild
 
 ## ⚠️ NEVER DO THIS
 - **Never set `nixpkgs.config.cudaSupport = true` on stable pkgs** — it triggers a full local CUDA build from source (hours, pegs all CPUs). `cudaSupport = true` is only safe on `pkgsUnstable` because unstable sunshine is pre-built in the binary cache with CUDA support.
