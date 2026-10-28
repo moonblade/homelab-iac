@@ -61,6 +61,14 @@ homelab-iac/
 - **DO NOT** push directly to main - use PRs
 - **DO NOT** commit unencrypted secrets
 - **DO NOT** store Terraform state in plain text
+- **DO NOT** set `nixpkgs.config.cudaSupport = true` on stable pkgs (26.05) — triggers a full local CUDA build from source, pegs all CPUs for hours. `cudaSupport = true` is only safe on `pkgsUnstable` because unstable sunshine is pre-built in the binary cache. Always use `package = pkgsUnstable.sunshine`, never `pkgs.sunshine`.
+
+## LUNA SUNSHINE NOTES
+
+- Sunshine v2026.914 from `nixpkgs-unstable` — pre-built with NVENC/CUDA in binary cache. Do not switch to stable.
+- Moonlight "optimize for games" = relative mouse (works). "Optimize for remote desktop" = absolute mouse (broken on Linux/X11 — cursor doesn't move, known issue under investigation).
+- Emergency mouse recovery: `ssh luna "/home/moonblade/.local/bin/sunshine-mice-enable && systemctl --user restart sunshine"`
+- Full fix history: `hades/luna/SUNSHINE_MOUSE_FIXES.md`
 
 ## COMMANDS
 
