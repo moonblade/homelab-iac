@@ -95,8 +95,12 @@
       text = ''
         #!/run/current-system/sw/bin/sh
         export DISPLAY=:0
-        # Disable Proxmox-emulated VMware mice — they compete with Sunshine's relative mouse.
-        # libvirtualhid Absolute mouse and Touchscreen are handled by udev (always ignored).
+        # Re-enable first to reset any stale state from a previous session that
+        # ended abruptly (lid close) without the undo script running.
+        xinput list | grep 'VMware VMMouse' | grep -o 'id=[0-9]*' | cut -d= -f2 | while read id; do
+          xinput enable $id 2>/dev/null || true
+        done
+        # Now disable — clean state every time.
         xinput list | grep 'VMware VMMouse' | grep -o 'id=[0-9]*' | cut -d= -f2 | while read id; do
           xinput disable $id
         done
