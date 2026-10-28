@@ -114,6 +114,12 @@ in
       '';
     };
 
+    # Cap systemd journal to 500MB so logs don't accumulate unboundedly
+    services.journald.extraConfig = ''
+      SystemMaxUse=500M
+      RuntimeMaxUse=100M
+    '';
+
     # Root user SSH keys
     users.users.root.openssh.authorizedKeys.keys = [
       vars.sshPubKey
