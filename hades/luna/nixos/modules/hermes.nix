@@ -14,18 +14,18 @@
       model = {
         # Ollama running locally on Luna (direct, no proxy hop)
         base_url = "http://localhost:11434/v1";
-        default  = "gemma4:latest";
+        default  = "qwen3.5:9b";
         api_mode = "chat_completions";
       };
 
       auxiliary = {
         # Use the smaller/faster model for side tasks (compression, title gen, etc.)
-        compression.model    = "gemma4:latest";
-        title_generation.model = "gemma4:latest";
+        compression.model    = "qwen3.5:9b";
+        title_generation.model = "qwen3.5:9b";
       };
 
-      # 64K context (Ollama is configured with OLLAMA_NUM_CTX=65536 on Luna)
-      model_context_length = 65536;
+      # 128K context
+      model_context_length = 131072;
 
       terminal = {
         backend = "local";

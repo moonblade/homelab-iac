@@ -99,6 +99,7 @@ in
     
     # Build tools
     gnumake           # GNU Make
+    gh                # GitHub CLI
     
     # Media control
     playerctl         # MPRIS media player controller (controls Chrome, Firefox, etc.)
