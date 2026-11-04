@@ -19,6 +19,7 @@
         base_url = "http://localhost:11434/v1";
         default  = "qwen3.5:9b";
         api_mode = "chat_completions";
+        provider = "ollama";
       };
 
       auxiliary = {
