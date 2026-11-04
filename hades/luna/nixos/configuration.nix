@@ -12,6 +12,9 @@ in
     # Hostname
     networking.hostName = "luna";
 
+    # Disable IPv6 — outbound IPv6 is broken on this network (Telegram, etc. unreachable via IPv6)
+    networking.enableIPv6 = false;
+
     # Enable QEMU Guest for Proxmox
     services.qemuGuest.enable = lib.mkDefault true;
 

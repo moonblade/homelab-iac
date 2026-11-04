@@ -10,6 +10,9 @@
     enable = true;
     addToSystemPackages = true;
 
+    # Telegram token and other secrets (deployed by make copy-secrets)
+    environmentFiles = [ "/run/secrets/hermes-luna.env" ];
+
     settings = {
       model = {
         # Ollama running locally on Luna (direct, no proxy hop)
@@ -31,6 +34,9 @@
         backend = "local";
         timeout = 180;
       };
+
+      # Force IPv4 for Telegram (IPv6 is broken on Luna's network)
+      gateway.platforms.telegram.extra.force_ipv4 = true;
 
       memory = {
         memory_enabled       = true;

@@ -28,6 +28,10 @@ copy-secrets:
 	@echo "Copying NPM secrets..."
 	@scp $(SECRETS_DIR)/npm-luna.env $(NIXOS_USER)@$(NIXOS_IP):/root/workspace/npm-luna.env
 	@ssh $(NIXOS_USER)@$(NIXOS_IP) 'chmod 600 /root/workspace/npm-luna.env'
+	@echo "Copying hermes secrets..."
+	@ssh $(NIXOS_USER)@$(NIXOS_IP) 'mkdir -p /run/secrets'
+	@scp $(SECRETS_DIR)/hermes-luna.env $(NIXOS_USER)@$(NIXOS_IP):/run/secrets/hermes-luna.env
+	@ssh $(NIXOS_USER)@$(NIXOS_IP) 'chmod 600 /run/secrets/hermes-luna.env'
 
 # Set up NPM + SSL + proxy host for ollama.moonblade.work
 npm-setup:
