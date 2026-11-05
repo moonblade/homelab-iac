@@ -45,10 +45,17 @@
         CONTAINER=nginx-proxy-manager-app-1
         # Ensure plugin present (lost when image is upgraded/recreated)
         ${pkgs.docker}/bin/docker exec $CONTAINER pip install certbot-dns-cloudflare -q 2>/dev/null || true
-        # Renew all certs; --deploy-hook reloads nginx inside the container
+        # Renew all certs; deploy-hook copies new cert to npm-1/ and reloads nginx
         ${pkgs.docker}/bin/docker exec $CONTAINER certbot renew \
           --quiet \
-          --deploy-hook "nginx -s reload" 2>&1 | logger -t npm-cert-renew
+          --deploy-hook '
+            BASE=/etc/letsencrypt
+            cp $(readlink -f $BASE/live/ollama.moonblade.work/fullchain.pem) $BASE/live/npm-1/fullchain.pem
+            cp $(readlink -f $BASE/live/ollama.moonblade.work/privkey.pem)   $BASE/live/npm-1/privkey.pem
+            cp $(readlink -f $BASE/live/ollama.moonblade.work/cert.pem)      $BASE/live/npm-1/cert.pem
+            cp $(readlink -f $BASE/live/ollama.moonblade.work/chain.pem)     $BASE/live/npm-1/chain.pem
+            nginx -s reload
+          ' 2>&1 | logger -t npm-cert-renew
       '';
     };
   };
