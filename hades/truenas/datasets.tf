@@ -213,6 +213,18 @@ resource "truenas_pool_dataset" "usb_hdd_downloads" {
   acltype     = "NFSV4"
 }
 
+# basic-memory sync hub (shared across home mac, work mac, luna)
+resource "truenas_pool_dataset" "primary_root_basic_memory" {
+  name        = "primary/root/basic-memory"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root]
+}
+
 # Videos/movies library under primary root
 resource "truenas_pool_dataset" "primary_root_videos" {
   name        = "primary/root/videos"

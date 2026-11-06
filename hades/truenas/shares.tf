@@ -71,6 +71,17 @@ resource "truenas_sharing_nfs" "config" {
   mapall_group = "root"
 }
 
+# basic-memory NFS share: mapall to moonblade so all machines can read/write without root
+resource "truenas_sharing_nfs" "basic_memory" {
+  path         = "/mnt/primary/root/basic-memory"
+  enabled      = true
+  ro           = false
+  mapall_user  = "moonblade"
+  mapall_group = "moonblade"
+
+  depends_on = [truenas_pool_dataset.primary_root_basic_memory]
+}
+
 resource "truenas_sharing_nfs" "storage" {
   path         = "/mnt/primary/root/storage"
   enabled      = true
