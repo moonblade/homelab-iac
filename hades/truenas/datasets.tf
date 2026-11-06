@@ -165,6 +165,9 @@ resource "truenas_pool_dataset" "primary_root_storage_games" {
 
   lifecycle {
     prevent_destroy = true
+    # The truenas provider treats sparse/volblocksize as ForceNew computed fields.
+    # ignore_changes = all prevents spurious replace plans on pre-existing datasets.
+    ignore_changes = all
   }
 
   depends_on = [truenas_pool_dataset.primary_root_storage]
@@ -182,12 +185,20 @@ resource "truenas_pool_dataset" "secondary_firefly_backup" {
 
 # Home Assistant config
 resource "truenas_pool_dataset" "primary_root_config_home_assistant" {
-  name        = "primary/root/config/home-assistant"
-  type        = "FILESYSTEM"
-  compression = "LZ4"
-  atime       = "OFF"
-  aclmode     = "PASSTHROUGH"
-  acltype     = "NFSV4"
+  name            = "primary/root/config/home-assistant"
+  type            = "FILESYSTEM"
+  compression     = "LZ4"
+  atime           = "OFF"
+  aclmode         = "PASSTHROUGH"
+  acltype         = "NFSV4"
+  casesensitivity = "SENSITIVE"
+
+  lifecycle {
+    prevent_destroy = true
+    # The truenas provider treats sparse/volblocksize/casesensitivity as ForceNew.
+    # ignore_changes = all prevents spurious replace plans on pre-existing datasets.
+    ignore_changes = all
+  }
 
   depends_on = [truenas_pool_dataset.primary_root_config]
 }
@@ -207,6 +218,9 @@ resource "truenas_pool_dataset" "primary_root_basic_memory" {
 
   lifecycle {
     prevent_destroy = true
+    # The truenas provider treats sparse/volblocksize as ForceNew computed fields.
+    # ignore_changes = all prevents spurious replace plans on pre-existing datasets.
+    ignore_changes = all
   }
 
   depends_on = [truenas_pool_dataset.primary_root]
@@ -224,6 +238,9 @@ resource "truenas_pool_dataset" "primary_root_videos" {
 
   lifecycle {
     prevent_destroy = true
+    # The truenas provider treats sparse/volblocksize as ForceNew computed fields.
+    # ignore_changes = all prevents spurious replace plans on pre-existing datasets.
+    ignore_changes = all
   }
 
   depends_on = [truenas_pool_dataset.primary_root]
