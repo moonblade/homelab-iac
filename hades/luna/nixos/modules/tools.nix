@@ -100,6 +100,7 @@ in
     # Build tools
     gnumake           # GNU Make
     gh                # GitHub CLI
+    python3           # Python 3 (latest stable)
     
     # Media control
     playerctl         # MPRIS media player controller (controls Chrome, Firefox, etc.)
