@@ -101,6 +101,11 @@ in
     gnumake           # GNU Make
     gh                # GitHub CLI
     python3           # Python 3 (latest stable)
+
+    # Kubernetes tools
+    kubectl           # Kubernetes CLI
+    kubie             # Context/namespace switcher for kubectl
+    stern             # Multi-pod log tailing for Kubernetes
     
     # Media control
     playerctl         # MPRIS media player controller (controls Chrome, Firefox, etc.)

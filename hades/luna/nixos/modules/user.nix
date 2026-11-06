@@ -49,6 +49,12 @@ in
     promptInit = ''
       PROMPT='(%M) '$PROMPT
     '';
+    shellAliases = {
+      k = "kubectl";
+    };
+    interactiveShellInit = ''
+      export KUBECONFIG="$HOME/.kube/sirius.yaml"
+    '';
   };
 
   # MOTD (Message of the Day)
