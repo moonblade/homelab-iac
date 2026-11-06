@@ -1,12 +1,3 @@
-resource "truenas_pool_dataset" "apps_filebrowser" {
-  name        = "apps/filebrowser"
-  type        = "FILESYSTEM"
-  compression = "LZ4"
-  atime       = "OFF"
-  aclmode     = "DISCARD"
-  acltype     = "POSIX"
-}
-
 resource "truenas_pool_dataset" "primary_root" {
   name        = "primary/root"
   type        = "FILESYSTEM"
@@ -220,4 +211,16 @@ resource "truenas_pool_dataset" "usb_hdd_downloads" {
   atime       = "OFF"
   aclmode     = "PASSTHROUGH"
   acltype     = "NFSV4"
+}
+
+# Videos/movies library under primary root
+resource "truenas_pool_dataset" "primary_root_videos" {
+  name        = "primary/root/videos"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root]
 }

@@ -30,6 +30,14 @@ resource "truenas_sharing_smb" "config" {
   browsable = true
 }
 
+resource "truenas_sharing_smb" "videos" {
+  name      = "videos"
+  path      = "/mnt/primary/root/videos"
+  enabled   = true
+  readonly  = false
+  browsable = true
+}
+
 resource "truenas_sharing_nfs" "primary_root" {
   path         = "/mnt/primary/root"
   comment      = "primaryroot"
