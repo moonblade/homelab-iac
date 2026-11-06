@@ -57,6 +57,26 @@ in
     '';
   };
 
+  # Deploy SSH client config for moonblade
+  system.activationScripts.sshConfig = ''
+    mkdir -p /home/moonblade/.ssh
+    cat > /home/moonblade/.ssh/config << 'EOFSSCONFIG'
+Host sirius
+  Hostname 192.168.1.150
+  User root
+  IdentityFile ~/.ssh/id_ed25519
+  StrictHostKeyChecking no
+
+Host truenas
+  Hostname 192.168.1.10
+  User root
+  IdentityFile ~/.ssh/id_ed25519
+  StrictHostKeyChecking no
+EOFSSCONFIG
+    chown moonblade:users /home/moonblade/.ssh/config
+    chmod 600 /home/moonblade/.ssh/config
+  '';
+
   # MOTD (Message of the Day)
   users.motd = with config; ''
     Welcome to ${networking.hostName}!
