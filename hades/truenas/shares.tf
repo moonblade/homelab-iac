@@ -82,6 +82,16 @@ resource "truenas_sharing_nfs" "basic_memory" {
   depends_on = [truenas_pool_dataset.primary_root_basic_memory]
 }
 
+resource "truenas_sharing_nfs" "videos" {
+  path         = "/mnt/primary/root/videos"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.primary_root_videos]
+}
+
 resource "truenas_sharing_nfs" "config_home_assistant" {
   path         = "/mnt/primary/root/config/home-assistant"
   enabled      = true
@@ -177,46 +187,25 @@ resource "truenas_sharing_nfs" "storage_firefly" {
   depends_on = [truenas_pool_dataset.primary_root_storage_firefly]
 }
 
-resource "truenas_sharing_nfs" "usb_ssd_media" {
-  path         = "/mnt/usb-ssd/media"
-  comment      = "usb-ssd-media"
+# USB pool shares (usb-ssd, usb-hdd) removed — pools no longer connected.
+# Reinstate if USB pools are reattached.
+
+# downloads/orion subdir — plain directory NFS share for Orion downloads
+resource "truenas_sharing_nfs" "downloads_orion" {
+  path         = "/mnt/primary/root/downloads/orion"
+  comment      = "orion"
   enabled      = true
   ro           = false
-  mapall_user  = "root"
-  mapall_group = "root"
-
-  depends_on = [truenas_pool_dataset.usb_ssd_media]
+  mapall_user  = "moonblade"
+  mapall_group = "moonblade"
 }
 
-resource "truenas_sharing_nfs" "usb_ssd_downloads" {
-  path         = "/mnt/usb-ssd/downloads"
-  comment      = "usb-ssd-downloads"
+# relay — cross-machine file drop/sync directory
+resource "truenas_sharing_nfs" "relay" {
+  path         = "/mnt/primary/root/relay"
+  comment      = "relay - cross-machine downloads sync"
   enabled      = true
   ro           = false
-  mapall_user  = "root"
-  mapall_group = "root"
-
-  depends_on = [truenas_pool_dataset.usb_ssd_downloads]
-}
-
-resource "truenas_sharing_nfs" "usb_hdd_media" {
-  path         = "/mnt/usb-hdd/media"
-  comment      = "usb-hdd-media"
-  enabled      = true
-  ro           = false
-  mapall_user  = "root"
-  mapall_group = "root"
-
-  depends_on = [truenas_pool_dataset.usb_hdd_media]
-}
-
-resource "truenas_sharing_nfs" "usb_hdd_downloads" {
-  path         = "/mnt/usb-hdd/downloads"
-  comment      = "usb-hdd-downloads"
-  enabled      = true
-  ro           = false
-  mapall_user  = "root"
-  mapall_group = "root"
-
-  depends_on = [truenas_pool_dataset.usb_hdd_downloads]
+  mapall_user  = "moonblade"
+  mapall_group = "moonblade"
 }
