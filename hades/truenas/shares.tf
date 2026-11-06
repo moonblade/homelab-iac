@@ -190,17 +190,7 @@ resource "truenas_sharing_nfs" "storage_firefly" {
 # USB pool shares (usb-ssd, usb-hdd) removed — pools no longer connected.
 # Reinstate if USB pools are reattached.
 
-# downloads/orion subdir — plain directory NFS share for Orion downloads
-resource "truenas_sharing_nfs" "downloads_orion" {
-  path         = "/mnt/primary/root/downloads/orion"
-  comment      = "orion"
-  enabled      = true
-  ro           = false
-  mapall_user  = "moonblade"
-  mapall_group = "moonblade"
-}
-
-# relay — cross-machine file drop/sync directory
+# relay — cross-machine file drop/sync directory (replaced downloads/orion)
 resource "truenas_sharing_nfs" "relay" {
   path         = "/mnt/primary/root/relay"
   comment      = "relay - cross-machine downloads sync"
