@@ -21,6 +21,10 @@ copy:
 	scp -r nixos/* $(NIXOS_USER)@$(NIXOS_IP):/etc/nixos/luna/
 
 copy-secrets:
+	@echo "Copying kubeconfig (sirius)..."
+	@ssh $(NIXOS_USER)@$(NIXOS_IP) 'mkdir -p /home/moonblade/.kube'
+	@scp $(SECRETS_DIR)/sirius.yaml $(NIXOS_USER)@$(NIXOS_IP):/home/moonblade/.kube/sirius.yaml
+	@ssh $(NIXOS_USER)@$(NIXOS_IP) 'chown moonblade:users /home/moonblade/.kube/sirius.yaml && chmod 600 /home/moonblade/.kube/sirius.yaml'
 	@echo "Copying beszel secrets..."
 	@ssh $(NIXOS_USER)@$(NIXOS_IP) 'mkdir -p /var/lib/beszel-agent'
 	@grep '^BESZEL_KEY=' $(SECRETS_DIR)/beszel.env | sed 's/BESZEL_KEY=/KEY=/' | ssh $(NIXOS_USER)@$(NIXOS_IP) 'cat > /var/lib/beszel-agent/beszel.env'
