@@ -65,12 +65,14 @@ Host sirius
   Hostname 192.168.1.150
   User root
   IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
   StrictHostKeyChecking no
 
 Host truenas
   Hostname 192.168.1.10
   User root
   IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
   StrictHostKeyChecking no
 EOFSSCONFIG
     chown moonblade:users /home/moonblade/.ssh/config
