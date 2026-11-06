@@ -82,6 +82,16 @@ resource "truenas_sharing_nfs" "basic_memory" {
   depends_on = [truenas_pool_dataset.primary_root_basic_memory]
 }
 
+resource "truenas_sharing_nfs" "config_home_assistant" {
+  path         = "/mnt/primary/root/config/home-assistant"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.primary_root_config_home_assistant]
+}
+
 resource "truenas_sharing_nfs" "storage" {
   path         = "/mnt/primary/root/storage"
   enabled      = true

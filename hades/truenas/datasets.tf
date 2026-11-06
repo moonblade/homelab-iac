@@ -175,6 +175,18 @@ resource "truenas_pool_dataset" "secondary_firefly_backup" {
   acltype     = "NFSV4"
 }
 
+# Home Assistant config
+resource "truenas_pool_dataset" "primary_root_config_home_assistant" {
+  name        = "primary/root/config/home-assistant"
+  type        = "FILESYSTEM"
+  compression = "LZ4"
+  atime       = "OFF"
+  aclmode     = "PASSTHROUGH"
+  acltype     = "NFSV4"
+
+  depends_on = [truenas_pool_dataset.primary_root_config]
+}
+
 # USB SSD datasets (media/downloads - fast scratch storage)
 resource "truenas_pool_dataset" "usb_ssd_media" {
   name        = "usb-ssd/media"
