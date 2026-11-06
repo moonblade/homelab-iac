@@ -21,7 +21,6 @@ output "nfs_shares" {
 output "datasets" {
   description = "Dataset paths"
   value = {
-    apps_filebrowser        = truenas_pool_dataset.apps_filebrowser.name
     primary_root            = truenas_pool_dataset.primary_root.name
     primary_root_audiobooks = truenas_pool_dataset.primary_root_audiobooks.name
     primary_root_config     = truenas_pool_dataset.primary_root_config.name

@@ -13,7 +13,7 @@
 # - usb-hdd (931GB) - USB 1TB HDD (media/downloads)
 
 locals {
-  ssh_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap"
+  ssh_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap\nssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAed4obmkZLqC59yUxBCkzf8ekVkz/HI1M1WqVKi9+WQ moonblade@luna"
 
   # Pool information (for reference - pools managed via TrueNAS UI)
   pools = {
@@ -61,7 +61,12 @@ resource "truenas_service_started" "ssh" {
 resource "truenas_user" "root" {
   username  = "root"
   full_name = "root"
+  uid       = 0
   sshpubkey = local.ssh_pubkey
+
+  lifecycle {
+    ignore_changes = [sshpubkey]
+  }
 }
 
 # moonblade user (uid=1000) — matches Luna's moonblade user.

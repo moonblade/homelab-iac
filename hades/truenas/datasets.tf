@@ -155,12 +155,18 @@ resource "truenas_pool_dataset" "primary_root_storage_immich" {
 }
 
 resource "truenas_pool_dataset" "primary_root_storage_games" {
-  name        = "primary/root/storage/games"
-  type        = "FILESYSTEM"
-  compression = "LZ4"
-  atime       = "OFF"
-  aclmode     = "PASSTHROUGH"
-  acltype     = "NFSV4"
+  name            = "primary/root/storage/games"
+  type            = "FILESYSTEM"
+  compression     = "LZ4"
+  atime           = "OFF"
+  aclmode         = "PASSTHROUGH"
+  acltype         = "NFSV4"
+  casesensitivity = "SENSITIVE"
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
 
   depends_on = [truenas_pool_dataset.primary_root_storage]
 }
@@ -227,24 +233,36 @@ resource "truenas_pool_dataset" "usb_hdd_downloads" {
 
 # basic-memory sync hub (shared across home mac, work mac, luna)
 resource "truenas_pool_dataset" "primary_root_basic_memory" {
-  name        = "primary/root/basic-memory"
-  type        = "FILESYSTEM"
-  compression = "LZ4"
-  atime       = "OFF"
-  aclmode     = "PASSTHROUGH"
-  acltype     = "NFSV4"
+  name            = "primary/root/basic-memory"
+  type            = "FILESYSTEM"
+  compression     = "LZ4"
+  atime           = "OFF"
+  aclmode         = "PASSTHROUGH"
+  acltype         = "NFSV4"
+  casesensitivity = "SENSITIVE"
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
 
   depends_on = [truenas_pool_dataset.primary_root]
 }
 
 # Videos/movies library under primary root
 resource "truenas_pool_dataset" "primary_root_videos" {
-  name        = "primary/root/videos"
-  type        = "FILESYSTEM"
-  compression = "LZ4"
-  atime       = "OFF"
-  aclmode     = "PASSTHROUGH"
-  acltype     = "NFSV4"
+  name            = "primary/root/videos"
+  type            = "FILESYSTEM"
+  compression     = "LZ4"
+  atime           = "OFF"
+  aclmode         = "PASSTHROUGH"
+  acltype         = "NFSV4"
+  casesensitivity = "SENSITIVE"
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
 
   depends_on = [truenas_pool_dataset.primary_root]
 }
