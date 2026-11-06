@@ -43,24 +43,24 @@ resource "truenas_sharing_nfs" "primary_root" {
   comment      = "primaryroot"
   enabled      = true
   ro           = false
-  mapall_user  = "root"
-  mapall_group = "root"
+  mapall_user  = "moonblade"
+  mapall_group = "moonblade"
 }
 
 resource "truenas_sharing_nfs" "audiobooks" {
   path         = "/mnt/primary/root/audiobooks"
   enabled      = true
   ro           = false
-  mapall_user  = "root"
-  mapall_group = "root"
+  mapall_user  = "moonblade"
+  mapall_group = "moonblade"
 }
 
 resource "truenas_sharing_nfs" "downloads" {
   path         = "/mnt/primary/root/downloads"
   enabled      = true
   ro           = false
-  mapall_user  = "root"
-  mapall_group = "root"
+  mapall_user  = "moonblade"
+  mapall_group = "moonblade"
 }
 
 resource "truenas_sharing_nfs" "config" {
