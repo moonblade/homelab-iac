@@ -106,6 +106,10 @@ in
     kubectl           # Kubernetes CLI
     kubie             # Context/namespace switcher for kubectl
     stern             # Multi-pod log tailing for Kubernetes
+
+    # Secrets & crypto
+    gnupg             # GPG for git-crypt and secret management
+    git-crypt         # Transparent git encryption
     
     # Media control
     playerctl         # MPRIS media player controller (controls Chrome, Firefox, etc.)
