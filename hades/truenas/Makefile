@@ -27,8 +27,10 @@ import-smb:
 
 import-nfs:
 	terraform import $(VAR_FILE) truenas_sharing_nfs.primary_root "2"
-	terraform import $(VAR_FILE) truenas_sharing_nfs.audiobooks "3"
-	terraform import $(VAR_FILE) truenas_sharing_nfs.downloads "4"
-	terraform import $(VAR_FILE) truenas_sharing_nfs.config "5"
+	terraform import $(VAR_FILE) truenas_sharing_nfs.audiobooks "8"
+	terraform import $(VAR_FILE) truenas_sharing_nfs.downloads "7"
+	terraform import $(VAR_FILE) truenas_sharing_nfs.config "6"
+	terraform import $(VAR_FILE) truenas_sharing_nfs.downloads_orion "29"
+	terraform import $(VAR_FILE) truenas_sharing_nfs.relay "30"
 
 import-all: import-datasets import-smb import-nfs

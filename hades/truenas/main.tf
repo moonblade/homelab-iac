@@ -9,8 +9,8 @@
 # - primary (10TB) - Main storage pool (sata)
 # - secondary (2TB) - Secondary storage pool (sata)  
 # - apps (100GB) - Application data pool (local-lvm)
-# - usb-ssd (931GB) - USB SanDisk Extreme SSD (media/downloads)
-# - usb-hdd (931GB) - USB 1TB HDD (media/downloads)
+# - usb-ssd (931GB) - USB SanDisk Extreme SSD (NOT connected — pool absent)
+# - usb-hdd (931GB) - USB 1TB HDD (NOT connected — pool absent)
 
 locals {
   ssh_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvVn+sGksOE/YyWYo4meihsZxj3q7KPuzG2Yyfye7+H mb work lap\nssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAed4obmkZLqC59yUxBCkzf8ekVkz/HI1M1WqVKi9+WQ moonblade@luna"

@@ -165,7 +165,9 @@ resource "truenas_pool_dataset" "primary_root_storage_games" {
 
   lifecycle {
     prevent_destroy = true
-    ignore_changes  = all
+    # The truenas provider treats sparse/volblocksize as ForceNew computed fields.
+    # ignore_changes = all prevents spurious replace plans on pre-existing datasets.
+    ignore_changes = all
   }
 
   depends_on = [truenas_pool_dataset.primary_root_storage]
@@ -183,53 +185,26 @@ resource "truenas_pool_dataset" "secondary_firefly_backup" {
 
 # Home Assistant config
 resource "truenas_pool_dataset" "primary_root_config_home_assistant" {
-  name        = "primary/root/config/home-assistant"
-  type        = "FILESYSTEM"
-  compression = "LZ4"
-  atime       = "OFF"
-  aclmode     = "PASSTHROUGH"
-  acltype     = "NFSV4"
+  name            = "primary/root/config/home-assistant"
+  type            = "FILESYSTEM"
+  compression     = "LZ4"
+  atime           = "OFF"
+  aclmode         = "PASSTHROUGH"
+  acltype         = "NFSV4"
+  casesensitivity = "SENSITIVE"
+
+  lifecycle {
+    prevent_destroy = true
+    # The truenas provider treats sparse/volblocksize/casesensitivity as ForceNew.
+    # ignore_changes = all prevents spurious replace plans on pre-existing datasets.
+    ignore_changes = all
+  }
 
   depends_on = [truenas_pool_dataset.primary_root_config]
 }
 
-# USB SSD datasets (media/downloads - fast scratch storage)
-resource "truenas_pool_dataset" "usb_ssd_media" {
-  name        = "usb-ssd/media"
-  type        = "FILESYSTEM"
-  compression = "LZ4"
-  atime       = "OFF"
-  aclmode     = "PASSTHROUGH"
-  acltype     = "NFSV4"
-}
-
-resource "truenas_pool_dataset" "usb_ssd_downloads" {
-  name        = "usb-ssd/downloads"
-  type        = "FILESYSTEM"
-  compression = "LZ4"
-  atime       = "OFF"
-  aclmode     = "PASSTHROUGH"
-  acltype     = "NFSV4"
-}
-
-# USB HDD datasets (media/downloads - bulk storage)
-resource "truenas_pool_dataset" "usb_hdd_media" {
-  name        = "usb-hdd/media"
-  type        = "FILESYSTEM"
-  compression = "LZ4"
-  atime       = "OFF"
-  aclmode     = "PASSTHROUGH"
-  acltype     = "NFSV4"
-}
-
-resource "truenas_pool_dataset" "usb_hdd_downloads" {
-  name        = "usb-hdd/downloads"
-  type        = "FILESYSTEM"
-  compression = "LZ4"
-  atime       = "OFF"
-  aclmode     = "PASSTHROUGH"
-  acltype     = "NFSV4"
-}
+# USB pools (usb-ssd, usb-hdd) are no longer connected — datasets removed from TF.
+# If a USB pool is reconnected, re-add and re-import the datasets.
 
 # basic-memory sync hub (shared across home mac, work mac, luna)
 resource "truenas_pool_dataset" "primary_root_basic_memory" {
@@ -243,7 +218,9 @@ resource "truenas_pool_dataset" "primary_root_basic_memory" {
 
   lifecycle {
     prevent_destroy = true
-    ignore_changes  = all
+    # The truenas provider treats sparse/volblocksize as ForceNew computed fields.
+    # ignore_changes = all prevents spurious replace plans on pre-existing datasets.
+    ignore_changes = all
   }
 
   depends_on = [truenas_pool_dataset.primary_root]
@@ -261,7 +238,9 @@ resource "truenas_pool_dataset" "primary_root_videos" {
 
   lifecycle {
     prevent_destroy = true
-    ignore_changes  = all
+    # The truenas provider treats sparse/volblocksize as ForceNew computed fields.
+    # ignore_changes = all prevents spurious replace plans on pre-existing datasets.
+    ignore_changes = all
   }
 
   depends_on = [truenas_pool_dataset.primary_root]

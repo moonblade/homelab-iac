@@ -5,7 +5,19 @@ provider "registry.opentofu.org/bmanojlovic/truenas" {
   version     = "0.0.40"
   constraints = "~> 0.0.34"
   hashes = [
+    "h1:04v3KWgglOHb3adzjwObYOFNEhYQ2Voo/yDPg9jtkxg=",
+    "h1:0RKFjpppiOBkFSPblOKXeeDnXIaYTV/Panc0aY9G980=",
+    "h1:0ZCTiKzg6DopbW7XxSZt8stELHZiL+euqbw4cxzD1Jo=",
+    "h1:4VyMcokG7hPUV/3eL3t2bDsx16i3RDdzqHpUFfIGmPw=",
+    "h1:CSUmtFtr0NruOnYHzkQh7JwNKSiuRpfnbnNqcIlucw0=",
+    "h1:D+Qm1QVSXP8G5p7FSAOL92rPli+MciMr4atp3jzkBTM=",
+    "h1:J0ZzQgl+AijIBxQKCvpJdLVSUfBWZTYon0BybmtUhYk=",
     "h1:QElftS2nBF2GQgd0jZ+za907Q69V8Qt5OeabWroGzVc=",
+    "h1:X4EvZtGICQ/ggJetgiY7kPUnDyD+ZJUUEBU3WZuFqyw=",
+    "h1:aCS42Hz0YyvOJ9tB80EzszMPzDEHugA+6Kle2FcmmAk=",
+    "h1:qNovY7gKj8cAlVOXGF7m8A6UHYCSqey9bBUajfJY+o4=",
+    "h1:st+LVtnUOgluOPJXhfXpZ4/oXwmPFUAvZnUbkI+rVnU=",
+    "h1:whf0c82WPuR4HmpAC7/qTgpd4tyslQfYP8xPDxHl9yc=",
     "zh:13546b86431429106f7c36e7534641c14753d93cdd4e919d8973a153a2c6b6ac",
     "zh:27c6b209c626bfb79cfaae228bc44900522e18276a2bd2f9f68352f45a372769",
     "zh:4a4e946512d19ffca92b5fadbf2bb81a82101e786108016f9d012e3775c07217",
