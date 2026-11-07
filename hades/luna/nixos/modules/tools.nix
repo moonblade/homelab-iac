@@ -122,13 +122,10 @@ in
   ];
 
   # Install qmd globally via npm (not in nixpkgs; required by pi memory_search)
-  # Installs into /usr/local (writable, not in nix store) so npm -g works.
-  # NPM_CONFIG_PREFIX overrides the default prefix which npm tries to set inside
-  # the read-only nix store.
+  # Uses ${pkgs.nodejs_22}/bin/npm so the nix store path is baked in at build time
   system.activationScripts.qmdInstall = {
     text = ''
-      export NPM_CONFIG_PREFIX=/usr/local
-      if ! /usr/local/bin/qmd --version &>/dev/null 2>&1; then
+      if ! ${pkgs.nodejs_22}/bin/npm list -g @tobilu/qmd --depth=0 &>/dev/null 2>&1; then
         ${pkgs.nodejs_22}/bin/npm install -g @tobilu/qmd 2>&1 | logger -t qmd-install
       fi
     '';
