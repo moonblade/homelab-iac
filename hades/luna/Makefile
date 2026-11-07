@@ -16,20 +16,9 @@ destroy:
 # NixOS deployment targets
 NIXOS_IP = 192.168.1.199
 NIXOS_USER = root
-LOCAL_NIXOS_DIR = /etc/nixos/luna
 
 copy:
 	scp -r nixos/* $(NIXOS_USER)@$(NIXOS_IP):/etc/nixos/luna/
-
-# Local targets — run directly on Luna (no SSH needed)
-copy-local:
-	cp -r nixos/* $(LOCAL_NIXOS_DIR)/
-
-rebuild-local:
-	nixos-rebuild switch --flake $(LOCAL_NIXOS_DIR)#luna
-
-deploy-local: copy-local rebuild-local
-	@echo "NixOS configuration applied locally"
 
 copy-secrets:
 	@echo "Copying kubeconfig (sirius)..."
@@ -57,8 +46,6 @@ rebuild:
 
 deploy: copy copy-secrets rebuild
 	@echo "NixOS configuration deployed successfully"
-
-deploy-remote: deploy
 
 # Tailscale setup (run after first boot)
 tailscale:
