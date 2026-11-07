@@ -122,11 +122,11 @@ in
   ];
 
   # Install qmd globally via npm (not in nixpkgs; required by pi memory_search)
-  # Idempotent: skips if already installed at the same version
+  # Uses ${pkgs.nodejs_22}/bin/npm so the nix store path is baked in at build time
   system.activationScripts.qmdInstall = {
     text = ''
-      if ! /run/current-system/sw/bin/qmd --version &>/dev/null 2>&1; then
-        /run/current-system/sw/bin/npm install -g @tobilu/qmd 2>&1 | logger -t qmd-install
+      if ! ${pkgs.nodejs_22}/bin/npm list -g @tobilu/qmd --depth=0 &>/dev/null 2>&1; then
+        ${pkgs.nodejs_22}/bin/npm install -g @tobilu/qmd 2>&1 | logger -t qmd-install
       fi
     '';
     deps = [];
