@@ -95,8 +95,8 @@ in
     jq                # JSON processor
     
     # AI coding assistant (opencode installed via curl - needs nix-ld)
-    nodejs_22         # Node.js 22 (required for qmd global npm install)
     bun               # JavaScript runtime for oh-my-opencode (run: bunx oh-my-opencode install)
+    # NOTE: qmd (@tobilu/qmd) is not in nixpkgs — install manually: npm install -g @tobilu/qmd
     
     # Build tools
     gnumake           # GNU Make
@@ -120,20 +120,6 @@ in
     # NOTE: Also requires NVIDIA GL Flatpak extension for GLX to work — see flatpak section below.
     # Sunshine also requires insecure qtwebengine - install via Flatpak if needed
   ];
-
-  # Install qmd globally via npm (not in nixpkgs; required by pi memory_search)
-  # Installs into /usr/local (writable, not in nix store) so npm -g works.
-  # NPM_CONFIG_PREFIX overrides the default prefix which npm tries to set inside
-  # the read-only nix store.
-  system.activationScripts.qmdInstall = {
-    text = ''
-      export NPM_CONFIG_PREFIX=/usr/local
-      if ! /usr/local/bin/qmd --version &>/dev/null 2>&1; then
-        ${pkgs.nodejs_22}/bin/npm install -g @tobilu/qmd 2>&1 | logger -t qmd-install
-      fi
-    '';
-    deps = [];
-  };
 
   # Deploy alacritty config
   system.activationScripts.alacrittyConfig = ''
