@@ -96,6 +96,7 @@ in
     
     # AI coding assistant (opencode installed via curl - needs nix-ld)
     bun               # JavaScript runtime for oh-my-opencode (run: bunx oh-my-opencode install)
+    # NOTE: qmd (@tobilu/qmd) not in nixpkgs — install manually: npm install -g @tobilu/qmd
     
     # Build tools
     gnumake           # GNU Make
