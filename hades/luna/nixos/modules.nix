@@ -33,5 +33,8 @@
 
     # Hardware
     ./modules/bluetooth.nix    # Bluetooth (Realtek 13d3:3571 USB passthrough from Hades host)
+
+    # System stability
+    ./modules/nix-build.nix    # zram swap + nix build RAM limits (prevent OOM during heavy builds)
   ];
 }
