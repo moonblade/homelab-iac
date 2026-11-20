@@ -190,6 +190,28 @@ resource "truenas_sharing_nfs" "storage_firefly" {
 # USB pool shares (usb-ssd, usb-hdd) removed — pools no longer connected.
 # Reinstate if USB pools are reattached.
 
+# Calibre Web Automated config (NFS for k8s pod)
+resource "truenas_sharing_nfs" "config_calibre_web_automated" {
+  path         = "/mnt/primary/root/config/calibre-web-automated"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.primary_root_config_calibre_web_automated]
+}
+
+# Books library NFS share (Calibre library)
+resource "truenas_sharing_nfs" "books" {
+  path         = "/mnt/primary/root/books"
+  enabled      = true
+  ro           = false
+  mapall_user  = "root"
+  mapall_group = "root"
+
+  depends_on = [truenas_pool_dataset.primary_root_books]
+}
+
 # relay — cross-machine file drop/sync directory (replaced downloads/orion)
 resource "truenas_sharing_nfs" "relay" {
   path         = "/mnt/primary/root/relay"

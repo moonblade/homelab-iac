@@ -203,6 +203,42 @@ resource "truenas_pool_dataset" "primary_root_config_home_assistant" {
   depends_on = [truenas_pool_dataset.primary_root_config]
 }
 
+# Calibre Web Automated config (CWA state + Calibre DB)
+resource "truenas_pool_dataset" "primary_root_config_calibre_web_automated" {
+  name            = "primary/root/config/calibre-web-automated"
+  type            = "FILESYSTEM"
+  compression     = "LZ4"
+  atime           = "OFF"
+  aclmode         = "PASSTHROUGH"
+  acltype         = "NFSV4"
+  casesensitivity = "SENSITIVE"
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
+
+  depends_on = [truenas_pool_dataset.primary_root_config]
+}
+
+# Books library (Calibre library root)
+resource "truenas_pool_dataset" "primary_root_books" {
+  name            = "primary/root/books"
+  type            = "FILESYSTEM"
+  compression     = "LZ4"
+  atime           = "OFF"
+  aclmode         = "PASSTHROUGH"
+  acltype         = "NFSV4"
+  casesensitivity = "SENSITIVE"
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
+
+  depends_on = [truenas_pool_dataset.primary_root]
+}
+
 # USB pools (usb-ssd, usb-hdd) are no longer connected — datasets removed from TF.
 # If a USB pool is reconnected, re-add and re-import the datasets.
 
