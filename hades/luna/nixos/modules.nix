@@ -36,5 +36,8 @@
 
     # System stability
     ./modules/nix-build.nix    # zram swap + nix build RAM limits (prevent OOM during heavy builds)
+
+    # Knowledge sync
+    ./modules/basic-memory-sync.nix  # ~/basic-memory ↔ NAS rsync every 5min + qmd reindex
   ];
 }
