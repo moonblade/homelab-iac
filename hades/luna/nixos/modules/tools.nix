@@ -65,6 +65,7 @@ in
     # Text editors
     neovim            # Modern vim
     vscode            # VS Code (unfree)
+    obsidian          # Markdown knowledge base (unfree)
     
     # Image viewing/wallpapers
     feh               # Image viewer and wallpaper setter
